@@ -1,0 +1,84 @@
+"""
+Loads and queries the area code dataset (data/area_codes.json).
+"""
+import json
+import random
+from pathlib import Path
+from typing import Optional
+
+DATA_PATH = Path(__file__).parent / "data" / "area_codes.json"
+
+with open(DATA_PATH, encoding="utf-8") as f:
+    RECORDS: list[dict] = json.load(f)
+
+# Countries that have subdivisions we track (US states, Canadian provinces)
+COUNTRIES_WITH_SUBDIVISIONS = {"US", "CA"}
+
+
+def country_display_name(country_key: str) -> str:
+    for r in RECORDS:
+        if r["country"] == country_key:
+            return r["country_name"] or country_key
+    return country_key
+
+
+def get_countries() -> list[tuple[str, str]]:
+    """Returns list of (key, display_name), sorted by display name."""
+    seen = {}
+    for r in RECORDS:
+        seen[r["country"]] = r["country_name"] or r["country"]
+    return sorted(seen.items(), key=lambda kv: kv[1])
+
+
+def get_subdivisions(country_key: str) -> list[tuple[str, str]]:
+    """Returns list of (code, name) subdivisions for a country, if any."""
+    seen = {}
+    for r in RECORDS:
+        if r["country"] == country_key and r["subdivision"]:
+            seen[r["subdivision"]] = r["subdivision_name"]
+    return sorted(seen.items(), key=lambda kv: kv[0])
+
+
+def location_label(r: dict) -> str:
+    """Human readable location string for a record, e.g. 'New York City, NY'."""
+    if r["subdivision"]:
+        return f"{r['city']}, {r['subdivision']}"
+    return f"{r['city']}, {r['country_name']}"
+
+
+def filter_records(
+    country: Optional[str] = None,
+    subdivisions: Optional[list[str]] = None,
+    prefer_non_overlay: bool = True,
+) -> list[dict]:
+    pool = RECORDS
+    if country:
+        pool = [r for r in pool if r["country"] == country]
+    if subdivisions:
+        subs = {s.strip().upper() for s in subdivisions if s.strip()}
+        pool = [r for r in pool if r["subdivision"] and r["subdivision"].upper() in subs]
+
+    if prefer_non_overlay:
+        non_overlay = [r for r in pool if not r["is_overlay"]]
+        if non_overlay:
+            pool = non_overlay
+
+    return pool
+
+
+def pick_random_record(
+    country: Optional[str] = None,
+    subdivisions: Optional[list[str]] = None,
+) -> Optional[dict]:
+    pool = filter_records(country, subdivisions)
+    if not pool:
+        return None
+    return random.choice(pool)
+
+
+def pick_distractors(correct: dict, pool: list[dict], value_fn, count: int) -> list[str]:
+    """Picks `count` distractor values (distinct from the correct one) from pool."""
+    correct_value = value_fn(correct)
+    candidates = list({value_fn(r) for r in pool if value_fn(r) != correct_value})
+    random.shuffle(candidates)
+    return candidates[:count]
