@@ -17,6 +17,7 @@ def _load() -> dict:
 
 
 def _save(data: dict) -> None:
+    SETTINGS_PATH.parent.mkdir(parents=True, exist_ok=True)
     with open(SETTINGS_PATH, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2)
 

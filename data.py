@@ -1,15 +1,34 @@
 """
 Loads and queries the area code dataset (data/area_codes.json).
 """
+import base64
+import gzip
 import json
 import random
 from pathlib import Path
 from typing import Optional
 
+from area_codes_data import AREA_CODES_B64
+
 DATA_PATH = Path(__file__).parent / "data" / "area_codes.json"
 
-with open(DATA_PATH, encoding="utf-8") as f:
-    RECORDS: list[dict] = json.load(f)
+
+def _load_records() -> list[dict]:
+    # Prefer the external JSON file if present (e.g. you hand-edited it or
+    # regenerated it with parse_data.py). Falls back to the dataset baked
+    # into area_codes_data.py, which always ships with the code and doesn't
+    # depend on a data/ directory being present in the deployment image.
+    if DATA_PATH.exists():
+        try:
+            with open(DATA_PATH, encoding="utf-8") as f:
+                return json.load(f)
+        except (OSError, json.JSONDecodeError):
+            pass
+    raw = gzip.decompress(base64.b64decode(AREA_CODES_B64)).decode("utf-8")
+    return json.loads(raw)
+
+
+RECORDS: list[dict] = _load_records()
 
 # Countries that have subdivisions we track (US states, Canadian provinces)
 COUNTRIES_WITH_SUBDIVISIONS = {"US", "CA"}
@@ -69,10 +88,15 @@ def filter_records(
 def pick_random_record(
     country: Optional[str] = None,
     subdivisions: Optional[list[str]] = None,
+    exclude_area_code: Optional[str] = None,
 ) -> Optional[dict]:
     pool = filter_records(country, subdivisions)
     if not pool:
         return None
+    if exclude_area_code and len(pool) > 1:
+        narrowed = [r for r in pool if r["area_code"] != exclude_area_code]
+        if narrowed:
+            pool = narrowed
     return random.choice(pool)
 
 
