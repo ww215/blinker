@@ -65,6 +65,17 @@ def location_label(r: dict) -> str:
     return f"{r['city']}, {r['country_name']}"
 
 
+QUOTE_CHARS = "\"'\u201c\u201d\u2018\u2019"
+
+
+def clean_token(s: str) -> str:
+    """Strips whitespace and stray straight/curly quote characters from a
+    user-typed field, so pasting an example like '"NY, NJ, CT"' (quotes and
+    all) still matches correctly instead of silently breaking on the first
+    and last items."""
+    return s.strip().strip(QUOTE_CHARS).strip()
+
+
 def filter_records(
     country: Optional[str] = None,
     subdivisions: Optional[list[str]] = None,
@@ -72,9 +83,10 @@ def filter_records(
 ) -> list[dict]:
     pool = RECORDS
     if country:
+        country = clean_token(country)
         pool = [r for r in pool if r["country"] == country]
     if subdivisions:
-        subs = {s.strip().upper() for s in subdivisions if s.strip()}
+        subs = {clean_token(s).upper() for s in subdivisions if clean_token(s)}
         pool = [r for r in pool if r["subdivision"] and r["subdivision"].upper() in subs]
 
     if prefer_non_overlay:

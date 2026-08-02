@@ -1,12 +1,20 @@
 # Area Code Trivia Bot
 
-A Discord bot that teaches you North American (and Caribbean) telephone area codes:
+A Discord bot that teaches you US telephone area codes (Canada/Mexico/Caribbean
+support exists in the data pipeline but is switched off for now \u2014 see
+"US-only for now" below):
 
-- **Random trivia** — posts a random "did you know" fact about an area code to a chosen
-  channel, at a random interval between 1 second and 3 hours.
+- **Random trivia** — posts a random "did you know" fact about an area code
+  (with a small map!) to a chosen channel, at a random interval between
+  1 second and 3 hours.
 - **`/trivia`** — instantly posts one random trivia fact (doesn't affect the random schedule).
 - **`/setchannel`** — pick which channel the random trivia gets posted to.
-- **`/quiz`** — an interactive quiz question about area codes.
+- **`/quiz`** — an interactive, continuing quiz on area codes.
+- **`/quizhistory`** — quiz yourself on the area codes this server has actually seen recently.
+- **`/recenttrivia`** — list what's been sent lately.
+- Every trivia/quiz message includes a small, low-res map highlighting the
+  relevant state (and county, when we can confidently tell which one from
+  the source data).
 
 ## Setup
 
@@ -58,15 +66,61 @@ Starts an interactive quiz question. Parameters:
 | `subdivisions` | no  | Comma-separated states/provinces to restrict to, e.g. `NY, CA, TX` (autocompletes; 2-letter codes for US states / Canadian provinces) |
 | `num_options`  | no  | Number of multiple-choice buttons to show (2–8, default 4). Only used when `answer_mode` is buttons. |
 
-Examples:
-- `/quiz mode:"area code → place" country:US subdivisions:"NY, NJ, CT" answer_mode:typed`
-- `/quiz mode:"place → area code" country:Canada answer_mode:buttons num_options:6`
+Examples (type these plainly into Discord's slash command fields — no
+quote marks needed, Discord's own field separates each parameter):
+- `/quiz mode:Bot shows an area code -> you guess the place country:US subdivisions:NY, NJ, CT answer_mode:Type your answer in chat`
+- `/quiz mode:Bot shows a place -> you guess the area code country:Canada answer_mode:Pick from multiple-choice buttons num_options:6`
 
-The bot prefers non-overlay area codes (the original code for a region) when
-picking questions, since overlay codes serve the exact same area as another
-code and would create ambiguous/duplicate answers.
+(If you do paste a value wrapped in quotes by habit, e.g. `"NY, NJ, CT"`,
+the bot strips stray quote characters automatically so it still works.)
 
-## Data
+### `/quizhistory`
+Same as `/quiz`, but pulls questions only from the area codes that have
+actually been sent as trivia in this server recently (auto trivia + `/trivia`
+both feed this history). Great for "quiz me on what you've already taught
+me." Parameters: `mode`, `answer_mode`, `num_options` — no country/subdivision
+filter, since it's scoped to your server's own history already.
+
+### `/recenttrivia [count]`
+Lists the most recently sent trivia facts in this server (default 10, max 25),
+newest first, with a "how long ago" timestamp.
+
+## Maps
+
+Every trivia fact and quiz question comes with a small (320x200, low-res —
+deliberately, per request) PNG map:
+- Normally it's the US highlighted with the relevant **state** colored in.
+- For the ~20 area codes where the original source text explicitly names a
+  **county** (e.g. "Nassau County, Long Island"), the map instead zooms into
+  that state and highlights the matched county too. This is intentionally
+  conservative: we only highlight a county when it's *named* in the data, we
+  never guess one from a city name, so most questions will just show the
+  state.
+- Alaska, Hawaii, and Puerto Rico get their own solo zoomed map since they're
+  nowhere near the mainland US map.
+
+Maps are **pre-generated, static files** in `assets/maps/` (not rendered at
+runtime), so the bot itself has no extra dependency (matplotlib is only
+needed to *build* them). If you edit `data/raw.txt` and re-run
+`parse_data.py`, also re-run:
+
+```bash
+pip install matplotlib
+python generate_maps.py
+```
+
+This regenerates `assets/maps/states/*.png` and `assets/maps/counties/*.png`
+from `mapdata/us-states.json` and `mapdata/us-counties.json` (bundled;
+sourced from public GeoJSON on GitHub).
+
+## US-only for now
+
+Per request, Canada/Mexico/Caribbean entries are currently filtered out —
+`parse_data.py` still parses them from `raw.txt`, they're just dropped by
+`INCLUDE_COUNTRIES = {"US"}` before writing the final dataset. To bring them
+back later, widen that set and re-run `parse_data.py` (note: `generate_maps.py`
+would need non-US map sources added before those countries could show maps
+too).
 
 `data/raw.txt` is the source area-code table (US, Canada, Mexico, plus a
 handful of Caribbean countries/territories that use the NANP). Non-geographic

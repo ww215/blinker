@@ -1,14 +1,19 @@
 """
 Parses data/raw.txt into data/area_codes.json
 
+NOTE: for now this keeps United States entries only (Canada/Mexico/Caribbean
+rows in raw.txt are parsed but then dropped) \u2014 easy to re-enable later by
+removing the `country == "US"` filter below.
+
 Each output record:
 {
   "area_code": "212",
   "country": "US",
   "country_name": "United States",
-  "subdivision": "NY",              # 2-letter code for US states / CA provinces, else None
-  "subdivision_name": "New York",   # full name
+  "subdivision": "NY",              # 2-letter US state code
+  "subdivision_name": "New York",   # full state name
   "city": "New York City",          # best-effort primary city/place name
+  "counties": ["New York"],         # best-effort, only when explicitly named in the source text
   "is_overlay": false,
   "timezone": "-5"
 }
@@ -16,21 +21,9 @@ Each output record:
 import json
 import re
 
-US_STATES = {
-    "AL": "Alabama", "AK": "Alaska", "AZ": "Arizona", "AR": "Arkansas", "CA": "California",
-    "CO": "Colorado", "CT": "Connecticut", "DE": "Delaware", "DC": "District of Columbia",
-    "FL": "Florida", "GA": "Georgia", "HI": "Hawaii", "ID": "Idaho", "IL": "Illinois",
-    "IN": "Indiana", "IA": "Iowa", "KS": "Kansas", "KY": "Kentucky", "LA": "Louisiana",
-    "ME": "Maine", "MD": "Maryland", "MA": "Massachusetts", "MI": "Michigan", "MN": "Minnesota",
-    "MS": "Mississippi", "MO": "Missouri", "MT": "Montana", "NE": "Nebraska", "NV": "Nevada",
-    "NH": "New Hampshire", "NJ": "New Jersey", "NM": "New Mexico", "NY": "New York",
-    "NC": "North Carolina", "ND": "North Dakota", "OH": "Ohio", "OK": "Oklahoma", "OR": "Oregon",
-    "PA": "Pennsylvania", "RI": "Rhode Island", "SC": "South Carolina", "SD": "South Dakota",
-    "TN": "Tennessee", "TX": "Texas", "UT": "Utah", "VT": "Vermont", "VA": "Virginia",
-    "WA": "Washington", "WV": "West Virginia", "WI": "Wisconsin", "WY": "Wyoming",
-    "PR": "Puerto Rico", "VI": "US Virgin Islands", "GU": "Guam",
-    "MP": "Northern Mariana Islands",
-}
+import us_geo
+
+US_STATES = us_geo.US_STATES
 
 CA_PROVINCES = {
     "ON": "Ontario", "QC": "Quebec", "BC": "British Columbia", "AB": "Alberta",
@@ -44,6 +37,8 @@ COUNTRY_NAMES = {
     "CA": "Canada",
     "MX": "Mexico",
 }
+
+INCLUDE_COUNTRIES = {"US"}  # temporarily US-only; widen this set to bring others back
 
 
 def clean_desc(desc: str) -> str:
@@ -76,6 +71,8 @@ def extract_city(desc: str, region: str) -> str:
 
 
 def main():
+    county_names_by_state = us_geo.load_county_names_by_state()
+
     records = []
     with open("data/raw.txt", encoding="utf-8") as f:
         for line in f:
@@ -112,9 +109,6 @@ def main():
                 subdivision_name = None
                 area_code = code_field
                 city = clean_desc(desc)
-                # These are Caribbean / other single-country area codes; use
-                # the cleaned description (usually just the country name) as
-                # both country_name and city placeholder.
                 country_name_guess = city
                 country = country_name_guess  # store full name as pseudo-code; fixed below
 
@@ -122,6 +116,11 @@ def main():
                 continue
 
             overlay = is_overlay_row(desc)
+            counties = (
+                us_geo.extract_counties(desc, subdivision, county_names_by_state)
+                if country == "US" and subdivision
+                else []
+            )
 
             rec = {
                 "area_code": area_code,
@@ -130,34 +129,31 @@ def main():
                 "subdivision": subdivision,
                 "subdivision_name": subdivision_name,
                 "city": city,
+                "counties": counties,
                 "is_overlay": overlay,
                 "timezone": tz,
                 "raw_description": desc,
             }
             records.append(rec)
 
-    # Handle the "--" region rows separately: treat country_name as both
-    # country and location since these are single-region countries/territories
     fixed = []
     for r in records:
         if r["country"] is None:
             name = r["country_name"]
-            fixed.append({
-                **r,
-                "country": name,       # use country name as the country key (no ISO code available)
-                "city": name,
-            })
+            fixed.append({**r, "country": name, "city": name})
         else:
             fixed.append(r)
+
+    fixed = [r for r in fixed if r["country"] in INCLUDE_COUNTRIES]
 
     with open("data/area_codes.json", "w", encoding="utf-8") as f:
         json.dump(fixed, f, indent=2, ensure_ascii=False)
 
     _write_embedded_module(fixed)
 
-    print(f"Parsed {len(fixed)} area code records")
-    countries = sorted(set(r["country"] for r in fixed))
-    print("Countries:", countries)
+    print(f"Parsed {len(fixed)} area code records (countries included: {sorted(INCLUDE_COUNTRIES)})")
+    with_counties = sum(1 for r in fixed if r["counties"])
+    print(f"Records with a confidently-matched county: {with_counties}/{len(fixed)}")
 
 
 def _write_embedded_module(records: list[dict]) -> None:

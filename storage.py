@@ -1,12 +1,17 @@
 """
-Minimal JSON-backed persistence for per-guild bot settings.
+Minimal JSON-backed persistence for per-guild bot settings, including a
+capped history of recently sent trivia facts (used both to show "what have
+you sent me lately" and to quiz from that history).
 """
 import json
+from datetime import datetime, timezone
 from pathlib import Path
 from threading import Lock
 
 SETTINGS_PATH = Path(__file__).parent / "data" / "settings.json"
 _lock = Lock()
+
+MAX_HISTORY = 50
 
 
 def _load() -> dict:
@@ -43,3 +48,26 @@ def all_trivia_channels() -> dict[int, int]:
         if entry.get("trivia_channel_id"):
             result[int(guild_id)] = entry["trivia_channel_id"]
     return result
+
+
+def add_trivia_history(guild_id: int, record: dict) -> None:
+    """Appends a sent-trivia record for a guild, keeping only the most
+    recent MAX_HISTORY entries."""
+    with _lock:
+        data = _load()
+        entry = data.get(str(guild_id), {})
+        history = entry.get("trivia_history", [])
+        history.append({
+            "record": record,
+            "sent_at": datetime.now(timezone.utc).isoformat(),
+        })
+        entry["trivia_history"] = history[-MAX_HISTORY:]
+        data[str(guild_id)] = entry
+        _save(data)
+
+
+def get_trivia_history(guild_id: int) -> list[dict]:
+    """Returns [{"record": {...}, "sent_at": iso_string}, ...], oldest first."""
+    data = _load()
+    entry = data.get(str(guild_id), {})
+    return entry.get("trivia_history", [])
