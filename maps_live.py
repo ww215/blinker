@@ -21,14 +21,25 @@ then that PNG is attached to the Discord message. So there's truly one map
 per state living in memory for the whole life of the bot, not hundreds of
 separate pre-generated images.
 
-This is safe without any locking: bot.py never `await`s in the middle of a
-render, and asyncio is single-threaded/cooperative, so two renders can
-never interleave on the same map.
+bot.py runs these renders in a worker thread (asyncio.to_thread) so the
+CPU-bound savefig() call doesn't block the gateway's event loop. That means
+two renders CAN now happen concurrently (e.g. two /quiz calls for the same
+state, or the background trivia loop firing mid-render), so every public
+render function below is serialized behind `_RENDER_LOCK` \u2014 without it,
+two threads recoloring/rezooming the same shared Figure at once would
+produce corrupted or wrong-colored maps.
 """
 import io
 import json
+import threading
 from pathlib import Path
 from typing import Optional
+
+# Guards every persistent Figure/patch mutation in this module (construction
+# and re-coloring alike). Renders are cheap (small, low-res images) so
+# serializing them costs little, and it's the only thing that makes it safe
+# to call these from multiple threads at once.
+_RENDER_LOCK = threading.Lock()
 
 from matplotlib.backends.backend_agg import FigureCanvasAgg
 from matplotlib.figure import Figure
@@ -284,11 +295,12 @@ def render_state_png(abbr: str) -> Optional[bytes]:
     """US map with `abbr` highlighted (or a solo zoomed map for AK/HI/PR)."""
     if not abbr:
         return None
-    if abbr in SOLO_STATES:
-        return _render_solo_state(abbr)
-    if abbr not in _get_data().state_rings_by_abbr:
-        return None
-    return _get_conus_map().render(abbr)
+    with _RENDER_LOCK:
+        if abbr in SOLO_STATES:
+            return _render_solo_state(abbr)
+        if abbr not in _get_data().state_rings_by_abbr:
+            return None
+        return _get_conus_map().render(abbr)
 
 
 def render_county_png(abbr: str, county_names: list[str]) -> Optional[bytes]:
@@ -297,7 +309,8 @@ def render_county_png(abbr: str, county_names: list[str]) -> Optional[bytes]:
     back to `render_state_png`)."""
     if not abbr or not county_names:
         return None
-    county_map = _get_county_map(abbr)
-    if county_map is None:
-        return None
-    return county_map.render(county_names)
+    with _RENDER_LOCK:
+        county_map = _get_county_map(abbr)
+        if county_map is None:
+            return None
+        return county_map.render(county_names)

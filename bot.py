@@ -442,7 +442,12 @@ async def run_quiz_session(
                 seen_keys.add(record_key)
 
             question_text, correct_label, value_fn = question_builder(mode_value, record, context_note_fn(record))
-            map_file = map_file_fn(record)
+            # matplotlib rendering (savefig) is CPU-bound and blocks the
+            # asyncio event loop for its full duration if called directly.
+            # On a shared/slow CPU that block can run long enough that the
+            # gateway heartbeat is missed and Discord kills the connection
+            # (bot "randomly dies"). Push it to a worker thread instead.
+            map_file = await asyncio.to_thread(map_file_fn, record)
 
             try:
                 if answer_mode_value == "buttons":
@@ -639,7 +644,7 @@ async def trivia(interaction: discord.Interaction):
     record = data.pick_random_record()
     if interaction.guild_id:
         storage.add_trivia_history(interaction.guild_id, "areacode", record)
-    map_file = get_areacode_map_file(record)
+    map_file = await asyncio.to_thread(get_areacode_map_file, record)
     if map_file:
         await interaction.followup.send(build_areacode_fact_message(record), file=map_file)
     else:
@@ -775,7 +780,7 @@ async def countytrivia(interaction: discord.Interaction, state: Optional[str] = 
         return
     if interaction.guild_id:
         storage.add_trivia_history(interaction.guild_id, "county", cr)
-    map_file = get_county_map_file(cr)
+    map_file = await asyncio.to_thread(get_county_map_file, cr)
     if map_file:
         await interaction.followup.send(build_county_fact_message(cr), file=map_file)
     else:
@@ -934,16 +939,16 @@ async def trivia_tick(now: datetime) -> None:
                     if kind == "areacode":
                         record = data.pick_random_record()
                         text = build_areacode_fact_message(record)
-                        map_file = get_areacode_map_file(record)
+                        map_file = await asyncio.to_thread(get_areacode_map_file, record)
                     else:
                         record = data.pick_random_county_record()
                         if record is None:
                             kind, record = "areacode", data.pick_random_record()
                             text = build_areacode_fact_message(record)
-                            map_file = get_areacode_map_file(record)
+                            map_file = await asyncio.to_thread(get_areacode_map_file, record)
                         else:
                             text = build_county_fact_message(record)
-                            map_file = get_county_map_file(record)
+                            map_file = await asyncio.to_thread(get_county_map_file, record)
 
                     if map_file:
                         await channel.send(text, file=map_file)

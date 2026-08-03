@@ -2036,6 +2036,7 @@
     "subdivision_name": "California",
     "city": "Eldorado County area",
     "counties": [
+      "Alpine",
       "Butte",
       "Colusa",
       "El Dorado",
@@ -2204,7 +2205,7 @@
     "counties": [
       "Chaves",
       "Curry",
-      "Doña Ana",
+      "Do\u00f1a Ana",
       "Eddy",
       "Lea",
       "Otero"
