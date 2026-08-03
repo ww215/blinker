@@ -6,7 +6,10 @@
     "subdivision": "NJ",
     "subdivision_name": "New Jersey",
     "city": "Jersey City",
-    "counties": [],
+    "counties": [
+      "Bergen",
+      "Hudson"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "N New Jersey: Jersey City, Hackensack (see split 973, overlay 551)"
@@ -18,7 +21,9 @@
     "subdivision": "DC",
     "subdivision_name": "District of Columbia",
     "city": "Washington",
-    "counties": [],
+    "counties": [
+      "District of Columbia"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "Washington, D.C. (see overlay 771)"
@@ -45,7 +50,11 @@
     "subdivision": "AL",
     "subdivision_name": "Alabama",
     "city": "Central Alabama",
-    "counties": [],
+    "counties": [
+      "Jefferson",
+      "Shelby",
+      "Tuscaloosa"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "Central Alabama (including Birmingham; excludes the southeastern corner of Alabama and the deep south; see splits 256 and 334)"
@@ -57,7 +66,10 @@
     "subdivision": "WA",
     "subdivision_name": "Washington",
     "city": "Seattle and Bainbridge Island",
-    "counties": [],
+    "counties": [
+      "King",
+      "Kitsap"
+    ],
     "is_overlay": false,
     "timezone": "-8",
     "raw_description": "W Washington state: Seattle and Bainbridge Island (see splits 253, 360, 425; overlay 564)"
@@ -69,7 +81,13 @@
     "subdivision": "ME",
     "subdivision_name": "Maine",
     "city": "Maine",
-    "counties": [],
+    "counties": [
+      "Androscoggin",
+      "Cumberland",
+      "Kennebec",
+      "Penobscot",
+      "York"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "Maine"
@@ -81,7 +99,16 @@
     "subdivision": "ID",
     "subdivision_name": "Idaho",
     "city": "Idaho",
-    "counties": [],
+    "counties": [
+      "Ada",
+      "Bannock",
+      "Bonneville",
+      "Canyon",
+      "Kootenai",
+      "Latah",
+      "Nez Perce",
+      "Twin Falls"
+    ],
     "is_overlay": false,
     "timezone": "-7/-8",
     "raw_description": "Idaho"
@@ -93,7 +120,11 @@
     "subdivision": "CA",
     "subdivision_name": "California",
     "city": "Stockton",
-    "counties": [],
+    "counties": [
+      "Merced",
+      "San Joaquin",
+      "Stanislaus"
+    ],
     "is_overlay": false,
     "timezone": "-8",
     "raw_description": "Cent. California: Stockton (see split 559)"
@@ -105,7 +136,9 @@
     "subdivision": "TX",
     "subdivision_name": "Texas",
     "city": "San Antonio",
-    "counties": [],
+    "counties": [
+      "Bexar"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "S Texas: San Antonio (see also splits 830, 956)"
@@ -117,7 +150,9 @@
     "subdivision": "NY",
     "subdivision_name": "New York",
     "city": "New York City",
-    "counties": [],
+    "counties": [
+      "New York"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "New York City, New York (Manhattan; see ovelays 332, 646, 917; split 718)"
@@ -129,7 +164,9 @@
     "subdivision": "CA",
     "subdivision_name": "California",
     "city": "Los Angeles",
-    "counties": [],
+    "counties": [
+      "Los Angeles"
+    ],
     "is_overlay": false,
     "timezone": "-8",
     "raw_description": "S California: Los Angeles (see 310, 323, 626, 818)"
@@ -141,7 +178,13 @@
     "subdivision": "TX",
     "subdivision_name": "Texas",
     "city": "Dallas Metro",
-    "counties": [],
+    "counties": [
+      "Collin",
+      "Dallas",
+      "Denton",
+      "Ellis",
+      "Tarrant"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "Texas: Dallas Metro (overlays 469/972)"
@@ -153,7 +196,10 @@
     "subdivision": "PA",
     "subdivision_name": "Pennsylvania",
     "city": "Philadelphia",
-    "counties": [],
+    "counties": [
+      "Bucks",
+      "Philadelphia"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "SE Pennsylvania: Philadelphia (see overlays 267)"
@@ -165,7 +211,9 @@
     "subdivision": "OH",
     "subdivision_name": "Ohio",
     "city": "Cleveland",
-    "counties": [],
+    "counties": [
+      "Cuyahoga"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "Cleveland (see splits 330, 440)"
@@ -177,7 +225,14 @@
     "subdivision": "IL",
     "subdivision_name": "Illinois",
     "city": "Springfield",
-    "counties": [],
+    "counties": [
+      "Adams",
+      "Champaign",
+      "Coles",
+      "Macon",
+      "Sangamon",
+      "Vermilion"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "Cent. Illinois: Springfield"
@@ -189,7 +244,11 @@
     "subdivision": "MN",
     "subdivision_name": "Minnesota",
     "city": "Duluth",
-    "counties": [],
+    "counties": [
+      "Anoka",
+      "Clay",
+      "St. Louis"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "N Minnesota: Duluth"
@@ -201,7 +260,11 @@
     "subdivision": "IN",
     "subdivision_name": "Indiana",
     "city": "Gary",
-    "counties": [],
+    "counties": [
+      "LaPorte",
+      "Lake",
+      "Porter"
+    ],
     "is_overlay": false,
     "timezone": "-6/-5",
     "raw_description": "NW Indiana: Gary (see split 574, 260)"
@@ -213,7 +276,16 @@
     "subdivision": "OH",
     "subdivision_name": "Ohio",
     "city": "SE and Central Ohio",
-    "counties": [],
+    "counties": [
+      "Athens",
+      "Delaware",
+      "Fairfield",
+      "Licking",
+      "Marion",
+      "Muskingum",
+      "Ross",
+      "Scioto"
+    ],
     "is_overlay": true,
     "timezone": "-5",
     "raw_description": "SE and Central Ohio (outside Columbus; overlaid on 740)"
@@ -237,7 +309,12 @@
     "subdivision": "IL",
     "subdivision_name": "Illinois",
     "city": "Evanston",
-    "counties": [],
+    "counties": [
+      "Cook",
+      "Kane",
+      "Lake",
+      "McHenry"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "Northern NE Illinois: Evanston, Waukegan, Northbrook (overlay on 847, eff 1/5/02)"
@@ -249,7 +326,9 @@
     "subdivision": "LA",
     "subdivision_name": "Louisiana",
     "city": "Baton Rouge",
-    "counties": [],
+    "counties": [
+      "East Baton Rouge"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "Louisiana: Baton Rouge, New Roads, Donaldsonville, Albany, Gonzales, Greensburg, Plaquemine, Vacherie (split from 504)"
@@ -261,7 +340,10 @@
     "subdivision": "MS",
     "subdivision_name": "Mississippi",
     "city": "S Mississippi",
-    "counties": [],
+    "counties": [
+      "Harrison",
+      "Jackson"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "S Mississippi (coastal areas, Biloxi, Gulfport; split from 601)"
@@ -273,7 +355,10 @@
     "subdivision": "GA",
     "subdivision_name": "Georgia",
     "city": "Albany",
-    "counties": [],
+    "counties": [
+      "Dougherty",
+      "Lowndes"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "SW Georgia: Albany (split from 912; see also 478; perm 8/1/00)"
@@ -285,7 +370,10 @@
     "subdivision": "MI",
     "subdivision_name": "Michigan",
     "city": "Northwestern portion of lower Peninsula",
-    "counties": [],
+    "counties": [
+      "Macomb",
+      "Muskegon"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "W Michigan: Northwestern portion of lower Peninsula; Traverse City, Muskegon, Cheboygan, Alanson"
@@ -297,7 +385,15 @@
     "subdivision": "OH",
     "subdivision_name": "Ohio",
     "city": "Canton",
-    "counties": [],
+    "counties": [
+      "Mahoning",
+      "Medina",
+      "Portage",
+      "Stark",
+      "Summit",
+      "Trumbull",
+      "Wayne"
+    ],
     "is_overlay": true,
     "timezone": "-5",
     "raw_description": "NE Ohio: Canton, Akron (overlaid on 330; perm 10/30/00)"
@@ -309,7 +405,10 @@
     "subdivision": "FL",
     "subdivision_name": "Florida",
     "city": "Florida",
-    "counties": [],
+    "counties": [
+      "Collier",
+      "Lee"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "Florida (Lee, Collier, and Monroe Counties, excl the Keys; see 305; eff 3/11/02; mand 3/11/03)"
@@ -321,7 +420,14 @@
     "subdivision": "MD",
     "subdivision_name": "Maryland",
     "city": "Silver Spring",
-    "counties": [],
+    "counties": [
+      "Allegany",
+      "Charles",
+      "Frederick",
+      "Montgomery",
+      "Prince George's",
+      "Washington"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "W Maryland: Silver Spring, Frederick, Gaithersburg (overlay, see 301)"
@@ -347,7 +453,9 @@
     "subdivision": "AL",
     "subdivision_name": "Alabama",
     "city": "Mobile and coastal areas",
-    "counties": [],
+    "counties": [
+      "Mobile"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "S Alabama: Mobile and coastal areas, Jackson, Evergreen, Monroeville (split from 334, eff 6/18/01; see also 205, 256)"
@@ -359,7 +467,13 @@
     "subdivision": "NC",
     "subdivision_name": "North Carolina",
     "city": "E North Carolina",
-    "counties": [],
+    "counties": [
+      "Craven",
+      "Edgecombe",
+      "Lenoir",
+      "Pitt",
+      "Wilson"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "E North Carolina (Rocky Mount; split from 919)"
@@ -371,7 +485,10 @@
     "subdivision": "WA",
     "subdivision_name": "Washington",
     "city": "South Tier - Tacoma",
-    "counties": [],
+    "counties": [
+      "King",
+      "Pierce"
+    ],
     "is_overlay": false,
     "timezone": "-8",
     "raw_description": "Washington: South Tier - Tacoma, Federal Way (split from 206, see also 425; overlay 564)"
@@ -383,7 +500,11 @@
     "subdivision": "TX",
     "subdivision_name": "Texas",
     "city": "Central Texas",
-    "counties": [],
+    "counties": [
+      "Bell",
+      "Coryell",
+      "McLennan"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "Central Texas (Waco, Stephenville; split, see 817, 940)"
@@ -395,7 +516,13 @@
     "subdivision": "AL",
     "subdivision_name": "Alabama",
     "city": "E and N Alabama",
-    "counties": [],
+    "counties": [
+      "Calhoun",
+      "Etowah",
+      "Lauderdale",
+      "Madison",
+      "Morgan"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "E and N Alabama (Huntsville, Florence, Gadsden; split from 205; see also 334)"
@@ -407,7 +534,9 @@
     "subdivision": "IN",
     "subdivision_name": "Indiana",
     "city": "Fort Wayne",
-    "counties": [],
+    "counties": [
+      "Allen"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "NE Indiana: Fort Wayne (see 219)"
@@ -438,7 +567,10 @@
     "subdivision": "PA",
     "subdivision_name": "Pennsylvania",
     "city": "Philadelphia",
-    "counties": [],
+    "counties": [
+      "Bucks",
+      "Philadelphia"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "SE Pennsylvania: Philadelphia (see 215)"
@@ -450,7 +582,10 @@
     "subdivision": "MI",
     "subdivision_name": "Michigan",
     "city": "Kalamazoo",
-    "counties": [],
+    "counties": [
+      "Calhoun",
+      "Kalamazoo"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "SW Michigan: Kalamazoo, Saugatuck, Hastings, Battle Creek, Sturgis to Lake Michigan (split from 616)"
@@ -462,7 +597,14 @@
     "subdivision": "KY",
     "subdivision_name": "Kentucky",
     "city": "Bowling Green",
-    "counties": [],
+    "counties": [
+      "Christian",
+      "Daviess",
+      "Hardin",
+      "Henderson",
+      "McCracken",
+      "Warren"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "W Kentucky: Bowling Green, Paducah (split from 502)"
@@ -474,7 +616,11 @@
     "subdivision": "PA",
     "subdivision_name": "Pennsylvania",
     "city": "Wilkes-Barre",
-    "counties": [],
+    "counties": [
+      "Lackawanna",
+      "Luzerne",
+      "Lycoming"
+    ],
     "is_overlay": true,
     "timezone": "-5",
     "raw_description": "NE and N Central Pennsylvania: Wilkes-Barre, Scranton (see 717; overlaid on 570)"
@@ -486,7 +632,9 @@
     "subdivision": "VA",
     "subdivision_name": "Virginia",
     "city": "Bristol",
-    "counties": [],
+    "counties": [
+      "Richmond"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "S and SW Virginia: Bristol, Stuart, Martinsville (split from 540; perm 9/1/01, mand 3/16/02)"
@@ -510,7 +658,13 @@
     "subdivision": "TX",
     "subdivision_name": "Texas",
     "city": "Houston Metro",
-    "counties": [],
+    "counties": [
+      "Brazoria",
+      "Fort Bend",
+      "Galveston",
+      "Harris",
+      "Montgomery"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "Texas: Houston Metro (split 713; overlay 832, 346)"
@@ -535,7 +689,12 @@
     "subdivision_name": "Maryland",
     "city": "Silver Spring",
     "counties": [
-      "Prince George's"
+      "Allegany",
+      "Charles",
+      "Frederick",
+      "Montgomery",
+      "Prince George's",
+      "Washington"
     ],
     "is_overlay": false,
     "timezone": "-5",
@@ -548,7 +707,10 @@
     "subdivision": "DE",
     "subdivision_name": "Delaware",
     "city": "Delaware",
-    "counties": [],
+    "counties": [
+      "Kent",
+      "New Castle"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "Delaware"
@@ -560,7 +722,16 @@
     "subdivision": "CO",
     "subdivision_name": "Colorado",
     "city": "Denver",
-    "counties": [],
+    "counties": [
+      "Adams",
+      "Arapahoe",
+      "Boulder",
+      "Broomfield",
+      "Denver",
+      "Douglas",
+      "Jefferson",
+      "Larimer"
+    ],
     "is_overlay": false,
     "timezone": "-7",
     "raw_description": "Central Colorado: Denver (see 970, also 720, 983 overlays)"
@@ -572,7 +743,14 @@
     "subdivision": "WV",
     "subdivision_name": "West Virginia",
     "city": "West Virginia",
-    "counties": [],
+    "counties": [
+      "Cabell",
+      "Hancock",
+      "Kanawha",
+      "Monongalia",
+      "Ohio",
+      "Wood"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "West Virginia (see overlay 681)"
@@ -584,7 +762,11 @@
     "subdivision": "FL",
     "subdivision_name": "Florida",
     "city": "Miami",
-    "counties": [],
+    "counties": [
+      "Broward",
+      "Miami-Dade",
+      "Monroe"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "SE Florida: Miami, the Keys (see 786, 954; 239)"
@@ -596,7 +778,12 @@
     "subdivision": "WY",
     "subdivision_name": "Wyoming",
     "city": "Wyoming",
-    "counties": [],
+    "counties": [
+      "Albany",
+      "Campbell",
+      "Laramie",
+      "Natrona"
+    ],
     "is_overlay": false,
     "timezone": "-7",
     "raw_description": "Wyoming"
@@ -608,7 +795,11 @@
     "subdivision": "NE",
     "subdivision_name": "Nebraska",
     "city": "North Platte",
-    "counties": [],
+    "counties": [
+      "Buffalo",
+      "Hall",
+      "Lincoln"
+    ],
     "is_overlay": false,
     "timezone": "-6/-7",
     "raw_description": "W Nebraska: North Platte"
@@ -620,7 +811,13 @@
     "subdivision": "IL",
     "subdivision_name": "Illinois",
     "city": "Peoria",
-    "counties": [],
+    "counties": [
+      "Knox",
+      "McLean",
+      "Peoria",
+      "Rock Island",
+      "Tazewell"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "W Cent. Illinois: Peoria"
@@ -632,7 +829,9 @@
     "subdivision": "CA",
     "subdivision_name": "California",
     "city": "Beverly Hills",
-    "counties": [],
+    "counties": [
+      "Los Angeles"
+    ],
     "is_overlay": false,
     "timezone": "-8",
     "raw_description": "S California: Beverly Hills, West Hollywood, West Los Angeles (see split 562; overlay 424)"
@@ -644,7 +843,9 @@
     "subdivision": "IL",
     "subdivision_name": "Illinois",
     "city": "Chicago",
-    "counties": [],
+    "counties": [
+      "DuPage"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "Illinois: Chicago (downtown only -- in the loop; see 773; overlay 872)"
@@ -656,7 +857,9 @@
     "subdivision": "MI",
     "subdivision_name": "Michigan",
     "city": "Detroit and suburbs",
-    "counties": [],
+    "counties": [
+      "Wayne"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "Michigan: Detroit and suburbs (see 734, overlay 679)"
@@ -668,7 +871,9 @@
     "subdivision": "MO",
     "subdivision_name": "Missouri",
     "city": "St Louis city and parts of the metro area only",
-    "counties": [],
+    "counties": [
+      "St. Louis"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "SE Missouri: St Louis city and parts of the metro area only (see 573, 636, overlay 557)"
@@ -680,7 +885,12 @@
     "subdivision": "NY",
     "subdivision_name": "New York",
     "city": "Syracuse",
-    "counties": [],
+    "counties": [
+      "Cayuga",
+      "Jefferson",
+      "Oneida",
+      "Onondaga"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "N Cent. New York: Syracuse"
@@ -692,7 +902,9 @@
     "subdivision": "KS",
     "subdivision_name": "Kansas",
     "city": "Wichita",
-    "counties": [],
+    "counties": [
+      "Sedgwick"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "S Kansas: Wichita (see split 620)"
@@ -704,7 +916,11 @@
     "subdivision": "IN",
     "subdivision_name": "Indiana",
     "city": "Indianapolis",
-    "counties": [],
+    "counties": [
+      "Hamilton",
+      "Johnson",
+      "Marion"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "Cent. Indiana: Indianapolis (see 765)"
@@ -716,7 +932,12 @@
     "subdivision": "LA",
     "subdivision_name": "Louisiana",
     "city": "Shreveport",
-    "counties": [],
+    "counties": [
+      "Caddo",
+      "Lincoln",
+      "Ouachita",
+      "Rapides"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "N Louisiana: Shreveport, Ruston, Monroe, Alexandria (see split 337)"
@@ -728,7 +949,12 @@
     "subdivision": "IA",
     "subdivision_name": "Iowa",
     "city": "Cedar Rapids",
-    "counties": [],
+    "counties": [
+      "Black Hawk",
+      "Des Moines",
+      "Johnson",
+      "Linn"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "E Iowa: Cedar Rapids (see split 563)"
@@ -740,7 +966,9 @@
     "subdivision": "MN",
     "subdivision_name": "Minnesota",
     "city": "Saint Cloud",
-    "counties": [],
+    "counties": [
+      "Stearns"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "Cent. Minnesota: Saint Cloud (rural Minn, excl St. Paul/Minneapolis)"
@@ -753,7 +981,10 @@
     "subdivision_name": "Florida",
     "city": "Brevard County",
     "counties": [
-      "Brevard"
+      "Brevard",
+      "Orange",
+      "Osceola",
+      "Seminole"
     ],
     "is_overlay": false,
     "timezone": "-5",
@@ -766,7 +997,9 @@
     "subdivision": "CA",
     "subdivision_name": "California",
     "city": "Los Angeles",
-    "counties": [],
+    "counties": [
+      "Los Angeles"
+    ],
     "is_overlay": false,
     "timezone": "-8",
     "raw_description": "S California: Los Angeles (outside downtown: Hollywood; split from 213)"
@@ -778,7 +1011,10 @@
     "subdivision": "TX",
     "subdivision_name": "Texas",
     "city": "Abilene",
-    "counties": [],
+    "counties": [
+      "Taylor",
+      "Tom Green"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "Central Texas: Abilene, Sweetwater, Snyder, San Angelo (split from 915)"
@@ -791,7 +1027,13 @@
     "subdivision_name": "Ohio",
     "city": "Akron",
     "counties": [
-      "Mahoning"
+      "Mahoning",
+      "Medina",
+      "Portage",
+      "Stark",
+      "Summit",
+      "Trumbull",
+      "Wayne"
     ],
     "is_overlay": false,
     "timezone": "-5",
@@ -804,7 +1046,12 @@
     "subdivision": "IL",
     "subdivision_name": "Illinois",
     "city": "W NE Illinois",
-    "counties": [],
+    "counties": [
+      "Cook",
+      "DuPage",
+      "Kane",
+      "Will"
+    ],
     "is_overlay": true,
     "timezone": "-6",
     "raw_description": "W NE Illinois, western suburbs of Chicago (part of what used to be 708; overlaid on 630; eff 7/07)"
@@ -816,7 +1063,15 @@
     "subdivision": "AL",
     "subdivision_name": "Alabama",
     "city": "Auburn/Opelika",
-    "counties": [],
+    "counties": [
+      "Autauga",
+      "Coffee",
+      "Dallas",
+      "Houston",
+      "Lee",
+      "Montgomery",
+      "Russell"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "S Alabama: Auburn/Opelika, Montgomery and coastal areas (part of what used to be 205; see also 256, split 251)"
@@ -828,7 +1083,12 @@
     "subdivision": "NC",
     "subdivision_name": "North Carolina",
     "city": "Greensboro",
-    "counties": [],
+    "counties": [
+      "Alamance",
+      "Forsyth",
+      "Guilford",
+      "Randolph"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "Cent. North Carolina: Greensboro, Winston-Salem, High Point (split from 910; see overlay 743)"
@@ -840,7 +1100,12 @@
     "subdivision": "LA",
     "subdivision_name": "Louisiana",
     "city": "Lake Charles",
-    "counties": [],
+    "counties": [
+      "Calcasieu",
+      "Iberia",
+      "Lafayette",
+      "St. Landry"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "SW Louisiana: Lake Charles, Lafayette (see split 318)"
@@ -852,7 +1117,12 @@
     "subdivision": "MA",
     "subdivision_name": "Massachusetts",
     "city": "Boston suburbs",
-    "counties": [],
+    "counties": [
+      "Essex",
+      "Middlesex",
+      "Norfolk",
+      "Suffolk"
+    ],
     "is_overlay": true,
     "timezone": "-5",
     "raw_description": "Massachusetts: Boston suburbs, to the south and west (see splits 617, 508; overlaid on 781, eff 5/2/01)"
@@ -876,7 +1146,13 @@
     "subdivision": "TX",
     "subdivision_name": "Texas",
     "city": "central Houston",
-    "counties": [],
+    "counties": [
+      "Brazoria",
+      "Fort Bend",
+      "Galveston",
+      "Harris",
+      "Montgomery"
+    ],
     "is_overlay": true,
     "timezone": "-6",
     "raw_description": "Mid SE Texas: central Houston (overlaid on 713, 281, and 832)"
@@ -888,7 +1164,11 @@
     "subdivision": "MA",
     "subdivision_name": "Massachusetts",
     "city": "north of Boston to NH",
-    "counties": [],
+    "counties": [
+      "Essex",
+      "Middlesex",
+      "Worcester"
+    ],
     "is_overlay": true,
     "timezone": "-5",
     "raw_description": "Massachusetts: north of Boston to NH, 508, and 781 (overlaid on 978, eff 4/2/01)"
@@ -900,7 +1180,12 @@
     "subdivision": "FL",
     "subdivision_name": "Florida",
     "city": "Gainesville area",
-    "counties": [],
+    "counties": [
+      "Alachua",
+      "Broward",
+      "Hernando",
+      "Marion"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "Florida: Gainesville area, Ocala, Crystal River (split from 904)"
@@ -912,7 +1197,15 @@
     "subdivision": "WA",
     "subdivision_name": "Washington",
     "city": "Olympia",
-    "counties": [],
+    "counties": [
+      "Clark",
+      "Cowlitz",
+      "Kitsap",
+      "Skagit",
+      "Snohomish",
+      "Thurston",
+      "Whatcom"
+    ],
     "is_overlay": false,
     "timezone": "-8",
     "raw_description": "W Washington State: Olympia, Bellingham (area circling 206, 253, and 425; split from 206; see overlay 564)"
@@ -924,7 +1217,11 @@
     "subdivision": "TX",
     "subdivision_name": "Texas",
     "city": "Corpus Christi",
-    "counties": [],
+    "counties": [
+      "Kleberg",
+      "Nueces",
+      "Victoria"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "S Texas: Corpus Christi (split from 512; eff 2/13/99)"
@@ -950,7 +1247,12 @@
     "subdivision": "UT",
     "subdivision_name": "Utah",
     "city": "Salt Lake City Metro",
-    "counties": [],
+    "counties": [
+      "Davis",
+      "Salt Lake",
+      "Utah",
+      "Weber"
+    ],
     "is_overlay": false,
     "timezone": "-7",
     "raw_description": "Utah: Salt Lake City Metro (split from 801, eff 3/30/02 POSTPONED; see also 435)"
@@ -962,7 +1264,10 @@
     "subdivision": "FL",
     "subdivision_name": "Florida",
     "city": "Lake City",
-    "counties": [],
+    "counties": [
+      "Flagler",
+      "Volusia"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "N central Florida: Lake City (split from 904, perm 2/15/01, mand 11/5/01)"
@@ -974,7 +1279,12 @@
     "subdivision": "RI",
     "subdivision_name": "Rhode Island",
     "city": "Rhode Island",
-    "counties": [],
+    "counties": [
+      "Bristol",
+      "Kent",
+      "Newport",
+      "Providence"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "Rhode Island"
@@ -986,7 +1296,15 @@
     "subdivision": "NE",
     "subdivision_name": "Nebraska",
     "city": "Omaha",
-    "counties": [],
+    "counties": [
+      "Adams",
+      "Dodge",
+      "Douglas",
+      "Lancaster",
+      "Madison",
+      "Platte",
+      "Sarpy"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "E Nebraska: Omaha, Lincoln"
@@ -998,7 +1316,11 @@
     "subdivision": "GA",
     "subdivision_name": "Georgia",
     "city": "Atlanta and suburbs",
-    "counties": [],
+    "counties": [
+      "Clayton",
+      "DeKalb",
+      "Fulton"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "N Georgia: Atlanta and suburbs (see overlay 678, split 770)"
@@ -1010,7 +1332,13 @@
     "subdivision": "OK",
     "subdivision_name": "Oklahoma",
     "city": "Oklahoma City",
-    "counties": [],
+    "counties": [
+      "Canadian",
+      "Cleveland",
+      "Oklahoma",
+      "Payne",
+      "Pottawatomie"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "W Oklahoma: Oklahoma City (see 580)"
@@ -1022,7 +1350,14 @@
     "subdivision": "MT",
     "subdivision_name": "Montana",
     "city": "Montana",
-    "counties": [],
+    "counties": [
+      "Cascade",
+      "Gallatin",
+      "Lewis and Clark",
+      "Missoula",
+      "Silver Bow",
+      "Yellowstone"
+    ],
     "is_overlay": false,
     "timezone": "-7",
     "raw_description": "Montana"
@@ -1034,7 +1369,11 @@
     "subdivision": "FL",
     "subdivision_name": "Florida",
     "city": "Metro Orlando",
-    "counties": [],
+    "counties": [
+      "Orange",
+      "Osceola",
+      "Seminole"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "Central Florida: Metro Orlando (see overlay 689, eff 7/02; split 321)"
@@ -1046,7 +1385,9 @@
     "subdivision": "CA",
     "subdivision_name": "California",
     "city": "San Jose",
-    "counties": [],
+    "counties": [
+      "Santa Clara"
+    ],
     "is_overlay": false,
     "timezone": "-8",
     "raw_description": "Cent. Coastal California: San Jose (see overlay 669)"
@@ -1058,7 +1399,10 @@
     "subdivision": "TX",
     "subdivision_name": "Texas",
     "city": "Galveston",
-    "counties": [],
+    "counties": [
+      "Galveston",
+      "Jefferson"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "SE Texas: Galveston, Port Arthur, Beaumont (splits 936, 979)"
@@ -1070,7 +1414,14 @@
     "subdivision": "MD",
     "subdivision_name": "Maryland",
     "city": "Baltimore",
-    "counties": [],
+    "counties": [
+      "Anne Arundel",
+      "Baltimore",
+      "Carroll",
+      "Harford",
+      "Howard",
+      "Wicomico"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "E Maryland: Baltimore, Annapolis, Chesapeake Bay area, Ocean City (see overlays 443, 667)"
@@ -1082,7 +1433,9 @@
     "subdivision": "PA",
     "subdivision_name": "Pennsylvania",
     "city": "Pittsburgh",
-    "counties": [],
+    "counties": [
+      "Allegheny"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "W Pennsylvania: Pittsburgh (see split 724, overlay 878)"
@@ -1094,7 +1447,11 @@
     "subdivision": "MA",
     "subdivision_name": "Massachusetts",
     "city": "Springfield",
-    "counties": [],
+    "counties": [
+      "Berkshire",
+      "Hampden",
+      "Hampshire"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "W Massachusetts: Springfield"
@@ -1123,6 +1480,7 @@
     "counties": [
       "Marin",
       "San Francisco",
+      "San Mateo",
       "Sonoma"
     ],
     "is_overlay": false,
@@ -1136,7 +1494,10 @@
     "subdivision": "MO",
     "subdivision_name": "Missouri",
     "city": "Springfield",
-    "counties": [],
+    "counties": [
+      "Greene",
+      "Jasper"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "SW Missouri: Springfield"
@@ -1148,7 +1509,15 @@
     "subdivision": "OH",
     "subdivision_name": "Ohio",
     "city": "Toledo",
-    "counties": [],
+    "counties": [
+      "Allen",
+      "Ashland",
+      "Erie",
+      "Hancock",
+      "Lucas",
+      "Richland",
+      "Wood"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "NW Ohio: Toledo (see overlay 567, perm 1/1/02)"
@@ -1160,7 +1529,13 @@
     "subdivision": "TN",
     "subdivision_name": "Tennessee",
     "city": "Chattanooga",
-    "counties": [],
+    "counties": [
+      "Bradley",
+      "Hamblen",
+      "Hamilton",
+      "Sullivan",
+      "Washington"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "E Tennessee, except Knoxville metro area: Chattanooga, Bristol, Johnson City, Kingsport, Greeneville (see split 865; part of what used to be 615)"
@@ -1172,7 +1547,10 @@
     "subdivision": "WA",
     "subdivision_name": "Washington",
     "city": "North Tier - Everett",
-    "counties": [],
+    "counties": [
+      "King",
+      "Snohomish"
+    ],
     "is_overlay": false,
     "timezone": "-8",
     "raw_description": "Washington: North Tier - Everett, Bellevue (split from 206, see also 253; overlay 564)"
@@ -1184,7 +1562,11 @@
     "subdivision": "TX",
     "subdivision_name": "Texas",
     "city": "Big Spring",
-    "counties": [],
+    "counties": [
+      "Ector",
+      "Howard",
+      "Midland"
+    ],
     "is_overlay": false,
     "timezone": "-7/-6",
     "raw_description": "W Texas: Big Spring, Midland, Odessa (split from 915, eff 4/5/03)"
@@ -1196,7 +1578,11 @@
     "subdivision": "VA",
     "subdivision_name": "Virginia",
     "city": "Charlottesville",
-    "counties": [],
+    "counties": [
+      "Charlottesville",
+      "Danville",
+      "Lynchburg"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "E Virginia: Charlottesville, Lynchburg, Danville, South Boston, and Emporia (split from 804, eff 6/1/01; see also 757)"
@@ -1208,7 +1594,12 @@
     "subdivision": "UT",
     "subdivision_name": "Utah",
     "city": "Rural Utah outside Salt Lake City metro",
-    "counties": [],
+    "counties": [
+      "Cache",
+      "Iron",
+      "Tooele",
+      "Washington"
+    ],
     "is_overlay": false,
     "timezone": "-7",
     "raw_description": "Rural Utah outside Salt Lake City metro (see split 801)"
@@ -1220,7 +1611,12 @@
     "subdivision": "OH",
     "subdivision_name": "Ohio",
     "city": "Cleveland metro area",
-    "counties": [],
+    "counties": [
+      "Ashtabula",
+      "Cuyahoga",
+      "Lake",
+      "Lorain"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "Ohio: Cleveland metro area, excluding Cleveland (split from 216, see also 330)"
@@ -1232,7 +1628,13 @@
     "subdivision": "CA",
     "subdivision_name": "California",
     "city": "Far north suburbs of San Diego",
-    "counties": [],
+    "counties": [
+      "Imperial",
+      "Kern",
+      "Riverside",
+      "San Bernardino",
+      "San Diego"
+    ],
     "is_overlay": true,
     "timezone": "-8",
     "raw_description": "Far north suburbs of San Diego (Oceanside, Escondido; overlaid on 760)"
@@ -1244,7 +1646,16 @@
     "subdivision": "OR",
     "subdivision_name": "Oregon",
     "city": "Eugene",
-    "counties": [],
+    "counties": [
+      "Benton",
+      "Coos",
+      "Douglas",
+      "Jackson",
+      "Josephine",
+      "Lane",
+      "Linn",
+      "Multnomah"
+    ],
     "is_overlay": true,
     "timezone": "-8/-7",
     "raw_description": "Oregon: Eugene, Medford (overlaid on 541)"
@@ -1256,7 +1667,12 @@
     "subdivision": "TX",
     "subdivision_name": "Texas",
     "city": "Dallas Metro",
-    "counties": [],
+    "counties": [
+      "Collin",
+      "Dallas",
+      "Denton",
+      "Ellis"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "Texas: Dallas Metro (overlays 214/972)"
@@ -1280,7 +1696,10 @@
     "subdivision": "GA",
     "subdivision_name": "Georgia",
     "city": "Macon",
-    "counties": [],
+    "counties": [
+      "Bibb",
+      "Houston"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "Central Georgia: Macon (split from 912; see also 229; perm 8/1/00; mand 8/1/01)"
@@ -1292,7 +1711,12 @@
     "subdivision": "AR",
     "subdivision_name": "Arkansas",
     "city": "Fort Smith",
-    "counties": [],
+    "counties": [
+      "Benton",
+      "Pope",
+      "Sebastian",
+      "Washington"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "NW Arkansas: Fort Smith, Fayetteville, Springdale, Bentonville (SPLIt from 501, perm 1/19/02, mand 7/20/02)"
@@ -1304,7 +1728,10 @@
     "subdivision": "AZ",
     "subdivision_name": "Arizona",
     "city": "East Phoenix",
-    "counties": [],
+    "counties": [
+      "Maricopa",
+      "Pinal"
+    ],
     "is_overlay": false,
     "timezone": "-7*",
     "raw_description": "Arizona: East Phoenix (see 520; also Phoenix split 602, 623)"
@@ -1316,7 +1743,14 @@
     "subdivision": "PA",
     "subdivision_name": "Pennsylvania",
     "city": "Allentown",
-    "counties": [],
+    "counties": [
+      "Berks",
+      "Chester",
+      "Delaware",
+      "Lehigh",
+      "Montgomery",
+      "Northampton"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "SE Pennsylvania: Allentown, Bethlehem, Reading, West Chester, Norristown (see 610)"
@@ -1328,7 +1762,12 @@
     "subdivision": "AR",
     "subdivision_name": "Arkansas",
     "city": "Little Rock",
-    "counties": [],
+    "counties": [
+      "Faulkner",
+      "Garland",
+      "Pulaski",
+      "Saline"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "Central Arkansas: Little Rock, Hot Springs, Conway (see split 479)"
@@ -1340,7 +1779,10 @@
     "subdivision": "KY",
     "subdivision_name": "Kentucky",
     "city": "Louisville",
-    "counties": [],
+    "counties": [
+      "Franklin",
+      "Jefferson"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "N Central Kentucky: Louisville (see 270)"
@@ -1352,7 +1794,13 @@
     "subdivision": "OR",
     "subdivision_name": "Oregon",
     "city": "Oregon",
-    "counties": [],
+    "counties": [
+      "Clackamas",
+      "Marion",
+      "Multnomah",
+      "Washington",
+      "Yamhill"
+    ],
     "is_overlay": false,
     "timezone": "-8",
     "raw_description": "Oregon (see 458, 541, 971)"
@@ -1364,7 +1812,11 @@
     "subdivision": "LA",
     "subdivision_name": "Louisiana",
     "city": "New Orleans metro area",
-    "counties": [],
+    "counties": [
+      "Jefferson",
+      "Orleans",
+      "St. Bernard"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "E Louisiana: New Orleans metro area (see splits 225, 985)"
@@ -1376,7 +1828,13 @@
     "subdivision": "NM",
     "subdivision_name": "New Mexico",
     "city": "North central and northwestern New Mexico",
-    "counties": [],
+    "counties": [
+      "Bernalillo",
+      "McKinley",
+      "San Juan",
+      "Sandoval",
+      "Santa Fe"
+    ],
     "is_overlay": false,
     "timezone": "-7",
     "raw_description": "North central and northwestern New Mexico (Albuquerque, Santa Fe, Los Alamos; see split 575, eff 10/07/07)"
@@ -1388,7 +1846,14 @@
     "subdivision": "MN",
     "subdivision_name": "Minnesota",
     "city": "Rochester",
-    "counties": [],
+    "counties": [
+      "Blue Earth",
+      "Mower",
+      "Olmsted",
+      "Rice",
+      "Steele",
+      "Winona"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "S Minnesota: Rochester, Mankato, Worthington"
@@ -1400,7 +1865,14 @@
     "subdivision": "MA",
     "subdivision_name": "Massachusetts",
     "city": "Framingham",
-    "counties": [],
+    "counties": [
+      "Barnstable",
+      "Bristol",
+      "Middlesex",
+      "Norfolk",
+      "Plymouth",
+      "Worcester"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "Cent. Massachusetts: Framingham; Cape Cod (see split 978, overlay 774)"
@@ -1412,7 +1884,15 @@
     "subdivision": "WA",
     "subdivision_name": "Washington",
     "city": "Spokane",
-    "counties": [],
+    "counties": [
+      "Benton",
+      "Chelan",
+      "Franklin",
+      "Spokane",
+      "Walla Walla",
+      "Whitman",
+      "Yakima"
+    ],
     "is_overlay": false,
     "timezone": "-8",
     "raw_description": "E and Central Washington state: Spokane, Yakima, Walla Walla, Ellensburg"
@@ -1424,7 +1904,10 @@
     "subdivision": "CA",
     "subdivision_name": "California",
     "city": "Oakland",
-    "counties": [],
+    "counties": [
+      "Alameda",
+      "Contra Costa"
+    ],
     "is_overlay": false,
     "timezone": "-8",
     "raw_description": "California: Oakland, East Bay (see 925)"
@@ -1436,7 +1919,11 @@
     "subdivision": "TX",
     "subdivision_name": "Texas",
     "city": "Austin",
-    "counties": [],
+    "counties": [
+      "Hays",
+      "Travis",
+      "Williamson"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "S Texas: Austin (see split 361; overlay 737, perm 11/10/01)"
@@ -1448,7 +1935,11 @@
     "subdivision": "OH",
     "subdivision_name": "Ohio",
     "city": "Cincinnati",
-    "counties": [],
+    "counties": [
+      "Butler",
+      "Hamilton",
+      "Warren"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "SW Ohio: Cincinnati (see split 937; overlay 283 cancelled)"
@@ -1460,7 +1951,11 @@
     "subdivision": "IA",
     "subdivision_name": "Iowa",
     "city": "Des Moines",
-    "counties": [],
+    "counties": [
+      "Polk",
+      "Story",
+      "Webster"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "Cent. Iowa: Des Moines (see split 641)"
@@ -1486,7 +1981,12 @@
     "subdivision": "MI",
     "subdivision_name": "Michigan",
     "city": "Lansing",
-    "counties": [],
+    "counties": [
+      "Ingham",
+      "Jackson",
+      "Lenawee",
+      "Macomb"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "Cent. Michigan: Lansing (see split 989)"
@@ -1498,7 +1998,12 @@
     "subdivision": "NY",
     "subdivision_name": "New York",
     "city": "Albany",
-    "counties": [],
+    "counties": [
+      "Albany",
+      "Rensselaer",
+      "Saratoga",
+      "Schenectady"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "NE New York: Albany"
@@ -1510,7 +2015,12 @@
     "subdivision": "AZ",
     "subdivision_name": "Arizona",
     "city": "Tucson area",
-    "counties": [],
+    "counties": [
+      "Cochise",
+      "Pima",
+      "Pinal",
+      "Santa Cruz"
+    ],
     "is_overlay": false,
     "timezone": "-7*",
     "raw_description": "SE Arizona: Tucson area (split from 602; see split 928)"
@@ -1522,7 +2032,13 @@
     "subdivision": "CA",
     "subdivision_name": "California",
     "city": "Eldorado County area",
-    "counties": [],
+    "counties": [
+      "Butte",
+      "El Dorado",
+      "Shasta",
+      "Sutter",
+      "Yolo"
+    ],
     "is_overlay": false,
     "timezone": "-8",
     "raw_description": "NE California: Eldorado County area, excluding Eldorado Hills itself: incl cities of Auburn, Chico, Redding, So. Lake Tahoe, Marysville, Nevada City/Grass Valley (split from 916)"
@@ -1534,7 +2050,13 @@
     "subdivision": "VA",
     "subdivision_name": "Virginia",
     "city": "Shenandoah and Roanoke valleys: Fredericksburg",
-    "counties": [],
+    "counties": [
+      "Augusta",
+      "Harrisonburg",
+      "Montgomery",
+      "Roanoke",
+      "Salem"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "Western and Southwest Virginia: Shenandoah and Roanoke valleys: Fredericksburg, Harrisonburg, Roanoke, Salem, Lexington and nearby areas (see split 276; split from 703)"
@@ -1546,7 +2068,16 @@
     "subdivision": "OR",
     "subdivision_name": "Oregon",
     "city": "Eugene",
-    "counties": [],
+    "counties": [
+      "Benton",
+      "Coos",
+      "Douglas",
+      "Jackson",
+      "Josephine",
+      "Lane",
+      "Linn",
+      "Multnomah"
+    ],
     "is_overlay": false,
     "timezone": "-8/-7",
     "raw_description": "Oregon: Eugene, Medford (split from 503; 503 retains NW part [Portland/Salem], all else moves to 541; eastern oregon is UTC-7). Also serves small part of northern California (NE corner of Del Norte County). (See overlay 458.)"
@@ -1558,7 +2089,10 @@
     "subdivision": "CA",
     "subdivision_name": "California",
     "city": "Long Beach",
-    "counties": [],
+    "counties": [
+      "Los Angeles",
+      "Orange"
+    ],
     "is_overlay": false,
     "timezone": "-8",
     "raw_description": "California: Long Beach (split from 310 Los Angeles)"
@@ -1570,7 +2104,12 @@
     "subdivision": "IA",
     "subdivision_name": "Iowa",
     "city": "Davenport",
-    "counties": [],
+    "counties": [
+      "Clinton",
+      "Dubuque",
+      "Muscatine",
+      "Scott"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "E Iowa: Davenport, Dubuque (split from 319, eff 3/25/01)"
@@ -1582,7 +2121,11 @@
     "subdivision": "PA",
     "subdivision_name": "Pennsylvania",
     "city": "Wilkes-Barre",
-    "counties": [],
+    "counties": [
+      "Lackawanna",
+      "Luzerne",
+      "Lycoming"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "NE and N Central Pennsylvania: Wilkes-Barre, Scranton (see 717; see overlay 272)"
@@ -1594,7 +2137,13 @@
     "subdivision": "VA",
     "subdivision_name": "Virginia",
     "city": "Arlington",
-    "counties": [],
+    "counties": [
+      "Alexandria",
+      "Arlington",
+      "Fairfax",
+      "Loudoun",
+      "Prince William"
+    ],
     "is_overlay": true,
     "timezone": "-5",
     "raw_description": "Northern Virginia: Arlington, McLean, Tysons Corner (to be overlaid on 703 3/1/00; see earlier split 540)"
@@ -1606,7 +2155,11 @@
     "subdivision": "MO",
     "subdivision_name": "Missouri",
     "city": "excluding St Louis metro area",
-    "counties": [],
+    "counties": [
+      "Boone",
+      "Cape Girardeau",
+      "Cole"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "SE Missouri: excluding St Louis metro area, includes Central/East Missouri, area between St. Louis and Kansas City"
@@ -1618,7 +2171,10 @@
     "subdivision": "IN",
     "subdivision_name": "Indiana",
     "city": "Elkhart",
-    "counties": [],
+    "counties": [
+      "Elkhart",
+      "St. Joseph"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "N Indiana: Elkhart, South Bend (split from 219)"
@@ -1630,7 +2186,14 @@
     "subdivision": "NM",
     "subdivision_name": "New Mexico",
     "city": "New Mexico",
-    "counties": [],
+    "counties": [
+      "Chaves",
+      "Curry",
+      "Doña Ana",
+      "Eddy",
+      "Lea",
+      "Otero"
+    ],
     "is_overlay": false,
     "timezone": "-7",
     "raw_description": "New Mexico (Las Cruces, Alamogordo, Roswell; split from 505, eff 10/07/07)"
@@ -1642,7 +2205,14 @@
     "subdivision": "OK",
     "subdivision_name": "Oklahoma",
     "city": "W Oklahoma",
-    "counties": [],
+    "counties": [
+      "Carter",
+      "Comanche",
+      "Garfield",
+      "Jackson",
+      "Kay",
+      "Stephens"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "W Oklahoma (rural areas outside Oklahoma City; split from 405)"
@@ -1654,7 +2224,9 @@
     "subdivision": "NY",
     "subdivision_name": "New York",
     "city": "Rochester",
-    "counties": [],
+    "counties": [
+      "Monroe"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "NW New York: Rochester (split from 716)"
@@ -1680,7 +2252,14 @@
     "subdivision": "MS",
     "subdivision_name": "Mississippi",
     "city": "Meridian",
-    "counties": [],
+    "counties": [
+      "Hinds",
+      "Lamar",
+      "Lauderdale",
+      "Madison",
+      "Rankin",
+      "Warren"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "Mississippi: Meridian, Jackson area (see splits 228, 662; overlay 769)"
@@ -1692,7 +2271,9 @@
     "subdivision": "AZ",
     "subdivision_name": "Arizona",
     "city": "Phoenix",
-    "counties": [],
+    "counties": [
+      "Maricopa"
+    ],
     "is_overlay": false,
     "timezone": "-7*",
     "raw_description": "Arizona: Phoenix (see 520; also Phoenix split 480, 623)"
@@ -1704,7 +2285,13 @@
     "subdivision": "NH",
     "subdivision_name": "New Hampshire",
     "city": "New Hampshire",
-    "counties": [],
+    "counties": [
+      "Cheshire",
+      "Hillsborough",
+      "Merrimack",
+      "Rockingham",
+      "Strafford"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "New Hampshire"
@@ -1716,7 +2303,13 @@
     "subdivision": "SD",
     "subdivision_name": "South Dakota",
     "city": "South Dakota",
-    "counties": [],
+    "counties": [
+      "Brown",
+      "Codington",
+      "Hughes",
+      "Minnehaha",
+      "Pennington"
+    ],
     "is_overlay": false,
     "timezone": "-6/-7",
     "raw_description": "South Dakota"
@@ -1740,7 +2333,11 @@
     "subdivision": "NY",
     "subdivision_name": "New York",
     "city": "Ithaca",
-    "counties": [],
+    "counties": [
+      "Broome",
+      "Chemung",
+      "Tompkins"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "S Cent. New York: Ithaca, Binghamton; Catskills"
@@ -1752,7 +2349,10 @@
     "subdivision": "WI",
     "subdivision_name": "Wisconsin",
     "city": "Madison",
-    "counties": [],
+    "counties": [
+      "Dane",
+      "Rock"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "SW Wisconsin: Madison"
@@ -1764,7 +2364,11 @@
     "subdivision": "NJ",
     "subdivision_name": "New Jersey",
     "city": "Trenton",
-    "counties": [],
+    "counties": [
+      "Atlantic",
+      "Burlington",
+      "Mercer"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "S New Jersey: Trenton (see 856)"
@@ -1776,7 +2380,9 @@
     "subdivision": "MN",
     "subdivision_name": "Minnesota",
     "city": "Minneapolis",
-    "counties": [],
+    "counties": [
+      "Hennepin"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "Cent. Minnesota: Minneapolis (split from St. Paul, see 651; see splits 763, 952)"
@@ -1788,7 +2394,9 @@
     "subdivision": "OH",
     "subdivision_name": "Ohio",
     "city": "Columbus",
-    "counties": [],
+    "counties": [
+      "Franklin"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "SE Ohio: Columbus (see overlay 380)"
@@ -1800,7 +2408,13 @@
     "subdivision": "TN",
     "subdivision_name": "Tennessee",
     "city": "Nashville metro area",
-    "counties": [],
+    "counties": [
+      "Davidson",
+      "Rutherford",
+      "Sumner",
+      "Williamson",
+      "Wilson"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "Northern Middle Tennessee: Nashville metro area (see 423, 931; see overlay 629, eff 2014)"
@@ -1812,7 +2426,10 @@
     "subdivision": "MI",
     "subdivision_name": "Michigan",
     "city": "Holland",
-    "counties": [],
+    "counties": [
+      "Kent",
+      "Ottawa"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "W Michigan: Holland, Grand Haven, Greenville, Grand Rapids, Ionia (see split 269)"
@@ -1824,7 +2441,11 @@
     "subdivision": "MA",
     "subdivision_name": "Massachusetts",
     "city": "greater Boston",
-    "counties": [],
+    "counties": [
+      "Middlesex",
+      "Norfolk",
+      "Suffolk"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "Massachusetts: greater Boston (see overlay 857)"
@@ -1836,7 +2457,11 @@
     "subdivision": "IL",
     "subdivision_name": "Illinois",
     "city": "Centralia",
-    "counties": [],
+    "counties": [
+      "Jackson",
+      "Madison",
+      "St. Clair"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "S Illinois: Centralia"
@@ -1848,7 +2473,9 @@
     "subdivision": "CA",
     "subdivision_name": "California",
     "city": "San Diego",
-    "counties": [],
+    "counties": [
+      "San Diego"
+    ],
     "is_overlay": false,
     "timezone": "-8",
     "raw_description": "S California: San Diego (see split 760; overlay 858, 935)"
@@ -1860,7 +2487,12 @@
     "subdivision": "KS",
     "subdivision_name": "Kansas",
     "city": "Wichita",
-    "counties": [],
+    "counties": [
+      "Finney",
+      "Ford",
+      "Lyon",
+      "Reno"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "S Kansas: Wichita (split from 316; perm 2/3/01)"
@@ -1872,7 +2504,9 @@
     "subdivision": "AZ",
     "subdivision_name": "Arizona",
     "city": "West Phoenix",
-    "counties": [],
+    "counties": [
+      "Maricopa"
+    ],
     "is_overlay": false,
     "timezone": "-7*",
     "raw_description": "Arizona: West Phoenix (see 520; also Phoenix split 480, 602)"
@@ -1884,7 +2518,9 @@
     "subdivision": "CA",
     "subdivision_name": "California",
     "city": "Pasadena",
-    "counties": [],
+    "counties": [
+      "Los Angeles"
+    ],
     "is_overlay": false,
     "timezone": "-8",
     "raw_description": "E S California: Pasadena (split from 818 Los Angeles)"
@@ -1896,7 +2532,13 @@
     "subdivision": "TN",
     "subdivision_name": "Tennessee",
     "city": "Nashville metro area",
-    "counties": [],
+    "counties": [
+      "Davidson",
+      "Rutherford",
+      "Sumner",
+      "Williamson",
+      "Wilson"
+    ],
     "is_overlay": true,
     "timezone": "-6",
     "raw_description": "Northern Middle Tennessee: Nashville metro area (see 423, 931; overlaid on 615, eff 2014)"
@@ -1908,7 +2550,12 @@
     "subdivision": "IL",
     "subdivision_name": "Illinois",
     "city": "W NE Illinois",
-    "counties": [],
+    "counties": [
+      "Cook",
+      "DuPage",
+      "Kane",
+      "Will"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "W NE Illinois, western suburbs of Chicago (part of what used to be 708; overlay 331)"
@@ -1936,7 +2583,8 @@
     "city": "W St. Louis metro area of St. Louis county",
     "counties": [
       "Jefferson",
-      "St. Charles"
+      "St. Charles",
+      "St. Louis"
     ],
     "is_overlay": false,
     "timezone": "-6",
@@ -1949,7 +2597,11 @@
     "subdivision": "IA",
     "subdivision_name": "Iowa",
     "city": "Mason City",
-    "counties": [],
+    "counties": [
+      "Cerro Gordo",
+      "Marshall",
+      "Wapello"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "Iowa: Mason City, Marshalltown, Creston, Ottumwa (split from 515; perm 7/9/00)"
@@ -1961,7 +2613,9 @@
     "subdivision": "NY",
     "subdivision_name": "New York",
     "city": "New York  NYC",
-    "counties": [],
+    "counties": [
+      "New York"
+    ],
     "is_overlay": true,
     "timezone": "-5",
     "raw_description": "New York (overlaid on 212, 332, 917) NYC (mostly mobile)"
@@ -1974,6 +2628,7 @@
     "subdivision_name": "California",
     "city": "Peninsula south of San Francisco -- San Mateo County",
     "counties": [
+      "San Mateo",
       "Santa Clara"
     ],
     "is_overlay": false,
@@ -1987,7 +2642,11 @@
     "subdivision": "MN",
     "subdivision_name": "Minnesota",
     "city": "St. Paul",
-    "counties": [],
+    "counties": [
+      "Dakota",
+      "Ramsey",
+      "Washington"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "Cent. Minnesota: St. Paul (split from Minneapolis, see 612)"
@@ -1999,7 +2658,9 @@
     "subdivision": "CA",
     "subdivision_name": "California",
     "city": "Northern and western Orange County",
-    "counties": [],
+    "counties": [
+      "Orange"
+    ],
     "is_overlay": true,
     "timezone": "-8",
     "raw_description": "Northern and western Orange County (overlaid on 714)"
@@ -2011,7 +2672,9 @@
     "subdivision": "MO",
     "subdivision_name": "Missouri",
     "city": "N Missouri",
-    "counties": [],
+    "counties": [
+      "Pettis"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "N Missouri (split from 816)"
@@ -2023,7 +2686,10 @@
     "subdivision": "CA",
     "subdivision_name": "California",
     "city": "N Los Angeles",
-    "counties": [],
+    "counties": [
+      "Kern",
+      "Los Angeles"
+    ],
     "is_overlay": false,
     "timezone": "-8",
     "raw_description": "California: N Los Angeles, Mckittrick, Mojave, Newhall, Oildale, Palmdale, Taft, Tehachapi, Bakersfield, Earlimart, Lancaster (split from 805)"
@@ -2035,7 +2701,14 @@
     "subdivision": "MS",
     "subdivision_name": "Mississippi",
     "city": "Tupelo",
-    "counties": [],
+    "counties": [
+      "Coahoma",
+      "DeSoto",
+      "Lee",
+      "Lowndes",
+      "Oktibbeha",
+      "Washington"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "N Mississippi: Tupelo, Grenada (split from 601)"
@@ -2047,7 +2720,9 @@
     "subdivision": "CA",
     "subdivision_name": "California",
     "city": "San Jose",
-    "counties": [],
+    "counties": [
+      "Santa Clara"
+    ],
     "is_overlay": true,
     "timezone": "-8",
     "raw_description": "Cent. Coastal California: San Jose (overlaid on 408; eff 10/20/2012)"
@@ -2083,7 +2758,17 @@
     "subdivision": "GA",
     "subdivision_name": "Georgia",
     "city": "metropolitan Atlanta",
-    "counties": [],
+    "counties": [
+      "Clayton",
+      "Cobb",
+      "DeKalb",
+      "Douglas",
+      "Fayette",
+      "Fulton",
+      "Gwinnett",
+      "Hall",
+      "Spalding"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "N Georgia: metropolitan Atlanta (overlay; see 404, 770)"
@@ -2095,7 +2780,14 @@
     "subdivision": "WV",
     "subdivision_name": "West Virginia",
     "city": "West Virginia",
-    "counties": [],
+    "counties": [
+      "Cabell",
+      "Hancock",
+      "Kanawha",
+      "Monongalia",
+      "Ohio",
+      "Wood"
+    ],
     "is_overlay": true,
     "timezone": "-5",
     "raw_description": "West Virginia (overlaid on 304)"
@@ -2107,7 +2799,10 @@
     "subdivision": "TX",
     "subdivision_name": "Texas",
     "city": "Fort Worth areas",
-    "counties": [],
+    "counties": [
+      "Johnson",
+      "Tarrant"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "Texas: Fort Worth areas (perm 10/7/00, mand 12/9/00)"
@@ -2119,7 +2814,11 @@
     "subdivision": "ND",
     "subdivision_name": "North Dakota",
     "city": "North Dakota",
-    "counties": [],
+    "counties": [
+      "Burleigh",
+      "Cass",
+      "Ward"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "North Dakota"
@@ -2145,7 +2844,13 @@
     "subdivision": "VA",
     "subdivision_name": "Virginia",
     "city": "Arlington",
-    "counties": [],
+    "counties": [
+      "Alexandria",
+      "Arlington",
+      "Fairfax",
+      "Loudoun",
+      "Prince William"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "Northern Virginia: Arlington, McLean, Tysons Corner (see split 540; overlay 571)"
@@ -2157,7 +2862,14 @@
     "subdivision": "NC",
     "subdivision_name": "North Carolina",
     "city": "Charlotte",
-    "counties": [],
+    "counties": [
+      "Cabarrus",
+      "Gaston",
+      "Iredell",
+      "Mecklenburg",
+      "Rowan",
+      "Union"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "W North Carolina: Charlotte (see split 828, overlay 980)"
@@ -2169,7 +2881,15 @@
     "subdivision": "GA",
     "subdivision_name": "Georgia",
     "city": "Columbus",
-    "counties": [],
+    "counties": [
+      "Clarke",
+      "Columbia",
+      "Floyd",
+      "Muscogee",
+      "Richmond",
+      "Troup",
+      "Whitfield"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "N Georgia: Columbus, Augusta (see overlay 762)"
@@ -2181,7 +2901,11 @@
     "subdivision": "CA",
     "subdivision_name": "California",
     "city": "Santa Rosa",
-    "counties": [],
+    "counties": [
+      "Napa",
+      "Solano",
+      "Sonoma"
+    ],
     "is_overlay": false,
     "timezone": "-8",
     "raw_description": "NW California: Santa Rosa, Napa, Vallejo, American Canyon, Fairfield"
@@ -2193,7 +2917,9 @@
     "subdivision": "IL",
     "subdivision_name": "Illinois",
     "city": "southern and western suburbs of Chicago",
-    "counties": [],
+    "counties": [
+      "Cook"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "Illinois: southern and western suburbs of Chicago (see 630; overlay 464)"
@@ -2205,7 +2931,10 @@
     "subdivision": "IA",
     "subdivision_name": "Iowa",
     "city": "Council Bluffs",
-    "counties": [],
+    "counties": [
+      "Pottawattamie",
+      "Woodbury"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "W Iowa: Council Bluffs"
@@ -2217,7 +2946,13 @@
     "subdivision": "TX",
     "subdivision_name": "Texas",
     "city": "central Houston",
-    "counties": [],
+    "counties": [
+      "Brazoria",
+      "Fort Bend",
+      "Galveston",
+      "Harris",
+      "Montgomery"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "Mid SE Texas: central Houston (split 281; overlay 346, 832)"
@@ -2229,7 +2964,9 @@
     "subdivision": "CA",
     "subdivision_name": "California",
     "city": "Northern and western Orange County",
-    "counties": [],
+    "counties": [
+      "Orange"
+    ],
     "is_overlay": false,
     "timezone": "-8",
     "raw_description": "Northern and western Orange County (see split 949, overlay 657)"
@@ -2241,7 +2978,12 @@
     "subdivision": "WI",
     "subdivision_name": "Wisconsin",
     "city": "Eau Claire",
-    "counties": [],
+    "counties": [
+      "Douglas",
+      "Eau Claire",
+      "Marathon",
+      "Portage"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "N Wisconsin: Eau Claire, Wausau, Superior"
@@ -2253,7 +2995,11 @@
     "subdivision": "NY",
     "subdivision_name": "New York",
     "city": "Buffalo",
-    "counties": [],
+    "counties": [
+      "Chautauqua",
+      "Erie",
+      "Niagara"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "NW New York: Buffalo (see split 585)"
@@ -2265,7 +3011,12 @@
     "subdivision": "PA",
     "subdivision_name": "Pennsylvania",
     "city": "Harrisburg",
-    "counties": [],
+    "counties": [
+      "Dauphin",
+      "Lancaster",
+      "Lebanon",
+      "York"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "E Pennsylvania: Harrisburg (see split 570, overlay 223)"
@@ -2277,7 +3028,13 @@
     "subdivision": "NY",
     "subdivision_name": "New York",
     "city": "New York City",
-    "counties": [],
+    "counties": [
+      "Bronx",
+      "Kings",
+      "New York",
+      "Queens",
+      "Richmond"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "New York City, New York (Queens, Staten Island, The Bronx, and Brooklyn; also Marble Hill section of Manhattan; see split 212, 347, 929)"
@@ -2289,7 +3046,10 @@
     "subdivision": "CO",
     "subdivision_name": "Colorado",
     "city": "Pueblo",
-    "counties": [],
+    "counties": [
+      "El Paso",
+      "Pueblo"
+    ],
     "is_overlay": false,
     "timezone": "-7",
     "raw_description": "SE Colorado: Pueblo, Colorado Springs"
@@ -2301,7 +3061,10 @@
     "subdivision": "PA",
     "subdivision_name": "Pennsylvania",
     "city": "SW Pennsylvania",
-    "counties": [],
+    "counties": [
+      "Allegheny",
+      "Lawrence"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "SW Pennsylvania (areas outside metro Pittsburgh; split from 412)"
@@ -2313,7 +3076,10 @@
     "subdivision": "FL",
     "subdivision_name": "Florida",
     "city": "Saint Petersburg",
-    "counties": [],
+    "counties": [
+      "Pasco",
+      "Pinellas"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "Florida Tampa Metro: Saint Petersburg, Clearwater (Pinellas and parts of Pasco County; split from 813)"
@@ -2325,7 +3091,9 @@
     "subdivision": "TN",
     "subdivision_name": "Tennessee",
     "city": "outside Memphis metro area",
-    "counties": [],
+    "counties": [
+      "Madison"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "W Tennessee: outside Memphis metro area (split from 901, perm 2/12/01, mand 9/17/01)"
@@ -2337,7 +3105,13 @@
     "subdivision": "NJ",
     "subdivision_name": "New Jersey",
     "city": "Toms River",
-    "counties": [],
+    "counties": [
+      "Middlesex",
+      "Monmouth",
+      "Ocean",
+      "Somerset",
+      "Union"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "Cent. New Jersey: Toms River, New Brunswick, Bound Brook (see overlay 848)"
@@ -2349,7 +3123,11 @@
     "subdivision": "MI",
     "subdivision_name": "Michigan",
     "city": "west and south of Detroit -- Ann Arbor",
-    "counties": [],
+    "counties": [
+      "Monroe",
+      "Washtenaw",
+      "Wayne"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "SE Michigan: west and south of Detroit -- Ann Arbor, Monroe (split from 313)"
@@ -2361,7 +3139,16 @@
     "subdivision": "OH",
     "subdivision_name": "Ohio",
     "city": "SE and Central Ohio",
-    "counties": [],
+    "counties": [
+      "Athens",
+      "Delaware",
+      "Fairfield",
+      "Licking",
+      "Marion",
+      "Muskingum",
+      "Ross",
+      "Scioto"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "SE and Central Ohio (outside Columbus; split from 614; overlay 220)"
@@ -2373,7 +3160,14 @@
     "subdivision": "VA",
     "subdivision_name": "Virginia",
     "city": "Tidewater / Hampton Roads area -- Norfolk",
-    "counties": [],
+    "counties": [
+      "Chesapeake",
+      "Hampton",
+      "Norfolk",
+      "Portsmouth",
+      "Suffolk",
+      "Virginia Beach"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "E Virginia: Tidewater / Hampton Roads area -- Norfolk, Virginia Beach, Chesapeake, Portsmouth, Hampton, Newport News, Suffolk (part of what used to be 804)"
@@ -2385,7 +3179,13 @@
     "subdivision": "CA",
     "subdivision_name": "California",
     "city": "San Diego North County to Sierra Nevada",
-    "counties": [],
+    "counties": [
+      "Imperial",
+      "Kern",
+      "Riverside",
+      "San Bernardino",
+      "San Diego"
+    ],
     "is_overlay": false,
     "timezone": "-8",
     "raw_description": "California: San Diego North County to Sierra Nevada (split from 619; see overlay 442)"
@@ -2397,7 +3197,10 @@
     "subdivision": "MN",
     "subdivision_name": "Minnesota",
     "city": "Minneapolis NW",
-    "counties": [],
+    "counties": [
+      "Anoka",
+      "Hennepin"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "Minnesota: Minneapolis NW (split from 612; see also 952)"
@@ -2409,7 +3212,14 @@
     "subdivision": "IN",
     "subdivision_name": "Indiana",
     "city": "outside Indianapolis",
-    "counties": [],
+    "counties": [
+      "Delaware",
+      "Grant",
+      "Howard",
+      "Madison",
+      "Tippecanoe",
+      "Wayne"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "Indiana: outside Indianapolis (split from 317)"
@@ -2421,7 +3231,17 @@
     "subdivision": "GA",
     "subdivision_name": "Georgia",
     "city": "Atlanta suburbs: outside of I-285 ring road",
-    "counties": [],
+    "counties": [
+      "Clayton",
+      "Cobb",
+      "DeKalb",
+      "Douglas",
+      "Fayette",
+      "Fulton",
+      "Gwinnett",
+      "Hall",
+      "Spalding"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "Georgia: Atlanta suburbs: outside of I-285 ring road (part of what used to be 404; see also overlay 678)"
@@ -2433,7 +3253,11 @@
     "subdivision": "FL",
     "subdivision_name": "Florida",
     "city": "St. Lucie",
-    "counties": [],
+    "counties": [
+      "Indian River",
+      "Martin",
+      "St. Lucie"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "S. Central Florida: St. Lucie, Martin, and Indian River counties (split from 561; eff 2/11/02; mand 11/11/02)"
@@ -2445,7 +3269,9 @@
     "subdivision": "IL",
     "subdivision_name": "Illinois",
     "city": "city of Chicago",
-    "counties": [],
+    "counties": [
+      "DuPage"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "Illinois: city of Chicago, outside the loop (see 312; overlay 872)"
@@ -2457,7 +3283,14 @@
     "subdivision": "MA",
     "subdivision_name": "Massachusetts",
     "city": "Framingham",
-    "counties": [],
+    "counties": [
+      "Barnstable",
+      "Bristol",
+      "Middlesex",
+      "Norfolk",
+      "Plymouth",
+      "Worcester"
+    ],
     "is_overlay": true,
     "timezone": "-5",
     "raw_description": "Cent. Massachusetts: Framingham; Cape Cod (see split 978, overlaid on 508, eff 4/2/01)"
@@ -2469,7 +3302,11 @@
     "subdivision": "NV",
     "subdivision_name": "Nevada",
     "city": "Reno",
-    "counties": [],
+    "counties": [
+      "Carson City",
+      "Nye",
+      "Washoe"
+    ],
     "is_overlay": false,
     "timezone": "-8",
     "raw_description": "N. Nevada: Reno (all of NV except Clark County area; see 702)"
@@ -2481,7 +3318,12 @@
     "subdivision": "MA",
     "subdivision_name": "Massachusetts",
     "city": "Boston surburbs",
-    "counties": [],
+    "counties": [
+      "Essex",
+      "Middlesex",
+      "Norfolk",
+      "Suffolk"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "Massachusetts: Boston surburbs, to the north and west (see splits 617, 508; overlay 339)"
@@ -2493,7 +3335,13 @@
     "subdivision": "KS",
     "subdivision_name": "Kansas",
     "city": "Topeka",
-    "counties": [],
+    "counties": [
+      "Douglas",
+      "Ellis",
+      "Riley",
+      "Saline",
+      "Shawnee"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "N & W Kansas: Topeka (split from 913)"
@@ -2506,6 +3354,8 @@
     "subdivision_name": "Florida",
     "city": "SE Florida",
     "counties": [
+      "Broward",
+      "Miami-Dade",
       "Monroe"
     ],
     "is_overlay": true,
@@ -2531,7 +3381,12 @@
     "subdivision": "UT",
     "subdivision_name": "Utah",
     "city": "Salt Lake City Metro",
-    "counties": [],
+    "counties": [
+      "Davis",
+      "Salt Lake",
+      "Utah",
+      "Weber"
+    ],
     "is_overlay": false,
     "timezone": "-7",
     "raw_description": "Utah: Salt Lake City Metro (see split 385, eff 3/30/02; see also split 435)"
@@ -2543,7 +3398,10 @@
     "subdivision": "VT",
     "subdivision_name": "Vermont",
     "city": "Vermont",
-    "counties": [],
+    "counties": [
+      "Chittenden",
+      "Washington"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "Vermont"
@@ -2555,7 +3413,12 @@
     "subdivision": "SC",
     "subdivision_name": "South Carolina",
     "city": "Columbia",
-    "counties": [],
+    "counties": [
+      "Aiken",
+      "Lexington",
+      "Sumter",
+      "York"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "South Carolina: Columbia, Aiken, Sumter (see 843, 864)"
@@ -2567,7 +3430,12 @@
     "subdivision": "VA",
     "subdivision_name": "Virginia",
     "city": "Richmond",
-    "counties": [],
+    "counties": [
+      "Henrico",
+      "Petersburg",
+      "Prince George",
+      "Richmond"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "E Virginia: Richmond (see splits 757, 434)"
@@ -2580,6 +3448,7 @@
     "subdivision_name": "California",
     "city": "Ventura County",
     "counties": [
+      "San Luis Obispo",
       "Santa Barbara",
       "Ventura"
     ],
@@ -2594,7 +3463,11 @@
     "subdivision": "TX",
     "subdivision_name": "Texas",
     "city": "Amarillo",
-    "counties": [],
+    "counties": [
+      "Hale",
+      "Lubbock",
+      "Potter"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "Panhandle Texas: Amarillo, Lubbock"
@@ -2606,7 +3479,10 @@
     "subdivision": "HI",
     "subdivision_name": "Hawaii",
     "city": "Hawaii",
-    "counties": [],
+    "counties": [
+      "Honolulu",
+      "Maui"
+    ],
     "is_overlay": false,
     "timezone": "-10*",
     "raw_description": "Hawaii"
@@ -2618,7 +3494,9 @@
     "subdivision": "MI",
     "subdivision_name": "Michigan",
     "city": "Flint",
-    "counties": [],
+    "counties": [
+      "Genesee"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "E Michigan: Flint, Pontiac (see 248; split 586)"
@@ -2630,7 +3508,14 @@
     "subdivision": "IN",
     "subdivision_name": "Indiana",
     "city": "Evansville",
-    "counties": [],
+    "counties": [
+      "Bartholomew",
+      "Clark",
+      "Floyd",
+      "Monroe",
+      "Vanderburgh",
+      "Vigo"
+    ],
     "is_overlay": false,
     "timezone": "-6/-5",
     "raw_description": "S Indiana: Evansville, Cincinnati outskirts in IN, Columbus, Bloomington (mostly GMT-5)"
@@ -2642,7 +3527,10 @@
     "subdivision": "FL",
     "subdivision_name": "Florida",
     "city": "Tampa Metro",
-    "counties": [],
+    "counties": [
+      "Hillsborough",
+      "Pasco"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "SW Florida: Tampa Metro (splits 727 St. Petersburg, Clearwater, and 941 Sarasota)"
@@ -2654,7 +3542,12 @@
     "subdivision": "PA",
     "subdivision_name": "Pennsylvania",
     "city": "Erie",
-    "counties": [],
+    "counties": [
+      "Blair",
+      "Cambria",
+      "Centre",
+      "Erie"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "Cent. Pennsylvania: Erie"
@@ -2666,7 +3559,15 @@
     "subdivision": "IL",
     "subdivision_name": "Illinois",
     "city": "Rockford",
-    "counties": [],
+    "counties": [
+      "Boone",
+      "DeKalb",
+      "Kankakee",
+      "McHenry",
+      "Stephenson",
+      "Will",
+      "Winnebago"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "NW Illinois: Rockford, Kankakee (see overlay 779; eff 8/19/06, mand 2/17/07)"
@@ -2678,7 +3579,12 @@
     "subdivision": "MO",
     "subdivision_name": "Missouri",
     "city": "Kansas City",
-    "counties": [],
+    "counties": [
+      "Buchanan",
+      "Cass",
+      "Clay",
+      "Jackson"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "N Missouri: Kansas City (see split 660, overlay 975)"
@@ -2690,7 +3596,10 @@
     "subdivision": "TX",
     "subdivision_name": "Texas",
     "city": "Fort Worth area",
-    "counties": [],
+    "counties": [
+      "Johnson",
+      "Tarrant"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "N Cent. Texas: Fort Worth area (see 254, 940)"
@@ -2702,7 +3611,9 @@
     "subdivision": "CA",
     "subdivision_name": "California",
     "city": "Los Angeles: San Fernando Valley",
-    "counties": [],
+    "counties": [
+      "Los Angeles"
+    ],
     "is_overlay": false,
     "timezone": "-8",
     "raw_description": "S California: Los Angeles: San Fernando Valley (see 213, 310, 562, 626, 747)"
@@ -2714,7 +3625,10 @@
     "subdivision": "NC",
     "subdivision_name": "North Carolina",
     "city": "Asheville",
-    "counties": [],
+    "counties": [
+      "Buncombe",
+      "Catawba"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "W North Carolina: Asheville (split from 704)"
@@ -2726,7 +3640,13 @@
     "subdivision": "TX",
     "subdivision_name": "Texas",
     "city": "region surrounding San Antonio",
-    "counties": [],
+    "counties": [
+      "Comal",
+      "Guadalupe",
+      "Kerr",
+      "Maverick",
+      "Val Verde"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "Texas: region surrounding San Antonio (split from 210)"
@@ -2738,7 +3658,11 @@
     "subdivision": "CA",
     "subdivision_name": "California",
     "city": "central coast area from Santa Cruz through Monterey County",
-    "counties": [],
+    "counties": [
+      "Monterey",
+      "San Benito",
+      "Santa Cruz"
+    ],
     "is_overlay": false,
     "timezone": "-8",
     "raw_description": "California: central coast area from Santa Cruz through Monterey County"
@@ -2750,7 +3674,13 @@
     "subdivision": "TX",
     "subdivision_name": "Texas",
     "city": "Houston",
-    "counties": [],
+    "counties": [
+      "Brazoria",
+      "Fort Bend",
+      "Galveston",
+      "Harris",
+      "Montgomery"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "Texas: Houston (overlay 713, 281, 346)"
@@ -2762,7 +3692,14 @@
     "subdivision": "SC",
     "subdivision_name": "South Carolina",
     "city": "Charleston",
-    "counties": [],
+    "counties": [
+      "Beaufort",
+      "Berkeley",
+      "Charleston",
+      "Dorchester",
+      "Florence",
+      "Horry"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "South Carolina, coastal area: Charleston, Beaufort, Myrtle Beach (split from 803)"
@@ -2774,7 +3711,12 @@
     "subdivision": "NY",
     "subdivision_name": "New York",
     "city": "Poughkeepsie",
-    "counties": [],
+    "counties": [
+      "Dutchess",
+      "Orange",
+      "Rockland",
+      "Ulster"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "New York: Poughkeepsie; Nyack, Nanuet, Valley Cottage, New City, Putnam, Dutchess, Rockland, Orange, Ulster and parts of Sullivan counties in New York's lower Hudson Valley and Delaware County in the Catskills (see 914; perm 6/5/00)"
@@ -2786,7 +3728,12 @@
     "subdivision": "IL",
     "subdivision_name": "Illinois",
     "city": "northwestern suburbs of chicago",
-    "counties": [],
+    "counties": [
+      "Cook",
+      "Kane",
+      "Lake",
+      "McHenry"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "Northern NE Illinois: northwestern suburbs of chicago (Evanston, Waukegan, Northbrook; see overlay 224)"
@@ -2798,7 +3745,13 @@
     "subdivision": "NJ",
     "subdivision_name": "New Jersey",
     "city": "Toms River",
-    "counties": [],
+    "counties": [
+      "Middlesex",
+      "Monmouth",
+      "Ocean",
+      "Somerset",
+      "Union"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "Cent. New Jersey: Toms River, New Brunswick, Bound Brook (see overlay 732)"
@@ -2810,7 +3763,11 @@
     "subdivision": "FL",
     "subdivision_name": "Florida",
     "city": "Florida panhandle",
-    "counties": [],
+    "counties": [
+      "Bay",
+      "Escambia",
+      "Okaloosa"
+    ],
     "is_overlay": false,
     "timezone": "-6/-5",
     "raw_description": "Florida panhandle, from east of Tallahassee to Pensacola (split from 904); western panhandle (Pensacola, Panama City) are UTC-6"
@@ -2822,7 +3779,11 @@
     "subdivision": "NJ",
     "subdivision_name": "New Jersey",
     "city": "greater Camden area",
-    "counties": [],
+    "counties": [
+      "Burlington",
+      "Camden",
+      "Cumberland"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "SW New Jersey: greater Camden area, Mt Laurel (split from 609)"
@@ -2834,7 +3795,9 @@
     "subdivision": "CA",
     "subdivision_name": "California",
     "city": "San Diego",
-    "counties": [],
+    "counties": [
+      "San Diego"
+    ],
     "is_overlay": false,
     "timezone": "-8",
     "raw_description": "S California: San Diego (see split 760; overlay 619, 935)"
@@ -2846,7 +3809,12 @@
     "subdivision": "KY",
     "subdivision_name": "Kentucky",
     "city": "Lexington",
-    "counties": [],
+    "counties": [
+      "Boone",
+      "Fayette",
+      "Kenton",
+      "Madison"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "N and Central Kentucky: Lexington; suburban KY counties of Cincinnati OH metro area; Covington, Newport, Ft. Thomas, Ft. Wright, Florence (split from 606)"
@@ -2858,7 +3826,12 @@
     "subdivision": "CT",
     "subdivision_name": "Connecticut",
     "city": "areas outside of Fairfield and New Haven Counties",
-    "counties": [],
+    "counties": [
+      "Hartford",
+      "Litchfield",
+      "Middlesex",
+      "New London"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "Connecticut: areas outside of Fairfield and New Haven Counties (split from 203, overlay 959)"
@@ -2884,7 +3857,12 @@
     "subdivision": "SC",
     "subdivision_name": "South Carolina",
     "city": "Greenville",
-    "counties": [],
+    "counties": [
+      "Anderson",
+      "Greenville",
+      "Greenwood",
+      "Spartanburg"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "South Carolina, upstate area: Greenville, Spartanburg (split from 803)"
@@ -2896,7 +3874,11 @@
     "subdivision": "TN",
     "subdivision_name": "Tennessee",
     "city": "Knoxville",
-    "counties": [],
+    "counties": [
+      "Anderson",
+      "Blount",
+      "Knox"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "E Tennessee: Knoxville, Knox and adjacent counties (split from 423; part of what used to be 615)"
@@ -2908,7 +3890,14 @@
     "subdivision": "AR",
     "subdivision_name": "Arkansas",
     "city": "areas outside of west/central AR: Jonesboro",
-    "counties": [],
+    "counties": [
+      "Craighead",
+      "Crittenden",
+      "Greene",
+      "Jefferson",
+      "Miller",
+      "Union"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "Arkansas: areas outside of west/central AR: Jonesboro, etc"
@@ -2920,7 +3909,9 @@
     "subdivision": "TN",
     "subdivision_name": "Tennessee",
     "city": "Memphis metro area",
-    "counties": [],
+    "counties": [
+      "Shelby"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "W Tennessee: Memphis metro area (see 615, 931, split 731)"
@@ -2932,7 +3923,16 @@
     "subdivision": "TX",
     "subdivision_name": "Texas",
     "city": "Tyler",
-    "counties": [],
+    "counties": [
+      "Bowie",
+      "Grayson",
+      "Gregg",
+      "Harrison",
+      "Hunt",
+      "Lamar",
+      "Navarro",
+      "Smith"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "NE Texas: Tyler (see overlay 430, eff 7/20/02)"
@@ -2944,7 +3944,10 @@
     "subdivision": "FL",
     "subdivision_name": "Florida",
     "city": "Jacksonville",
-    "counties": [],
+    "counties": [
+      "Clay",
+      "Duval"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "N Florida: Jacksonville (see splits 352, 386, 850)"
@@ -2968,7 +3971,13 @@
     "subdivision": "AK",
     "subdivision_name": "Alaska",
     "city": "Alaska",
-    "counties": [],
+    "counties": [
+      "Anchorage",
+      "Fairbanks North Star",
+      "Juneau",
+      "Ketchikan Gateway",
+      "Sitka"
+    ],
     "is_overlay": false,
     "timezone": "-9",
     "raw_description": "Alaska"
@@ -2980,7 +3989,12 @@
     "subdivision": "NJ",
     "subdivision_name": "New Jersey",
     "city": "Elizabeth",
-    "counties": [],
+    "counties": [
+      "Essex",
+      "Hudson",
+      "Middlesex",
+      "Union"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "Cent. New Jersey: Elizabeth, Basking Ridge, Somerville, Bridgewater, Bound Brook"
@@ -2992,7 +4006,10 @@
     "subdivision": "CA",
     "subdivision_name": "California",
     "city": "Inland empire: San Bernardino",
-    "counties": [],
+    "counties": [
+      "Los Angeles",
+      "San Bernardino"
+    ],
     "is_overlay": false,
     "timezone": "-8",
     "raw_description": "California: Inland empire: San Bernardino (see split 951), Riverside"
@@ -3004,7 +4021,12 @@
     "subdivision": "NC",
     "subdivision_name": "North Carolina",
     "city": "Fayetteville",
-    "counties": [],
+    "counties": [
+      "Cumberland",
+      "New Hanover",
+      "Onslow",
+      "Robeson"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "S Cent. North Carolina: Fayetteville, Wilmington (see 336)"
@@ -3016,7 +4038,11 @@
     "subdivision": "GA",
     "subdivision_name": "Georgia",
     "city": "Savannah",
-    "counties": [],
+    "counties": [
+      "Bulloch",
+      "Chatham",
+      "Liberty"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "SE Georgia: Savannah (see splits 229, 478)"
@@ -3028,7 +4054,11 @@
     "subdivision": "KS",
     "subdivision_name": "Kansas",
     "city": "Kansas City area",
-    "counties": [],
+    "counties": [
+      "Johnson",
+      "Leavenworth",
+      "Wyandotte"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "Kansas: Kansas City area (see 785)"
@@ -3054,7 +4084,9 @@
     "subdivision": "TX",
     "subdivision_name": "Texas",
     "city": "El Paso",
-    "counties": [],
+    "counties": [
+      "El Paso"
+    ],
     "is_overlay": false,
     "timezone": "-7/-6",
     "raw_description": "W Texas: El Paso (see splits 325 eff 4/5/03; 432, eff 4/5/03)"
@@ -3066,7 +4098,12 @@
     "subdivision": "CA",
     "subdivision_name": "California",
     "city": "Sacramento",
-    "counties": [],
+    "counties": [
+      "Placer",
+      "Sacramento",
+      "San Mateo",
+      "Yolo"
+    ],
     "is_overlay": false,
     "timezone": "-8",
     "raw_description": "NE California: Sacramento, Walnut Grove, Lincoln, Newcastle and El Dorado Hills (split to 530)"
@@ -3078,7 +4115,11 @@
     "subdivision": "OK",
     "subdivision_name": "Oklahoma",
     "city": "Tulsa",
-    "counties": [],
+    "counties": [
+      "Muskogee",
+      "Tulsa",
+      "Washington"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "E Oklahoma: Tulsa (see overlay 539)"
@@ -3090,7 +4131,13 @@
     "subdivision": "NC",
     "subdivision_name": "North Carolina",
     "city": "Raleigh",
-    "counties": [],
+    "counties": [
+      "Durham",
+      "Lee",
+      "Orange",
+      "Wake",
+      "Wayne"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "E North Carolina: Raleigh (see split 252, overlay 984)"
@@ -3103,7 +4150,14 @@
     "subdivision_name": "Wisconsin",
     "city": "Appleton",
     "counties": [
-      "Door"
+      "Brown",
+      "Door",
+      "Fond du Lac",
+      "Jefferson",
+      "Manitowoc",
+      "Outagamie",
+      "Sheboygan",
+      "Winnebago"
     ],
     "is_overlay": false,
     "timezone": "-6",
@@ -3116,7 +4170,10 @@
     "subdivision": "CA",
     "subdivision_name": "California",
     "city": "Contra Costa area: Antioch",
-    "counties": [],
+    "counties": [
+      "Alameda",
+      "Contra Costa"
+    ],
     "is_overlay": false,
     "timezone": "-8",
     "raw_description": "California: Contra Costa area: Antioch, Concord, Pleasanton, Walnut Creek (split from 510)"
@@ -3128,7 +4185,12 @@
     "subdivision": "AZ",
     "subdivision_name": "Arizona",
     "city": "Prescott",
-    "counties": [],
+    "counties": [
+      "Coconino",
+      "Mohave",
+      "Yavapai",
+      "Yuma"
+    ],
     "is_overlay": false,
     "timezone": "-7*",
     "raw_description": "Central and Northern Arizona: Prescott, Flagstaff, Yuma (split from 520)"
@@ -3140,7 +4202,11 @@
     "subdivision": "TN",
     "subdivision_name": "Tennessee",
     "city": "semi-circular ring around Nashville",
-    "counties": [],
+    "counties": [
+      "Maury",
+      "Montgomery",
+      "Putnam"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "Middle Tennessee: semi-circular ring around Nashville (split from 615)"
@@ -3152,7 +4218,12 @@
     "subdivision": "TX",
     "subdivision_name": "Texas",
     "city": "Conroe",
-    "counties": [],
+    "counties": [
+      "Angelina",
+      "Montgomery",
+      "Nacogdoches",
+      "Walker"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "SE Texas: Conroe, Lufkin, Nacogdoches, Crockett (split from 409, see also 979)"
@@ -3164,7 +4235,13 @@
     "subdivision": "OH",
     "subdivision_name": "Ohio",
     "city": "Dayton",
-    "counties": [],
+    "counties": [
+      "Clark",
+      "Greene",
+      "Miami",
+      "Montgomery",
+      "Shelby"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "SW Ohio: Dayton (part of what used to be 513)"
@@ -3176,7 +4253,10 @@
     "subdivision": "TX",
     "subdivision_name": "Texas",
     "city": "Denton",
-    "counties": [],
+    "counties": [
+      "Denton",
+      "Wichita"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "N Cent. Texas: Denton, Wichita Falls (split from 254, 817)"
@@ -3188,7 +4268,11 @@
     "subdivision": "FL",
     "subdivision_name": "Florida",
     "city": "Sarasota and Manatee counties",
-    "counties": [],
+    "counties": [
+      "Charlotte",
+      "Manatee",
+      "Sarasota"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "SW Florida: Sarasota and Manatee counties (part of what used to be 813; see split 863)"
@@ -3200,7 +4284,9 @@
     "subdivision": "CA",
     "subdivision_name": "California",
     "city": "S Coastal Orange County",
-    "counties": [],
+    "counties": [
+      "Orange"
+    ],
     "is_overlay": false,
     "timezone": "-8",
     "raw_description": "California: S Coastal Orange County (split from 714)"
@@ -3212,7 +4298,9 @@
     "subdivision": "CA",
     "subdivision_name": "California",
     "city": "W Riverside County",
-    "counties": [],
+    "counties": [
+      "Riverside"
+    ],
     "is_overlay": false,
     "timezone": "-8",
     "raw_description": "California: W Riverside County (split from 909; eff 7/17/04)"
@@ -3224,7 +4312,12 @@
     "subdivision": "MN",
     "subdivision_name": "Minnesota",
     "city": "Minneapolis SW",
-    "counties": [],
+    "counties": [
+      "Carver",
+      "Dakota",
+      "Hennepin",
+      "Scott"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "Minnesota: Minneapolis SW, Bloomington (split from 612; see also 763)"
@@ -3250,7 +4343,10 @@
     "subdivision": "TX",
     "subdivision_name": "Texas",
     "city": "Valley of Texas area",
-    "counties": [],
+    "counties": [
+      "Cameron",
+      "Hidalgo"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "Texas: Valley of Texas area; Harlingen, Laredo (split from 210)"
@@ -3262,7 +4358,11 @@
     "subdivision": "CO",
     "subdivision_name": "Colorado",
     "city": "N and W Colorado",
-    "counties": [],
+    "counties": [
+      "Larimer",
+      "Mesa",
+      "Weld"
+    ],
     "is_overlay": false,
     "timezone": "-7",
     "raw_description": "N and W Colorado (part of what used to be 303; see overlay 748)"
@@ -3274,7 +4374,13 @@
     "subdivision": "OR",
     "subdivision_name": "Oregon",
     "city": "Metropolitan Portland",
-    "counties": [],
+    "counties": [
+      "Clackamas",
+      "Marion",
+      "Multnomah",
+      "Washington",
+      "Yamhill"
+    ],
     "is_overlay": false,
     "timezone": "-8",
     "raw_description": "Oregon: Metropolitan Portland, Salem/Keizer area, incl Cricket Wireless (see 503; perm 10/1/00)"
@@ -3286,7 +4392,12 @@
     "subdivision": "TX",
     "subdivision_name": "Texas",
     "city": "Dallas Metro",
-    "counties": [],
+    "counties": [
+      "Collin",
+      "Dallas",
+      "Denton",
+      "Ellis"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "Texas: Dallas Metro (overlays 214/469)"
@@ -3298,7 +4409,12 @@
     "subdivision": "NJ",
     "subdivision_name": "New Jersey",
     "city": "Newark",
-    "counties": [],
+    "counties": [
+      "Bergen",
+      "Essex",
+      "Morris",
+      "Passaic"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "N New Jersey: Newark, Paterson, Morristown (see overlay 862; split from 201)"
@@ -3310,7 +4426,11 @@
     "subdivision": "MA",
     "subdivision_name": "Massachusetts",
     "city": "north of Boston to NH",
-    "counties": [],
+    "counties": [
+      "Essex",
+      "Middlesex",
+      "Worcester"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "Massachusetts: north of Boston to NH (see split 978 -- this is the northern half of old 508; see overlay 351)"
@@ -3322,7 +4442,10 @@
     "subdivision": "TX",
     "subdivision_name": "Texas",
     "city": "Bryan",
-    "counties": [],
+    "counties": [
+      "Brazoria",
+      "Brazos"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "SE Texas: Bryan, College Station, Bay City (split from 409, see also 936)"
@@ -3334,7 +4457,11 @@
     "subdivision": "LA",
     "subdivision_name": "Louisiana",
     "city": "SE/N shore of Lake Pontchartrain: Hammond",
-    "counties": [],
+    "counties": [
+      "St. John the Baptist",
+      "St. Tammany",
+      "Terrebonne"
+    ],
     "is_overlay": false,
     "timezone": "-6",
     "raw_description": "E Louisiana: SE/N shore of Lake Pontchartrain: Hammond, Slidell, Covington, Amite, Kentwood, area SW of New Orleans, Houma, Thibodaux, Morgan City (split from 504; perm 2/12/01; mand 10/22/01)"
@@ -3346,7 +4473,12 @@
     "subdivision": "MI",
     "subdivision_name": "Michigan",
     "city": "Mt Pleasant",
-    "counties": [],
+    "counties": [
+      "Bay",
+      "Isabella",
+      "Midland",
+      "Saginaw"
+    ],
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "Upper central Michigan: Mt Pleasant, Saginaw (split from 517; perm 4/7/01)"
