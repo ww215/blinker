@@ -8,7 +8,7 @@ Usage:
 
 Outputs:
     assets/maps/states/{STATE_ABBR}.png
-    assets/maps/counties/{STATE_ABBR}__{county_slug}.png
+    assets/maps/counties/{AREA_CODE}.png
 """
 import json
 import re
@@ -152,21 +152,26 @@ def main():
             polygons_from_geom(feat["geometry"])
         )
 
-    needed = set()
+    # --- county maps: one image per area code, highlighting every county
+    # that area code's cities fall in (not just a single county) ---
+    needed_by_npa: dict[str, list[str]] = {}
     for r in datamod.RECORDS:
-        for county in r.get("counties", []):
-            needed.add((r["subdivision"], county))
+        if r.get("counties"):
+            needed_by_npa[r["area_code"]] = r["subdivision"], r["counties"]
 
-    print(f"Generating {len(needed)} county maps...")
-    for abbr, county_name in sorted(needed):
+    print(f"Generating {len(needed_by_npa)} county maps (one per area code)...")
+    skipped = 0
+    for npa, (abbr, county_list) in sorted(needed_by_npa.items()):
         state_counties = county_rings_by_state.get(abbr, {})
-        if county_name not in state_counties:
-            print(f"  [skip] {abbr} / {county_name} not found in county geojson")
+        target_names = [c for c in county_list if c in state_counties]
+        if not target_names:
+            skipped += 1
             continue
-        out_path = OUT_COUNTIES / f"{abbr}__{slugify(county_name)}.png"
+
+        out_path = OUT_COUNTIES / f"{npa}.png"
         fig, ax = new_fig()
         for cname, rings in state_counties.items():
-            is_target = cname == county_name
+            is_target = cname in target_names
             color = COUNTY_HIGHLIGHT if is_target else BASE_COLOR
             edge = HIGHLIGHT_EDGE if is_target else BASE_EDGE
             zorder = 2 if is_target else 1
@@ -174,13 +179,12 @@ def main():
                 xs = [p[0] for p in ring]
                 ys = [p[1] for p in ring]
                 ax.fill(xs, ys, facecolor=color, edgecolor=edge, linewidth=0.25, zorder=zorder)
+
         all_rings = [ring for rings in state_counties.values() for ring in rings]
-        target_rings = state_counties[county_name]
-        # Zoom to the target county itself (with generous padding) rather
-        # than the whole state, otherwise a small county is an invisible
-        # speck. Fall back to a slightly wider crop if the county is tiny.
-        x0, x1, y0, y1 = bbox_of_rings(target_rings, pad_frac=1.2)
-        # keep the crop from exceeding the state's own extent
+        target_rings = [ring for name in target_names for ring in state_counties[name]]
+        # Zoom to the combined extent of the highlighted counties (with
+        # generous padding), capped to the state's own extent.
+        x0, x1, y0, y1 = bbox_of_rings(target_rings, pad_frac=0.6)
         sx0, sx1, sy0, sy1 = bbox_of_rings(all_rings, pad_frac=0.04)
         x0, x1 = max(x0, sx0), min(x1, sx1)
         y0, y1 = max(y0, sy0), min(y1, sy1)
@@ -189,6 +193,8 @@ def main():
         ax.set_aspect(1.3)
         save(fig, out_path)
 
+    if skipped:
+        print(f"  [skip] {skipped} area code(s) had counties not found in the county geojson")
     print(f"Saved county maps to {OUT_COUNTIES}")
 
 

@@ -118,3 +118,43 @@ def pick_distractors(correct: dict, pool: list[dict], value_fn, count: int) -> l
     candidates = list({value_fn(r) for r in pool if value_fn(r) != correct_value})
     random.shuffle(candidates)
     return candidates[:count]
+
+
+# ---------------------------------------------------------------------------
+# County pool \u2014 completely separate from the area-code pool above.
+# Flattened one row per (area_code, county) pair, e.g. area code 315 touching
+# 4 counties yields 4 separate county-pool rows all sharing that area code.
+# ---------------------------------------------------------------------------
+
+def get_county_records(subdivisions: Optional[list[str]] = None) -> list[dict]:
+    pool = filter_records(country="US", subdivisions=subdivisions)
+    out = []
+    for r in pool:
+        for county in r.get("counties") or []:
+            out.append({
+                "area_code": r["area_code"],
+                "county": county,
+                "subdivision": r["subdivision"],
+                "subdivision_name": r["subdivision_name"],
+                "country": r["country"],
+                "country_name": r["country_name"],
+            })
+    return out
+
+
+def county_label(cr: dict) -> str:
+    return f"{cr['county']} County, {cr['subdivision']}"
+
+
+def pick_random_county_record(
+    subdivisions: Optional[list[str]] = None,
+    exclude: Optional[tuple[str, str]] = None,
+) -> Optional[dict]:
+    pool = get_county_records(subdivisions)
+    if not pool:
+        return None
+    if exclude and len(pool) > 1:
+        narrowed = [r for r in pool if (r["area_code"], r["county"]) != exclude]
+        if narrowed:
+            pool = narrowed
+    return random.choice(pool)

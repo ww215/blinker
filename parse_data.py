@@ -72,6 +72,13 @@ def extract_city(desc: str, region: str) -> str:
 
 def main():
     county_names_by_state = us_geo.load_county_names_by_state()
+    geo_counties_by_npa = {}
+    geo_path = "mapdata/area_code_counties.json"
+    try:
+        with open(geo_path, encoding="utf-8") as f:
+            geo_counties_by_npa = json.load(f)
+    except FileNotFoundError:
+        print(f"WARNING: {geo_path} not found \u2014 run build_county_coverage.py first for full county coverage.")
 
     records = []
     with open("data/raw.txt", encoding="utf-8") as f:
@@ -116,11 +123,11 @@ def main():
                 continue
 
             overlay = is_overlay_row(desc)
-            counties = (
-                us_geo.extract_counties(desc, subdivision, county_names_by_state)
-                if country == "US" and subdivision
-                else []
-            )
+            counties = []
+            if country == "US" and subdivision:
+                text_counties = us_geo.extract_counties(desc, subdivision, county_names_by_state)
+                geo_matched = geo_counties_by_npa.get(area_code, [])
+                counties = sorted(set(text_counties) | set(geo_matched))
 
             rec = {
                 "area_code": area_code,

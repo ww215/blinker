@@ -1,20 +1,19 @@
-# Area Code Trivia Bot
+# Area Code & County Trivia Bot
 
-A Discord bot that teaches you US telephone area codes (Canada/Mexico/Caribbean
-support exists in the data pipeline but is switched off for now \u2014 see
-"US-only for now" below):
+A Discord bot that teaches you US telephone area codes **and** the counties
+they cover \u2014 as two completely separate tracks, each with their own
+trivia and quiz commands (Canada/Mexico/Caribbean support exists in the data
+pipeline but is switched off for now \u2014 see "US-only for now" below).
 
-- **Random trivia** — posts a random "did you know" fact about an area code
-  (with a small map!) to a chosen channel, at a random interval between
-  1 second and 3 hours.
-- **`/trivia`** — instantly posts one random trivia fact (doesn't affect the random schedule).
-- **`/setchannel`** — pick which channel the random trivia gets posted to.
-- **`/quiz`** — an interactive, continuing quiz on area codes.
-- **`/quizhistory`** — quiz yourself on the area codes this server has actually seen recently.
-- **`/recenttrivia`** — list what's been sent lately.
-- Every trivia/quiz message includes a small, low-res map highlighting the
-  relevant state (and county, when we can confidently tell which one from
-  the source data).
+- **Random trivia** — posts a random fact to a chosen channel at a random
+  interval between 1 second and 3 hours. Each time it fires, it randomly
+  picks **either** an area-code fact **or** a county fact.
+- **Area code track:** `/trivia`, `/quiz`, `/quizhistory`, `/recenttrivia`
+- **County track:** `/countytrivia`, `/countyquiz`, `/countyquizhistory`, `/countyrecenttrivia`
+- **`/setchannel`** — pick which channel the random trivia gets posted to (applies to both tracks).
+- Every trivia/quiz message includes a small, low-res map: the area-code
+  track always shows the state; the county track zooms in and highlights
+  the specific county/counties.
 
 ## Setup
 
@@ -51,67 +50,97 @@ appear the very first time, depending on Discord's cache).
 ### `/setchannel [channel]`
 Sets the channel where random trivia messages will be posted (requires
 "Manage Server" permission). Defaults to the channel the command is run in.
+Applies to **both** tracks \u2014 each scheduled post randomly picks area
+code or county.
 
-### `/trivia`
-Immediately posts one random area-code trivia fact to the current channel.
+### Area code track
 
-### `/quiz`
-Starts an interactive quiz question. Parameters:
+**`/trivia`** — immediately posts one random area-code trivia fact.
+
+**`/quiz`** — interactive area-code quiz. Parameters:
 
 | Parameter      | Required | Description |
 |----------------|----------|-------------|
 | `mode`         | yes | **"Bot shows an area code → you guess the place"** or **"Bot shows a place → you guess the area code"** |
-| `country`      | yes | Country to quiz on (autocompletes as you type: US, Canada, Mexico, Bahamas, Jamaica, ...) |
+| `country`      | yes | Country to quiz on (currently US-only, see below) |
 | `answer_mode`  | yes | **"Type your answer in chat"** or **"Pick from multiple-choice buttons"** |
-| `subdivisions` | no  | Comma-separated states/provinces to restrict to, e.g. `NY, CA, TX` (autocompletes; 2-letter codes for US states / Canadian provinces) |
-| `num_options`  | no  | Number of multiple-choice buttons to show (2–8, default 4). Only used when `answer_mode` is buttons. |
+| `subdivisions` | no  | Comma-separated states to restrict to, e.g. `NY, CA, TX` (autocompletes) |
+| `num_options`  | no  | Number of multiple-choice buttons (2–8, default 4). Buttons mode only. |
+
+**`/quizhistory`** — same as `/quiz`, but pulls only from area codes actually
+sent as trivia in this server recently. Parameters: `mode`, `answer_mode`, `num_options`.
+
+**`/recenttrivia [count]`** — lists the most recently sent **area-code**
+trivia facts (default 10, max 25), newest first.
+
+### County track
+
+**`/countytrivia`** — immediately posts one random county trivia fact.
+
+**`/countyquiz`** — interactive county quiz. Parameters:
+
+| Parameter      | Required | Description |
+|----------------|----------|-------------|
+| `mode`         | yes | **"Bot shows an area code → you guess the county"** or **"Bot shows a county → you guess the area code"** |
+| `answer_mode`  | yes | **"Type your answer in chat"** or **"Pick from multiple-choice buttons"** |
+| `subdivisions` | no  | Comma-separated states to restrict to, e.g. `NY, CA, TX` (autocompletes) |
+| `num_options`  | no  | Number of multiple-choice buttons (2–8, default 4). Buttons mode only. |
+
+**`/countyquizhistory`** — same as `/countyquiz`, but pulls only from
+counties actually sent as trivia in this server recently.
+
+**`/countyrecenttrivia [count]`** — lists the most recently sent **county**
+trivia facts (default 10, max 25), newest first.
+
+### Both quiz commands work the same way
 
 Examples (type these plainly into Discord's slash command fields — no
 quote marks needed, Discord's own field separates each parameter):
 - `/quiz mode:Bot shows an area code -> you guess the place country:US subdivisions:NY, NJ, CT answer_mode:Type your answer in chat`
-- `/quiz mode:Bot shows a place -> you guess the area code country:Canada answer_mode:Pick from multiple-choice buttons num_options:6`
+- `/countyquiz mode:Bot shows a county -> you guess the area code answer_mode:Pick from multiple-choice buttons num_options:6`
 
 (If you do paste a value wrapped in quotes by habit, e.g. `"NY, NJ, CT"`,
 the bot strips stray quote characters automatically so it still works.)
 
-### `/quizhistory`
-Same as `/quiz`, but pulls questions only from the area codes that have
-actually been sent as trivia in this server recently (auto trivia + `/trivia`
-both feed this history). Great for "quiz me on what you've already taught
-me." Parameters: `mode`, `answer_mode`, `num_options` — no country/subdivision
-filter, since it's scoped to your server's own history already.
-
-### `/recenttrivia [count]`
-Lists the most recently sent trivia facts in this server (default 10, max 25),
-newest first, with a "how long ago" timestamp.
+Every quiz keeps going after each question \u2014 do nothing for 3 seconds
+and a new question (same settings) fires automatically. Send `.` in that
+window to stop, or append `.` to a typed answer (e.g. `907.`) to answer and
+stop in one message. Correct-answer streaks are tracked per player and shown
+(with a ping) on every result.
 
 ## Maps
 
 Every trivia fact and quiz question comes with a small (320x200, low-res —
 deliberately, per request) PNG map:
-- Normally it's the US highlighted with the relevant **state** colored in.
-- For the ~20 area codes where the original source text explicitly names a
-  **county** (e.g. "Nassau County, Long Island"), the map instead zooms into
-  that state and highlights the matched county too. This is intentionally
-  conservative: we only highlight a county when it's *named* in the data, we
-  never guess one from a city name, so most questions will just show the
-  state.
-- Alaska, Hawaii, and Puerto Rico get their own solo zoomed map since they're
-  nowhere near the mainland US map.
+- **Area code track:** always the US with the relevant **state** highlighted.
+- **County track:** zoomed into that state, highlighting **every county the
+  area code actually touches** (not just one). This isn't guessed from a
+  city name \u2014 it's built by taking every city NANPA lists for that area
+  code (`mapdata/us-area-code-cities.csv`) and testing each one's real
+  coordinates against actual county polygons (point-in-polygon), so an area
+  code spanning 6 counties shows all 6, highlighted together. Coverage:
+  **265 of 275 area codes (96%)**; the rest (rare/overlay/territory codes
+  not in that source data) fall back to the plain state map.
+- Alaska, Hawaii, and Puerto Rico get their own solo zoomed state map since
+  they're nowhere near the mainland US map.
 
 Maps are **pre-generated, static files** in `assets/maps/` (not rendered at
 runtime), so the bot itself has no extra dependency (matplotlib is only
-needed to *build* them). If you edit `data/raw.txt` and re-run
-`parse_data.py`, also re-run:
+needed to *build* them). If you edit `data/raw.txt` and want to regenerate
+everything from scratch:
 
 ```bash
 pip install matplotlib
-python generate_maps.py
+python build_county_coverage.py   # (re)builds mapdata/area_code_counties.json
+python parse_data.py              # rebuilds data/area_codes.json with counties
+python generate_maps.py           # rebuilds assets/maps/*.png
 ```
 
-This regenerates `assets/maps/states/*.png` and `assets/maps/counties/*.png`
-from `mapdata/us-states.json` and `mapdata/us-counties.json` (bundled;
-sourced from public GeoJSON on GitHub).
+Data sources (all bundled in `mapdata/`, all public):
+- `us-states.json`, `us-counties.json` \u2014 state/county boundary GeoJSON.
+- `us-area-code-cities.csv` \u2014 NANPA-derived city list per area code
+  (from the `ravisorg/Area-Code-Geolocation-Database` GitHub project), used
+  to figure out which counties an area code actually reaches.
 
 ## US-only for now
 

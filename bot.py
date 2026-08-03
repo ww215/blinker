@@ -27,24 +27,52 @@ bot = commands.Bot(command_prefix="!", intents=INTENTS)
 # guild_id -> next scheduled UTC datetime for a random trivia message
 _next_fire: dict[int, datetime] = {}
 
-# user_id -> current correct-answer streak (in-memory, resets on bot restart)
+# user_id -> current correct-answer streak (in-memory, resets on bot restart).
+# Shared across area-code and county quizzes on purpose (it's "your" streak).
 STREAKS: dict[int, int] = {}
 
-# (user_id, channel_id) currently running a /quiz loop, to stop double-starts
+# (user_id, channel_id) currently running a quiz loop, to stop double-starts.
+# Shared between /quiz and /countyquiz so you can't run two at once in a channel.
 ACTIVE_SESSIONS: set[tuple[int, int]] = set()
 
 DOT = "."
 
-FACT_TEMPLATES = [
+MODE_CHOICES_AREACODE = [
+    app_commands.Choice(name="Bot shows an area code \u2192 you guess the place", value="code_to_place"),
+    app_commands.Choice(name="Bot shows a place \u2192 you guess the area code", value="place_to_code"),
+]
+MODE_CHOICES_COUNTY = [
+    app_commands.Choice(name="Bot shows an area code \u2192 you guess the county", value="code_to_county"),
+    app_commands.Choice(name="Bot shows a county \u2192 you guess the area code", value="county_to_code"),
+]
+ANSWER_MODE_CHOICES = [
+    app_commands.Choice(name="Type your answer in chat", value="typed"),
+    app_commands.Choice(name="Pick from multiple-choice buttons", value="buttons"),
+]
+
+
+# ---------------------------------------------------------------------------
+# Fact messages (the passive "trivia" text) \u2014 area code and county are
+# completely separate templates/builders.
+# ---------------------------------------------------------------------------
+
+AREACODE_FACT_TEMPLATES = [
     "📞 Did you know? Area code **{code}** serves **{place}** ({country}).",
     "📍 Area code **{code}** belongs to **{place}**, in {country}.",
     "🗺️ If you see area code **{code}**, the call is probably from **{place}** ({country}).",
     "🔎 Trivia: **{place}** ({country}) uses area code **{code}**.",
 ]
 
+COUNTY_FACT_TEMPLATES = [
+    "🗺️ Did you know? **{county} County, {state}** is served by area code **{code}**.",
+    "📍 **{county} County** ({state}) \u2014 dial area code **{code}** to reach it.",
+    "🔎 Trivia: area code **{code}** covers **{county} County, {state}**.",
+    "📞 **{county} County, {state}** falls under area code **{code}**.",
+]
 
-def build_fact_message(record: dict) -> str:
-    template = random.choice(FACT_TEMPLATES)
+
+def build_areacode_fact_message(record: dict) -> str:
+    template = random.choice(AREACODE_FACT_TEMPLATES)
     return template.format(
         code=record["area_code"],
         place=data.location_label(record),
@@ -52,25 +80,39 @@ def build_fact_message(record: dict) -> str:
     )
 
 
-def get_map_file(record: dict) -> Optional[discord.File]:
-    """Returns a small, low-res highlight map for a record's state (or its
-    county, if we confidently matched one from the source text), as a fresh
-    discord.File \u2014 or None if no map asset exists for it (e.g. a US
-    territory not covered by the states GeoJSON)."""
+def build_county_fact_message(cr: dict) -> str:
+    template = random.choice(COUNTY_FACT_TEMPLATES)
+    return template.format(
+        code=cr["area_code"],
+        county=cr["county"],
+        state=cr["subdivision"],
+    )
+
+
+def get_state_map_file(record: dict) -> Optional[discord.File]:
+    """Small low-res US map highlighting the record's state. Used by the
+    area-code track only \u2014 never zooms to a county."""
     subdivision = record.get("subdivision")
     if not subdivision:
         return None
-
-    counties = record.get("counties") or []
-    if counties:
-        slug = us_geo.slugify(counties[0])
-        path = MAPS_DIR / "counties" / f"{subdivision}__{slug}.png"
-        if path.exists():
-            return discord.File(path, filename=f"map_{subdivision}_{slug}.png")
-
     path = MAPS_DIR / "states" / f"{subdivision}.png"
     if path.exists():
         return discord.File(path, filename=f"map_{subdivision}.png")
+    return None
+
+
+def get_county_map_file(cr: dict) -> Optional[discord.File]:
+    """Small low-res map zoomed into the state, highlighting every county
+    that area code touches (used by the county track). Falls back to the
+    plain state map if no county-specific asset exists."""
+    path = MAPS_DIR / "counties" / f"{cr['area_code']}.png"
+    if path.exists():
+        return discord.File(path, filename=f"map_{cr['area_code']}_county.png")
+    subdivision = cr.get("subdivision")
+    if subdivision:
+        state_path = MAPS_DIR / "states" / f"{subdivision}.png"
+        if state_path.exists():
+            return discord.File(state_path, filename=f"map_{subdivision}.png")
     return None
 
 
@@ -88,11 +130,8 @@ async def country_autocomplete(interaction: discord.Interaction, current: str):
 
 
 async def subdivisions_autocomplete(interaction: discord.Interaction, current: str):
-    country_key = interaction.namespace.country
+    country_key = getattr(interaction.namespace, "country", None) or "US"
 
-    # support comma-separated lists: only autocomplete the last fragment.
-    # Also strip stray quote chars (e.g. someone pasted '"NY, NJ, C' from an
-    # example that had quotes around it) so they don't kill the match.
     current = current.strip().strip(data.QUOTE_CHARS)
     prefix = ""
     fragment = current
@@ -101,12 +140,9 @@ async def subdivisions_autocomplete(interaction: discord.Interaction, current: s
         prefix = data.clean_token(head) + ", "
     fragment = data.clean_token(fragment).lower()
 
-    if country_key and country_key in data.COUNTRIES_WITH_SUBDIVISIONS:
+    if country_key in data.COUNTRIES_WITH_SUBDIVISIONS:
         subs = data.get_subdivisions(country_key)
     else:
-        # country not picked yet (Discord doesn't guarantee fill order) \u2014
-        # fall back to suggestions from every country that has subdivisions
-        # so the field is never dead/empty.
         seen = {}
         for c in data.COUNTRIES_WITH_SUBDIVISIONS:
             for code, name in data.get_subdivisions(c):
@@ -126,7 +162,7 @@ async def subdivisions_autocomplete(interaction: discord.Interaction, current: s
 
 
 # ---------------------------------------------------------------------------
-# Quiz answer UI (button mode)
+# Quiz answer UI (button mode) \u2014 shared by both tracks
 # ---------------------------------------------------------------------------
 
 class QuizButton(discord.ui.Button):
@@ -138,7 +174,7 @@ class QuizButton(discord.ui.Button):
     async def callback(self, interaction: discord.Interaction):
         if interaction.user.id != self.quiz_view.asker_id:
             await interaction.response.send_message(
-                "This quiz question isn't for you \u2014 start your own with /quiz!", ephemeral=True
+                "This quiz question isn't for you \u2014 start your own!", ephemeral=True
             )
             return
 
@@ -176,33 +212,8 @@ class QuizView(discord.ui.View):
 
 
 # ---------------------------------------------------------------------------
-# Quiz helpers (question building, grading, streaks, continuation)
+# Shared small helpers
 # ---------------------------------------------------------------------------
-
-def build_question(mode_value: str, record: dict, context_note: str = ""):
-    suffix = f" {context_note}" if context_note else ""
-    if mode_value == "code_to_place":
-        question_text = f"📞 Which place uses area code **{record['area_code']}**?{suffix}"
-        correct_label = data.location_label(record)
-        value_fn = data.location_label
-    else:
-        question_text = f"📍 What is the area code for **{data.location_label(record)}**?{suffix}"
-        correct_label = record["area_code"]
-        value_fn = lambda r: r["area_code"]
-    return question_text, correct_label, value_fn
-
-
-def grade_typed_answer(mode_value: str, record: dict, answer_text: str) -> bool:
-    answer = answer_text.strip().lower()
-    if mode_value == "code_to_place":
-        acceptable = {record["city"].lower()}
-        if record["subdivision"]:
-            acceptable.add(record["subdivision"].lower())
-            acceptable.add(record["subdivision_name"].lower())
-        acceptable.add(record["country_name"].lower())
-        return any(a in answer or answer in a for a in acceptable if a)
-    return answer.replace(" ", "") == record["area_code"].replace(" ", "")
-
 
 def bump_streak(user_id: int, is_correct: bool) -> int:
     if is_correct:
@@ -212,12 +223,12 @@ def bump_streak(user_id: int, is_correct: bool) -> int:
     return STREAKS[user_id]
 
 
-def pick_random_from_list(records: list[dict], exclude_area_code: Optional[str] = None) -> Optional[dict]:
+def pick_random_from_list(records: list[dict], exclude_key=None, key_fn=lambda r: r["area_code"]):
     if not records:
         return None
     pool = records
-    if exclude_area_code and len(pool) > 1:
-        narrowed = [r for r in pool if r["area_code"] != exclude_area_code]
+    if exclude_key is not None and len(pool) > 1:
+        narrowed = [r for r in pool if key_fn(r) != exclude_key]
         if narrowed:
             pool = narrowed
     return random.choice(pool)
@@ -257,59 +268,92 @@ async def wait_for_dot(user_id: int, channel_id: int, timeout: float) -> bool:
 
 
 # ---------------------------------------------------------------------------
-# Slash commands
+# Area-code question building/grading
 # ---------------------------------------------------------------------------
 
-@bot.event
-async def on_ready():
-    await bot.tree.sync()
-    if not trivia_loop.is_running():
-        trivia_loop.start()
-    print(f"Logged in as {bot.user} ({bot.user.id})")
-
-
-@bot.tree.command(name="setchannel", description="Set the channel where random area code trivia will be posted.")
-@app_commands.describe(channel="Channel to post trivia in (defaults to the current channel)")
-@app_commands.checks.has_permissions(manage_guild=True)
-async def setchannel(interaction: discord.Interaction, channel: Optional[discord.TextChannel] = None):
-    target = channel or interaction.channel
-    storage.set_trivia_channel(interaction.guild_id, target.id)
-    _next_fire[interaction.guild_id] = datetime.now(timezone.utc) + timedelta(
-        seconds=random.uniform(MIN_INTERVAL_SECONDS, MAX_INTERVAL_SECONDS)
-    )
-    await interaction.response.send_message(f"✅ Random area code trivia will now be posted in {target.mention}.")
-
-
-@bot.tree.command(name="trivia", description="Post a random area code trivia message right now.")
-async def trivia(interaction: discord.Interaction):
-    record = data.pick_random_record()
-    if interaction.guild_id:
-        storage.add_trivia_history(interaction.guild_id, record)
-    map_file = get_map_file(record)
-    if map_file:
-        await interaction.response.send_message(build_fact_message(record), file=map_file)
+def build_areacode_question(mode_value: str, record: dict, context_note: str = ""):
+    suffix = f" {context_note}" if context_note else ""
+    if mode_value == "code_to_place":
+        question_text = f"📞 Which place uses area code **{record['area_code']}**?{suffix}"
+        correct_label = data.location_label(record)
+        value_fn = data.location_label
     else:
-        await interaction.response.send_message(build_fact_message(record))
+        question_text = f"📍 What is the area code for **{data.location_label(record)}**?{suffix}"
+        correct_label = record["area_code"]
+        value_fn = lambda r: r["area_code"]
+    return question_text, correct_label, value_fn
 
+
+def grade_areacode_answer(mode_value: str, record: dict, answer_text: str) -> bool:
+    answer = answer_text.strip().lower()
+    if mode_value == "code_to_place":
+        acceptable = {record["city"].lower()}
+        if record["subdivision"]:
+            acceptable.add(record["subdivision"].lower())
+            acceptable.add(record["subdivision_name"].lower())
+        acceptable.add(record["country_name"].lower())
+        return any(a in answer or answer in a for a in acceptable if a)
+    return answer.replace(" ", "") == record["area_code"].replace(" ", "")
+
+
+# ---------------------------------------------------------------------------
+# County question building/grading
+# ---------------------------------------------------------------------------
+
+def build_county_question(mode_value: str, cr: dict, context_note: str = ""):
+    suffix = f" {context_note}" if context_note else ""
+    if mode_value == "code_to_county":
+        question_text = f"🗺️ Which county does area code **{cr['area_code']}** cover?{suffix}"
+        correct_label = data.county_label(cr)
+        value_fn = data.county_label
+    else:
+        question_text = f"📞 What area code covers **{data.county_label(cr)}**?{suffix}"
+        correct_label = cr["area_code"]
+        value_fn = lambda r: r["area_code"]
+    return question_text, correct_label, value_fn
+
+
+def grade_county_answer(mode_value: str, cr: dict, answer_text: str) -> bool:
+    answer = answer_text.strip().lower()
+    if mode_value == "code_to_county":
+        acceptable = {
+            cr["county"].lower(),
+            f"{cr['county']} county".lower(),
+            cr["subdivision"].lower(),
+            cr["subdivision_name"].lower(),
+        }
+        return any(a in answer or answer in a for a in acceptable if a)
+    return answer.replace(" ", "") == cr["area_code"].replace(" ", "")
+
+
+# ---------------------------------------------------------------------------
+# Generic continuing quiz session engine \u2014 shared by the area-code and
+# county tracks. Every track-specific bit (how to build a question, how to
+# grade it, which map to attach, how to pick the next record) is passed in.
+# ---------------------------------------------------------------------------
 
 async def run_quiz_session(
     interaction: discord.Interaction,
     mode_value: str,
     answer_mode_value: str,
     num_options: int,
-    get_record,            # callable(exclude_area_code) -> Optional[dict]
-    get_distractor_pool,   # callable() -> list[dict]
-    get_broadened_pool,    # callable() -> list[dict]  (fallback when the primary pool is too small)
+    get_record,             # callable(exclude_key) -> Optional[dict]
+    record_key_fn,          # callable(record) -> Hashable, identifies a record for exclusion
+    question_builder,       # callable(mode_value, record, context_note) -> (text, correct_label, value_fn)
+    grader,                 # callable(mode_value, record, answer_text) -> bool
+    map_file_fn,            # callable(record) -> Optional[discord.File]
+    get_distractor_pool,    # callable() -> list[dict]
+    get_broadened_pool,     # callable() -> list[dict]  (fallback when the primary pool is too small)
     broaden_label: str,
     empty_message: str,
-    context_note_fn,       # callable(record) -> str
+    context_note_fn,        # callable(record) -> str
 ):
     """
     Runs a continuing quiz session: after each question is resolved, the bot
     waits 3 seconds \u2014 do nothing and a new question with the same
     settings fires automatically; send '.' in that window to stop. You can
     also stop right when answering by appending '.' to your typed answer
-    (e.g. '907.'). Shared by /quiz and /quizhistory.
+    (e.g. '907.').
     """
     session_key = (interaction.user.id, interaction.channel_id)
     if session_key in ACTIVE_SESSIONS:
@@ -323,20 +367,19 @@ async def run_quiz_session(
     ACTIVE_SESSIONS.add(session_key)
     try:
         first = True
-        last_area_code = None
+        last_key = None
         while True:
-            record = get_record(last_area_code)
+            record = get_record(last_key)
             if record is None:
                 if first:
                     await interaction.response.send_message(empty_message, ephemeral=True)
                 else:
                     await interaction.channel.send(empty_message)
                 return
-            last_area_code = record["area_code"]
+            last_key = record_key_fn(record)
 
-            question_text, correct_label, value_fn = build_question(mode_value, record, context_note_fn(record))
-            if record.get("counties"):
-                question_text += f"\n🗺️ _(map also highlights {', '.join(record['counties'])} County)_"
+            question_text, correct_label, value_fn = question_builder(mode_value, record, context_note_fn(record))
+            map_file = map_file_fn(record)
 
             try:
                 if answer_mode_value == "buttons":
@@ -352,7 +395,6 @@ async def run_quiz_session(
 
                     view = QuizView(user.id, options, correct_index, timeout=30)
                     full_question = question_text + widened_note
-                    map_file = get_map_file(record)
 
                     if first:
                         if map_file:
@@ -396,9 +438,8 @@ async def run_quiz_session(
                     await interaction.channel.send(format_result(user, view.answered, correct_label, streak))
 
                 else:  # typed
-                    hint = "add a `.` to answer and end at the same time, e.g. `907.`" if mode_value == "place_to_code" else "add a `.` after your answer to end, e.g. `New York.`"
+                    hint = "add a `.` after your answer to end, e.g. `907.`"
                     prompt = f"{question_text}\n_(30 seconds to answer \u2014 {hint})_"
-                    map_file = get_map_file(record)
                     if first:
                         if map_file:
                             await interaction.response.send_message(prompt, file=map_file)
@@ -432,7 +473,7 @@ async def run_quiz_session(
                     end_now = content.endswith(DOT)
                     answer_text = content[:-1].strip() if end_now else content
 
-                    is_correct = grade_typed_answer(mode_value, record, answer_text)
+                    is_correct = grader(mode_value, record, answer_text)
                     streak = bump_streak(user.id, is_correct)
                     await msg.reply(format_result(user, is_correct, correct_label, streak))
 
@@ -462,6 +503,48 @@ async def run_quiz_session(
         ACTIVE_SESSIONS.discard(session_key)
 
 
+# ---------------------------------------------------------------------------
+# Lifecycle / setup commands
+# ---------------------------------------------------------------------------
+
+@bot.event
+async def on_ready():
+    await bot.tree.sync()
+    if not trivia_loop.is_running():
+        trivia_loop.start()
+    print(f"Logged in as {bot.user} ({bot.user.id})")
+
+
+@bot.tree.command(name="setchannel", description="Set the channel where random trivia (area code + county, mixed randomly) will be posted.")
+@app_commands.describe(channel="Channel to post trivia in (defaults to the current channel)")
+@app_commands.checks.has_permissions(manage_guild=True)
+async def setchannel(interaction: discord.Interaction, channel: Optional[discord.TextChannel] = None):
+    target = channel or interaction.channel
+    storage.set_trivia_channel(interaction.guild_id, target.id)
+    _next_fire[interaction.guild_id] = datetime.now(timezone.utc) + timedelta(
+        seconds=random.uniform(MIN_INTERVAL_SECONDS, MAX_INTERVAL_SECONDS)
+    )
+    await interaction.response.send_message(
+        f"✅ Random trivia (area codes and counties, picked randomly) will now be posted in {target.mention}."
+    )
+
+
+# ---------------------------------------------------------------------------
+# Area-code track: /trivia, /quiz, /quizhistory, /recenttrivia
+# ---------------------------------------------------------------------------
+
+@bot.tree.command(name="trivia", description="Post a random AREA CODE trivia message right now.")
+async def trivia(interaction: discord.Interaction):
+    record = data.pick_random_record()
+    if interaction.guild_id:
+        storage.add_trivia_history(interaction.guild_id, "areacode", record)
+    map_file = get_state_map_file(record)
+    if map_file:
+        await interaction.response.send_message(build_areacode_fact_message(record), file=map_file)
+    else:
+        await interaction.response.send_message(build_areacode_fact_message(record))
+
+
 @bot.tree.command(name="quiz", description="Quiz yourself on area codes.")
 @app_commands.describe(
     mode="What the bot shows vs. what you have to guess",
@@ -470,16 +553,7 @@ async def run_quiz_session(
     answer_mode="How you answer the question",
     num_options="Number of choices to show (buttons mode only, default 4)",
 )
-@app_commands.choices(
-    mode=[
-        app_commands.Choice(name="Bot shows an area code \u2192 you guess the place", value="code_to_place"),
-        app_commands.Choice(name="Bot shows a place \u2192 you guess the area code", value="place_to_code"),
-    ],
-    answer_mode=[
-        app_commands.Choice(name="Type your answer in chat", value="typed"),
-        app_commands.Choice(name="Pick from multiple-choice buttons", value="buttons"),
-    ],
-)
+@app_commands.choices(mode=MODE_CHOICES_AREACODE, answer_mode=ANSWER_MODE_CHOICES)
 @app_commands.autocomplete(country=country_autocomplete, subdivisions=subdivisions_autocomplete)
 async def quiz(
     interaction: discord.Interaction,
@@ -499,6 +573,10 @@ async def quiz(
         answer_mode_value=answer_mode.value,
         num_options=num_options,
         get_record=lambda excl: data.pick_random_record(country=country, subdivisions=sub_list, exclude_area_code=excl),
+        record_key_fn=lambda r: r["area_code"],
+        question_builder=build_areacode_question,
+        grader=grade_areacode_answer,
+        map_file_fn=get_state_map_file,
         get_distractor_pool=lambda: data.filter_records(country=country, subdivisions=sub_list),
         get_broadened_pool=lambda: data.filter_records(country=country),
         broaden_label=f"all of {country_name}",
@@ -516,16 +594,7 @@ async def quiz(
     answer_mode="How you answer the question",
     num_options="Number of choices to show (buttons mode only, default 4)",
 )
-@app_commands.choices(
-    mode=[
-        app_commands.Choice(name="Bot shows an area code \u2192 you guess the place", value="code_to_place"),
-        app_commands.Choice(name="Bot shows a place \u2192 you guess the area code", value="place_to_code"),
-    ],
-    answer_mode=[
-        app_commands.Choice(name="Type your answer in chat", value="typed"),
-        app_commands.Choice(name="Pick from multiple-choice buttons", value="buttons"),
-    ],
-)
+@app_commands.choices(mode=MODE_CHOICES_AREACODE, answer_mode=ANSWER_MODE_CHOICES)
 async def quizhistory(
     interaction: discord.Interaction,
     mode: app_commands.Choice[str],
@@ -533,36 +602,40 @@ async def quizhistory(
     num_options: Optional[app_commands.Range[int, 2, 8]] = 4,
 ):
     guild_id = interaction.guild_id
-    history_records = [e["record"] for e in storage.get_trivia_history(guild_id)] if guild_id else []
+    history_records = [e["record"] for e in storage.get_trivia_history(guild_id, kind="areacode")] if guild_id else []
 
     await run_quiz_session(
         interaction,
         mode_value=mode.value,
         answer_mode_value=answer_mode.value,
         num_options=num_options,
-        get_record=lambda excl: pick_random_from_list(history_records, excl),
+        get_record=lambda excl: pick_random_from_list(history_records, excl, key_fn=lambda r: r["area_code"]),
+        record_key_fn=lambda r: r["area_code"],
+        question_builder=build_areacode_question,
+        grader=grade_areacode_answer,
+        map_file_fn=get_state_map_file,
         get_distractor_pool=lambda: history_records,
         get_broadened_pool=lambda: data.filter_records(),
         broaden_label="the full area code dataset",
         empty_message=(
-            "No trivia has been sent in this server yet \u2014 wait for a random fact "
+            "No area code trivia has been sent in this server yet \u2014 wait for a random fact "
             "(or run `/trivia` a few times) before quizzing on history."
         ),
         context_note_fn=lambda r: "_(from recently sent trivia)_",
     )
 
 
-@bot.tree.command(name="recenttrivia", description="Show the most recently sent area code trivia facts in this server.")
+@bot.tree.command(name="recenttrivia", description="Show the most recently sent AREA CODE trivia facts in this server.")
 @app_commands.describe(count="How many to show (default 10, max 25)")
 async def recenttrivia(
     interaction: discord.Interaction,
     count: Optional[app_commands.Range[int, 1, 25]] = 10,
 ):
     guild_id = interaction.guild_id
-    history = storage.get_trivia_history(guild_id) if guild_id else []
+    history = storage.get_trivia_history(guild_id, kind="areacode") if guild_id else []
     if not history:
         await interaction.response.send_message(
-            "No trivia has been sent in this server yet. Set a channel with `/setchannel` "
+            "No area code trivia has been sent in this server yet. Set a channel with `/setchannel` "
             "or post one now with `/trivia`.",
             ephemeral=True,
         )
@@ -577,15 +650,135 @@ async def recenttrivia(
         ago = humanize_delta(now - sent_at)
         lines.append(f"📞 **{r['area_code']}** \u2014 {data.location_label(r)} ({r['country_name']}) \u2014 {ago} ago")
 
-    await interaction.response.send_message("🕘 **Recently sent trivia:**\n" + "\n".join(lines))
+    await interaction.response.send_message("🕘 **Recently sent area code trivia:**\n" + "\n".join(lines))
 
 
 # ---------------------------------------------------------------------------
-# Background random trivia loop
+# County track: /countytrivia, /countyquiz, /countyquizhistory, /countyrecenttrivia
+# ---------------------------------------------------------------------------
+
+@bot.tree.command(name="countytrivia", description="Post a random COUNTY trivia message right now.")
+async def countytrivia(interaction: discord.Interaction):
+    cr = data.pick_random_county_record()
+    if cr is None:
+        await interaction.response.send_message("No county data available yet.", ephemeral=True)
+        return
+    if interaction.guild_id:
+        storage.add_trivia_history(interaction.guild_id, "county", cr)
+    map_file = get_county_map_file(cr)
+    if map_file:
+        await interaction.response.send_message(build_county_fact_message(cr), file=map_file)
+    else:
+        await interaction.response.send_message(build_county_fact_message(cr))
+
+
+@bot.tree.command(name="countyquiz", description="Quiz yourself on US counties and which area code covers them.")
+@app_commands.describe(
+    mode="What the bot shows vs. what you have to guess",
+    subdivisions="Optional: comma-separated states to include, e.g. NY, CA, TX (you can list as many as you want)",
+    answer_mode="How you answer the question",
+    num_options="Number of choices to show (buttons mode only, default 4)",
+)
+@app_commands.choices(mode=MODE_CHOICES_COUNTY, answer_mode=ANSWER_MODE_CHOICES)
+@app_commands.autocomplete(subdivisions=subdivisions_autocomplete)
+async def countyquiz(
+    interaction: discord.Interaction,
+    mode: app_commands.Choice[str],
+    answer_mode: app_commands.Choice[str],
+    subdivisions: Optional[str] = None,
+    num_options: Optional[app_commands.Range[int, 2, 8]] = 4,
+):
+    sub_list = [data.clean_token(s) for s in subdivisions.split(",")] if subdivisions else None
+
+    await run_quiz_session(
+        interaction,
+        mode_value=mode.value,
+        answer_mode_value=answer_mode.value,
+        num_options=num_options,
+        get_record=lambda excl: data.pick_random_county_record(subdivisions=sub_list, exclude=excl),
+        record_key_fn=lambda r: (r["area_code"], r["county"]),
+        question_builder=build_county_question,
+        grader=grade_county_answer,
+        map_file_fn=get_county_map_file,
+        get_distractor_pool=lambda: data.get_county_records(subdivisions=sub_list),
+        get_broadened_pool=lambda: data.get_county_records(),
+        broaden_label="all covered counties",
+        empty_message="No county data matches that filter. Try different states, or leave it blank for all of the US.",
+        context_note_fn=lambda r: "",
+    )
+
+
+@bot.tree.command(
+    name="countyquizhistory",
+    description="Quiz yourself using the counties recently sent as trivia in this server.",
+)
+@app_commands.describe(
+    mode="What the bot shows vs. what you have to guess",
+    answer_mode="How you answer the question",
+    num_options="Number of choices to show (buttons mode only, default 4)",
+)
+@app_commands.choices(mode=MODE_CHOICES_COUNTY, answer_mode=ANSWER_MODE_CHOICES)
+async def countyquizhistory(
+    interaction: discord.Interaction,
+    mode: app_commands.Choice[str],
+    answer_mode: app_commands.Choice[str],
+    num_options: Optional[app_commands.Range[int, 2, 8]] = 4,
+):
+    guild_id = interaction.guild_id
+    history_records = [e["record"] for e in storage.get_trivia_history(guild_id, kind="county")] if guild_id else []
+
+    await run_quiz_session(
+        interaction,
+        mode_value=mode.value,
+        answer_mode_value=answer_mode.value,
+        num_options=num_options,
+        get_record=lambda excl: pick_random_from_list(history_records, excl, key_fn=lambda r: (r["area_code"], r["county"])),
+        record_key_fn=lambda r: (r["area_code"], r["county"]),
+        question_builder=build_county_question,
+        grader=grade_county_answer,
+        map_file_fn=get_county_map_file,
+        get_distractor_pool=lambda: history_records,
+        get_broadened_pool=lambda: data.get_county_records(),
+        broaden_label="all covered counties",
+        empty_message=(
+            "No county trivia has been sent in this server yet \u2014 wait for a random fact "
+            "(or run `/countytrivia` a few times) before quizzing on history."
+        ),
+        context_note_fn=lambda r: "_(from recently sent trivia)_",
+    )
+
+
+@bot.tree.command(name="countyrecenttrivia", description="Show the most recently sent COUNTY trivia facts in this server.")
+@app_commands.describe(count="How many to show (default 10, max 25)")
+async def countyrecenttrivia(
+    interaction: discord.Interaction,
+    count: Optional[app_commands.Range[int, 1, 25]] = 10,
+):
+    guild_id = interaction.guild_id
+    history = storage.get_trivia_history(guild_id, kind="county") if guild_id else []
+    if not history:
+        await interaction.response.send_message(
+            "No county trivia has been sent in this server yet. Set a channel with `/setchannel` "
+            "or post one now with `/countytrivia`.",
+            ephemeral=True,
+        )
+        return
+
+    recent = list(reversed(history[-count:]))
+    now = datetime.now(timezone.utc)
+    lines = []
+    for entry in recent:
+        r = entry["record"]
+        sent_at = datetime.fromisoformat(entry["sent_at"])
+        ago = humanize_delta(now - sent_at)
+        lines.append(f"🗺️ **{r['area_code']}** \u2014 {data.county_label(r)} \u2014 {ago} ago")
+
+    await interaction.response.send_message("🕘 **Recently sent county trivia:**\n" + "\n".join(lines))
 
 
 # ---------------------------------------------------------------------------
-# Background random trivia loop
+# Background random trivia loop \u2014 randomly alternates between an
+# area-code fact and a county fact every time it fires.
 # ---------------------------------------------------------------------------
 
 async def trivia_tick(now: datetime) -> None:
@@ -603,13 +796,26 @@ async def trivia_tick(now: datetime) -> None:
             try:
                 channel = bot.get_channel(channel_id)
                 if channel is not None:
-                    record = data.pick_random_record()
-                    map_file = get_map_file(record)
-                    if map_file:
-                        await channel.send(build_fact_message(record), file=map_file)
+                    kind = random.choice(["areacode", "county"])
+                    if kind == "areacode":
+                        record = data.pick_random_record()
+                        text = build_areacode_fact_message(record)
+                        map_file = get_state_map_file(record)
                     else:
-                        await channel.send(build_fact_message(record))
-                    storage.add_trivia_history(guild_id, record)
+                        record = data.pick_random_county_record()
+                        if record is None:
+                            kind, record = "areacode", data.pick_random_record()
+                            text = build_areacode_fact_message(record)
+                            map_file = get_state_map_file(record)
+                        else:
+                            text = build_county_fact_message(record)
+                            map_file = get_county_map_file(record)
+
+                    if map_file:
+                        await channel.send(text, file=map_file)
+                    else:
+                        await channel.send(text)
+                    storage.add_trivia_history(guild_id, kind, record)
             except Exception:
                 traceback.print_exc()
             finally:
