@@ -146,6 +146,16 @@ def county_label(cr: dict) -> str:
     return f"{cr['county']} County, {cr['subdivision']}"
 
 
+def all_counties_for_area_code(area_code: str) -> list[str]:
+    """Every county a given area code touches (not just the single one a
+    flattened county-pool row happens to carry) \u2014 used for the map, which
+    always highlights the full set at once."""
+    for r in RECORDS:
+        if r["area_code"] == area_code:
+            return r.get("counties") or []
+    return []
+
+
 def pick_random_county_record(
     subdivisions: Optional[list[str]] = None,
     exclude: Optional[tuple[str, str]] = None,

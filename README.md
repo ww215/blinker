@@ -124,16 +124,25 @@ deliberately, per request) PNG map:
 - Alaska, Hawaii, and Puerto Rico get their own solo zoomed state map since
   they're nowhere near the mainland US map.
 
-Maps are **pre-generated, static files** in `assets/maps/` (not rendered at
-runtime), so the bot itself has no extra dependency (matplotlib is only
-needed to *build* them). If you edit `data/raw.txt` and want to regenerate
-everything from scratch:
+Maps are **rendered live, in memory** (`maps_live.py`) — there are no
+pre-generated PNG files anymore. All state and county boundary data
+(`mapdata/us-states.json`, `mapdata/us-counties.json`) is loaded **once**
+when the bot process starts, and for every US state one map is built with
+every county already added to it as a real shape. From then on, whenever a
+trivia fact or quiz question needs a map, the bot just re-colors the
+relevant county/state on that one already-loaded map, zooms to the right
+spot, and takes a "screenshot" of it (renders straight to PNG bytes, sent
+as a Discord attachment) — nothing is redrawn from scratch and nothing
+touches disk. This means `matplotlib` is now a normal runtime dependency
+(already in `requirements.txt`), not just a build-time one.
+
+If you edit `data/raw.txt`, you still need to rebuild the *data* (the map
+rendering picks up whatever it finds automatically, nothing to regenerate
+there):
 
 ```bash
-pip install matplotlib
 python build_county_coverage.py   # (re)builds mapdata/area_code_counties.json
 python parse_data.py              # rebuilds data/area_codes.json with counties
-python generate_maps.py           # rebuilds assets/maps/*.png
 ```
 
 Data sources (all bundled in `mapdata/`, all public):
@@ -147,7 +156,7 @@ Data sources (all bundled in `mapdata/`, all public):
 Per request, Canada/Mexico/Caribbean entries are currently filtered out —
 `parse_data.py` still parses them from `raw.txt`, they're just dropped by
 `INCLUDE_COUNTRIES = {"US"}` before writing the final dataset. To bring them
-back later, widen that set and re-run `parse_data.py` (note: `generate_maps.py`
+back later, widen that set and re-run `parse_data.py` (note: `maps_live.py`
 would need non-US map sources added before those countries could show maps
 too).
 

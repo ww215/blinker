@@ -1,4 +1,5 @@
 import asyncio
+import io
 import os
 import random
 import traceback
@@ -11,10 +12,9 @@ from discord import app_commands
 from discord.ext import commands, tasks
 
 import data
+import maps_live
 import storage
 import us_geo
-
-MAPS_DIR = Path(__file__).parent / "assets" / "maps"
 
 MIN_INTERVAL_SECONDS = 1
 MAX_INTERVAL_SECONDS = 3 * 60 * 60  # 3 hours
@@ -91,28 +91,29 @@ def build_county_fact_message(cr: dict) -> str:
 
 def get_state_map_file(record: dict) -> Optional[discord.File]:
     """Small low-res US map highlighting the record's state. Used by the
-    area-code track only \u2014 never zooms to a county."""
+    area-code track only \u2014 never zooms to a county. Rendered live from
+    the one in-memory map (see maps_live.py), not read from disk."""
     subdivision = record.get("subdivision")
     if not subdivision:
         return None
-    path = MAPS_DIR / "states" / f"{subdivision}.png"
-    if path.exists():
-        return discord.File(path, filename=f"map_{subdivision}.png")
-    return None
+    png_bytes = maps_live.render_state_png(subdivision)
+    if png_bytes is None:
+        return None
+    return discord.File(io.BytesIO(png_bytes), filename=f"map_{subdivision}.png")
 
 
 def get_county_map_file(cr: dict) -> Optional[discord.File]:
     """Small low-res map zoomed into the state, highlighting every county
     that area code touches (used by the county track). Falls back to the
-    plain state map if no county-specific asset exists."""
-    path = MAPS_DIR / "counties" / f"{cr['area_code']}.png"
-    if path.exists():
-        return discord.File(path, filename=f"map_{cr['area_code']}_county.png")
+    plain state map if no county-specific data exists. Rendered live from
+    the one in-memory map for that state, not read from disk."""
+    all_counties = data.all_counties_for_area_code(cr["area_code"])
+    png_bytes = maps_live.render_county_png(cr.get("subdivision"), all_counties)
+    if png_bytes is not None:
+        return discord.File(io.BytesIO(png_bytes), filename=f"map_{cr['area_code']}_county.png")
     subdivision = cr.get("subdivision")
     if subdivision:
-        state_path = MAPS_DIR / "states" / f"{subdivision}.png"
-        if state_path.exists():
-            return discord.File(state_path, filename=f"map_{subdivision}.png")
+        return get_state_map_file(cr)
     return None
 
 
