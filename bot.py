@@ -785,7 +785,7 @@ async def countyquiz(
         answer_mode_value=answer_mode.value,
         num_options=num_options,
         get_record=lambda seen: data.pick_random_county_record(subdivisions=sub_list, exclude_keys=seen),
-        record_key_fn=lambda r: (r["area_code"], r["county"]),
+        record_key_fn=lambda r: (r["county"], r["subdivision"]),
         question_builder=build_county_question,
         grader=grade_county_answer,
         map_file_fn=get_county_map_file,

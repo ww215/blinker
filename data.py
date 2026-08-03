@@ -169,25 +169,40 @@ def all_counties_for_area_code(area_code: str) -> list[str]:
 
 def pick_random_county_record(
     subdivisions: Optional[list[str]] = None,
-    exclude: Optional[tuple[str, str]] = None,
     exclude_keys: Optional[set] = None,
 ) -> Optional[dict]:
-    """`exclude_keys` (a set of (area_code, county) built up over a whole
-    quiz session) is preferred when given \u2014 it avoids repeating ANY
-    record already seen this session, not just the immediately previous
-    one. Falls back to `exclude` (single value) for backwards
-    compatibility. If excluding the whole set would empty the pool, the
-    exclusion is dropped for this pick so the quiz starts a fresh lap
-    instead of stalling."""
+    """Picks a random COUNTY, not a random (area_code, county) row.
+
+    get_county_records() flattens one row per area code that touches a
+    county, so a county covered by many overlapping area codes (e.g. Los
+    Angeles County, served by 8+ codes) would otherwise show up far more
+    often than a county served by just one \u2014 every county should be
+    equally likely to come up here, regardless of how many area codes
+    happen to reach it. We group the flattened rows back up by county and
+    pick among those groups instead, then pick one of that county's
+    covering area codes at random just to have a concrete record to
+    return (it doesn't affect what's asked/graded \u2014 see
+    build_county_question / grade_county_answer, neither of which touch
+    area_code).
+
+    `exclude_keys` is a set of (county, subdivision) tuples already seen
+    this quiz session. If excluding all of them would empty the pool, the
+    exclusion is dropped for this pick so a session starts a fresh lap
+    instead of stalling once every county's been shown once.
+    """
     pool = get_county_records(subdivisions)
     if not pool:
         return None
-    if exclude_keys and len(pool) > 1:
-        narrowed = [r for r in pool if (r["area_code"], r["county"]) not in exclude_keys]
+
+    groups: dict[tuple, list[dict]] = {}
+    for r in pool:
+        groups.setdefault((r["county"], r["subdivision"]), []).append(r)
+
+    group_keys = list(groups.keys())
+    if exclude_keys and len(group_keys) > 1:
+        narrowed = [k for k in group_keys if k not in exclude_keys]
         if narrowed:
-            pool = narrowed
-    elif exclude and len(pool) > 1:
-        narrowed = [r for r in pool if (r["area_code"], r["county"]) != exclude]
-        if narrowed:
-            pool = narrowed
-    return random.choice(pool)
+            group_keys = narrowed
+
+    chosen_key = random.choice(group_keys)
+    return random.choice(groups[chosen_key])
