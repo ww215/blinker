@@ -581,6 +581,20 @@ async def on_ready():
               "(`pip install -r requirements.txt`). Full error:")
         traceback.print_exc()
 
+    # Prints how big the /countyquiz pool actually is on THIS running
+    # process, right at startup. If this number is missing, or CA doesn't
+    # show 58, the process is running old code \u2014 stop it, replace the
+    # files, and start it again (editing files on disk alone does nothing
+    # until the process restarts).
+    try:
+        all_counties = data.get_all_us_counties()
+        ca_count = len(data.get_all_us_counties(subdivisions=["CA"]))
+        print(f"[countyquiz] pool check \u2014 {len(all_counties)} US counties loaded total, "
+              f"{ca_count} of them in CA (should be 58).")
+    except Exception:
+        print("[countyquiz] WARNING: could not compute the county pool \u2014 this build doesn't "
+              "have data.get_all_us_counties() at all, meaning it's running OLD code.")
+
     dev_guild_id = os.environ.get("DEV_GUILD_ID")
     if dev_guild_id:
         # Global command syncs can take up to ~1 hour to show up for users.
@@ -766,6 +780,30 @@ async def countytrivia(interaction: discord.Interaction, state: Optional[str] = 
         await interaction.followup.send(build_county_fact_message(cr), file=map_file)
     else:
         await interaction.followup.send(build_county_fact_message(cr))
+
+
+@bot.tree.command(
+    name="countypoolinfo",
+    description="Debug: shows how many counties the /countyquiz pool actually has right now (to confirm the bot is on the latest code).",
+)
+@app_commands.describe(state="Optional: check just one state, e.g. CA")
+@app_commands.autocomplete(state=subdivisions_autocomplete)
+async def countypoolinfo(interaction: discord.Interaction, state: Optional[str] = None):
+    if state:
+        sub_list = [data.clean_token(s) for s in state.split(",")]
+        pool = data.get_all_us_counties(subdivisions=sub_list)
+        names = ", ".join(sorted(r["county"] for r in pool)[:15])
+        await interaction.response.send_message(
+            f"📊 `{'/'.join(sub_list)}` has **{len(pool)}** counties in the pool right now.\n"
+            f"First few: {names}{'...' if len(pool) > 15 else ''}"
+        )
+    else:
+        pool = data.get_all_us_counties()
+        await interaction.response.send_message(
+            f"📊 The full /countyquiz pool has **{len(pool)}** US counties loaded right now "
+            f"(should be ~3200+). If this looks small or the command doesn't exist at all, "
+            f"the bot process is running old code \u2014 stop it, replace ALL the files, restart it."
+        )
 
 
 @bot.tree.command(name="countyquiz", description="Quiz yourself on US counties: bot shows a map, you type the county.")
