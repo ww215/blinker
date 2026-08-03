@@ -374,6 +374,12 @@ async def run_quiz_session(
         )
         return
 
+    # Defer immediately, before any record-picking or map-rendering work,
+    # so Discord's 3-second "must acknowledge the interaction" window is
+    # never at risk of being missed \u2014 everything after this point uses
+    # a followup message instead of interaction.response.
+    await interaction.response.defer()
+
     user = interaction.user
     ACTIVE_SESSIONS.add(session_key)
     try:
@@ -383,7 +389,7 @@ async def run_quiz_session(
             record = get_record(last_key)
             if record is None:
                 if first:
-                    await interaction.response.send_message(empty_message, ephemeral=True)
+                    await interaction.followup.send(empty_message, ephemeral=True)
                 else:
                     await interaction.channel.send(empty_message)
                 return
@@ -409,9 +415,9 @@ async def run_quiz_session(
 
                     if first:
                         if map_file:
-                            await interaction.response.send_message(full_question, view=view, file=map_file)
+                            await interaction.followup.send(full_question, view=view, file=map_file)
                         else:
-                            await interaction.response.send_message(full_question, view=view)
+                            await interaction.followup.send(full_question, view=view)
                         view.message = await interaction.original_response()
                     else:
                         if map_file:
@@ -453,9 +459,9 @@ async def run_quiz_session(
                     prompt = f"{question_text}\n_(30 seconds to answer \u2014 {hint})_"
                     if first:
                         if map_file:
-                            await interaction.response.send_message(prompt, file=map_file)
+                            await interaction.followup.send(prompt, file=map_file)
                         else:
-                            await interaction.response.send_message(prompt)
+                            await interaction.followup.send(prompt)
                     else:
                         if map_file:
                             await interaction.channel.send(prompt, file=map_file)
@@ -555,14 +561,15 @@ async def setchannel(interaction: discord.Interaction, channel: Optional[discord
 
 @bot.tree.command(name="trivia", description="Post a random AREA CODE trivia message right now.")
 async def trivia(interaction: discord.Interaction):
+    await interaction.response.defer()
     record = data.pick_random_record()
     if interaction.guild_id:
         storage.add_trivia_history(interaction.guild_id, "areacode", record)
     map_file = get_state_map_file(record)
     if map_file:
-        await interaction.response.send_message(build_areacode_fact_message(record), file=map_file)
+        await interaction.followup.send(build_areacode_fact_message(record), file=map_file)
     else:
-        await interaction.response.send_message(build_areacode_fact_message(record))
+        await interaction.followup.send(build_areacode_fact_message(record))
 
 
 @bot.tree.command(name="quiz", description="Quiz yourself on area codes.")
@@ -679,17 +686,18 @@ async def recenttrivia(
 
 @bot.tree.command(name="countytrivia", description="Post a random COUNTY trivia message right now.")
 async def countytrivia(interaction: discord.Interaction):
+    await interaction.response.defer()
     cr = data.pick_random_county_record()
     if cr is None:
-        await interaction.response.send_message("No county data available yet.", ephemeral=True)
+        await interaction.followup.send("No county data available yet.", ephemeral=True)
         return
     if interaction.guild_id:
         storage.add_trivia_history(interaction.guild_id, "county", cr)
     map_file = get_county_map_file(cr)
     if map_file:
-        await interaction.response.send_message(build_county_fact_message(cr), file=map_file)
+        await interaction.followup.send(build_county_fact_message(cr), file=map_file)
     else:
-        await interaction.response.send_message(build_county_fact_message(cr))
+        await interaction.followup.send(build_county_fact_message(cr))
 
 
 @bot.tree.command(name="countyquiz", description="Quiz yourself on US counties and which area code covers them.")
