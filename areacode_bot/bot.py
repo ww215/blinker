@@ -41,10 +41,6 @@ MODE_CHOICES_AREACODE = [
     app_commands.Choice(name="Bot shows an area code \u2192 you guess the place", value="code_to_place"),
     app_commands.Choice(name="Bot shows a place \u2192 you guess the area code", value="place_to_code"),
 ]
-MODE_CHOICES_COUNTY = [
-    app_commands.Choice(name="Bot shows an area code \u2192 you guess the county", value="code_to_county"),
-    app_commands.Choice(name="Bot shows a county \u2192 you guess the area code", value="county_to_code"),
-]
 ANSWER_MODE_CHOICES = [
     app_commands.Choice(name="Type your answer in chat", value="typed"),
     app_commands.Choice(name="Pick from multiple-choice buttons", value="buttons"),
@@ -729,18 +725,16 @@ async def countytrivia(interaction: discord.Interaction, state: Optional[str] = 
         await interaction.followup.send(build_county_fact_message(cr))
 
 
-@bot.tree.command(name="countyquiz", description="Quiz yourself on US counties and which area code covers them.")
+@bot.tree.command(name="countyquiz", description="Quiz yourself on US counties: bot shows an area code + map, you type the county.")
 @app_commands.describe(
-    mode="What the bot shows vs. what you have to guess",
     state="Optional: comma-separated states to include, e.g. NY, CA, TX (you can list as many as you want)",
     answer_mode="How you answer the question",
     num_options="Number of choices to show (buttons mode only, default 4)",
 )
-@app_commands.choices(mode=MODE_CHOICES_COUNTY, answer_mode=ANSWER_MODE_CHOICES)
+@app_commands.choices(answer_mode=ANSWER_MODE_CHOICES)
 @app_commands.autocomplete(state=subdivisions_autocomplete)
 async def countyquiz(
     interaction: discord.Interaction,
-    mode: app_commands.Choice[str],
     answer_mode: app_commands.Choice[str],
     state: Optional[str] = None,
     num_options: Optional[app_commands.Range[int, 2, 8]] = 4,
@@ -749,7 +743,7 @@ async def countyquiz(
 
     await run_quiz_session(
         interaction,
-        mode_value=mode.value,
+        mode_value="code_to_county",
         answer_mode_value=answer_mode.value,
         num_options=num_options,
         get_record=lambda excl: data.pick_random_county_record(subdivisions=sub_list, exclude=excl),
@@ -770,14 +764,12 @@ async def countyquiz(
     description="Quiz yourself using the counties recently sent as trivia in this server.",
 )
 @app_commands.describe(
-    mode="What the bot shows vs. what you have to guess",
     answer_mode="How you answer the question",
     num_options="Number of choices to show (buttons mode only, default 4)",
 )
-@app_commands.choices(mode=MODE_CHOICES_COUNTY, answer_mode=ANSWER_MODE_CHOICES)
+@app_commands.choices(answer_mode=ANSWER_MODE_CHOICES)
 async def countyquizhistory(
     interaction: discord.Interaction,
-    mode: app_commands.Choice[str],
     answer_mode: app_commands.Choice[str],
     num_options: Optional[app_commands.Range[int, 2, 8]] = 4,
 ):
@@ -786,7 +778,7 @@ async def countyquizhistory(
 
     await run_quiz_session(
         interaction,
-        mode_value=mode.value,
+        mode_value="code_to_county",
         answer_mode_value=answer_mode.value,
         num_options=num_options,
         get_record=lambda excl: pick_random_from_list(history_records, excl, key_fn=lambda r: (r["area_code"], r["county"])),
