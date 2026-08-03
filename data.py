@@ -101,11 +101,22 @@ def pick_random_record(
     country: Optional[str] = None,
     subdivisions: Optional[list[str]] = None,
     exclude_area_code: Optional[str] = None,
+    exclude_area_codes: Optional[set] = None,
 ) -> Optional[dict]:
+    """`exclude_area_codes` (a set built up over a whole quiz session) is
+    preferred when given \u2014 it avoids repeating ANY record already seen
+    this session, not just the immediately previous one. Falls back to
+    `exclude_area_code` (single value) for backwards compatibility. If
+    excluding the whole set would empty the pool, the exclusion is dropped
+    for this pick so the quiz starts a fresh lap instead of stalling."""
     pool = filter_records(country, subdivisions)
     if not pool:
         return None
-    if exclude_area_code and len(pool) > 1:
+    if exclude_area_codes and len(pool) > 1:
+        narrowed = [r for r in pool if r["area_code"] not in exclude_area_codes]
+        if narrowed:
+            pool = narrowed
+    elif exclude_area_code and len(pool) > 1:
         narrowed = [r for r in pool if r["area_code"] != exclude_area_code]
         if narrowed:
             pool = narrowed
@@ -159,11 +170,23 @@ def all_counties_for_area_code(area_code: str) -> list[str]:
 def pick_random_county_record(
     subdivisions: Optional[list[str]] = None,
     exclude: Optional[tuple[str, str]] = None,
+    exclude_keys: Optional[set] = None,
 ) -> Optional[dict]:
+    """`exclude_keys` (a set of (area_code, county) built up over a whole
+    quiz session) is preferred when given \u2014 it avoids repeating ANY
+    record already seen this session, not just the immediately previous
+    one. Falls back to `exclude` (single value) for backwards
+    compatibility. If excluding the whole set would empty the pool, the
+    exclusion is dropped for this pick so the quiz starts a fresh lap
+    instead of stalling."""
     pool = get_county_records(subdivisions)
     if not pool:
         return None
-    if exclude and len(pool) > 1:
+    if exclude_keys and len(pool) > 1:
+        narrowed = [r for r in pool if (r["area_code"], r["county"]) not in exclude_keys]
+        if narrowed:
+            pool = narrowed
+    elif exclude and len(pool) > 1:
         narrowed = [r for r in pool if (r["area_code"], r["county"]) != exclude]
         if narrowed:
             pool = narrowed

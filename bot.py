@@ -251,11 +251,26 @@ def bump_streak(user_id: int, is_correct: bool) -> int:
     return STREAKS[user_id]
 
 
-def pick_random_from_list(records: list[dict], exclude_key=None, key_fn=lambda r: r["area_code"]):
+def pick_random_from_list(
+    records: list[dict],
+    exclude_key=None,
+    key_fn=lambda r: r["area_code"],
+    exclude_keys: Optional[set] = None,
+):
+    """`exclude_keys` (built up over a whole quiz session) is preferred when
+    given \u2014 it avoids repeating ANY record already seen this session,
+    not just the immediately previous one. Falls back to `exclude_key`
+    (single value) for backwards compatibility. If excluding the whole set
+    would empty the pool, the exclusion is dropped for this pick so the
+    quiz starts a fresh lap instead of stalling."""
     if not records:
         return None
     pool = records
-    if exclude_key is not None and len(pool) > 1:
+    if exclude_keys and len(pool) > 1:
+        narrowed = [r for r in pool if key_fn(r) not in exclude_keys]
+        if narrowed:
+            pool = narrowed
+    elif exclude_key is not None and len(pool) > 1:
         narrowed = [r for r in pool if key_fn(r) != exclude_key]
         if narrowed:
             pool = narrowed
@@ -397,16 +412,29 @@ async def run_quiz_session(
     ACTIVE_SESSIONS.add(session_key)
     try:
         first = True
-        last_key = None
+        # Tracks every record already shown this session (not just the
+        # previous one) so a small pool doesn't feel like it's looping
+        # after just a couple of questions. get_record drops the exclusion
+        # on its own once the whole pool has been seen, so the quiz just
+        # starts a fresh lap instead of getting stuck with nothing to pick.
+        seen_keys: set = set()
         while True:
-            record = get_record(last_key)
+            record = get_record(seen_keys)
             if record is None:
                 if first:
                     await interaction.followup.send(empty_message, ephemeral=True)
                 else:
                     await interaction.channel.send(empty_message)
                 return
-            last_key = record_key_fn(record)
+            record_key = record_key_fn(record)
+            if record_key in seen_keys:
+                # get_record only returns an already-seen key when the
+                # exclusion emptied the pool, i.e. every record in this
+                # quiz's pool has now been shown once. Start a fresh lap
+                # instead of carrying the old exclusions forward forever.
+                seen_keys = {record_key}
+            else:
+                seen_keys.add(record_key)
 
             question_text, correct_label, value_fn = question_builder(mode_value, record, context_note_fn(record))
             map_file = map_file_fn(record)
@@ -626,7 +654,7 @@ async def quiz(
         mode_value=mode.value,
         answer_mode_value=answer_mode.value,
         num_options=num_options,
-        get_record=lambda excl: data.pick_random_record(country=country, subdivisions=sub_list, exclude_area_code=excl),
+        get_record=lambda seen: data.pick_random_record(country=country, subdivisions=sub_list, exclude_area_codes=seen),
         record_key_fn=lambda r: r["area_code"],
         question_builder=build_areacode_question,
         grader=grade_areacode_answer,
@@ -663,7 +691,7 @@ async def quizhistory(
         mode_value=mode.value,
         answer_mode_value=answer_mode.value,
         num_options=num_options,
-        get_record=lambda excl: pick_random_from_list(history_records, excl, key_fn=lambda r: r["area_code"]),
+        get_record=lambda seen: pick_random_from_list(history_records, key_fn=lambda r: r["area_code"], exclude_keys=seen),
         record_key_fn=lambda r: r["area_code"],
         question_builder=build_areacode_question,
         grader=grade_areacode_answer,
@@ -756,7 +784,7 @@ async def countyquiz(
         mode_value="code_to_county",
         answer_mode_value=answer_mode.value,
         num_options=num_options,
-        get_record=lambda excl: data.pick_random_county_record(subdivisions=sub_list, exclude=excl),
+        get_record=lambda seen: data.pick_random_county_record(subdivisions=sub_list, exclude_keys=seen),
         record_key_fn=lambda r: (r["area_code"], r["county"]),
         question_builder=build_county_question,
         grader=grade_county_answer,
@@ -791,7 +819,7 @@ async def countyquizhistory(
         mode_value="code_to_county",
         answer_mode_value=answer_mode.value,
         num_options=num_options,
-        get_record=lambda excl: pick_random_from_list(history_records, excl, key_fn=lambda r: (r["area_code"], r["county"])),
+        get_record=lambda seen: pick_random_from_list(history_records, key_fn=lambda r: (r["area_code"], r["county"]), exclude_keys=seen),
         record_key_fn=lambda r: (r["area_code"], r["county"]),
         question_builder=build_county_question,
         grader=grade_county_answer,
