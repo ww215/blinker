@@ -89,42 +89,63 @@ def build_county_fact_message(cr: dict) -> str:
     )
 
 
-def get_state_map_file(record: dict) -> Optional[discord.File]:
-    """Small low-res US map highlighting the record's state. Used by the
-    area-code track only \u2014 never zooms to a county. Rendered live from
-    the one in-memory map (see maps_live.py), not read from disk."""
+def get_areacode_map_file(record: dict) -> Optional[discord.File]:
+    """Map for the AREA CODE track. Shows where that area code actually
+    reaches \u2014 every county it covers, zoomed to the state \u2014 not just
+    the state as a whole. Falls back to a plain state highlight only when
+    we have no county-coverage data for this record (e.g. an overlay code
+    or a non-US record with no `counties` list).
+
+    This is completely separate from the county track's map (see
+    get_county_map_file below): that one always shows exactly one county
+    and never an area code's full footprint. Rendered live from the
+    in-memory map for that state, not read from disk."""
     subdivision = record.get("subdivision")
+    if not subdivision:
+        return None
+    try:
+        counties = data.all_counties_for_area_code(record["area_code"])
+        png_bytes = maps_live.render_county_png(subdivision, counties) if counties else None
+        if png_bytes is None:
+            png_bytes = maps_live.render_state_png(subdivision)
+    except Exception:
+        print(f"[maps] failed to render area code map for {record.get('area_code')!r}:")
+        traceback.print_exc()
+        return None
+    if png_bytes is None:
+        return None
+    return discord.File(io.BytesIO(png_bytes), filename=f"map_{record['area_code']}_areacode.png")
+
+
+def get_county_map_file(cr: dict) -> Optional[discord.File]:
+    """Map for the COUNTY track. Shows exactly the ONE specific county this
+    record is about \u2014 never every county sharing that area code, since
+    that would make it impossible to tell which single county is meant.
+
+    Completely separate from the area-code track's map (see
+    get_areacode_map_file above). Falls back to a plain state highlight
+    only if that one county isn't found in the county geometry. Rendered
+    live from the in-memory map for that state, not read from disk."""
+    subdivision = cr.get("subdivision")
+    try:
+        png_bytes = maps_live.render_county_png(subdivision, [cr["county"]])
+    except Exception:
+        print(f"[maps] failed to render county map for {cr.get('county')!r}:")
+        traceback.print_exc()
+        png_bytes = None
+    if png_bytes is not None:
+        return discord.File(io.BytesIO(png_bytes), filename=f"map_{cr['area_code']}_{cr['county']}.png")
     if not subdivision:
         return None
     try:
         png_bytes = maps_live.render_state_png(subdivision)
     except Exception:
-        print(f"[maps] failed to render state map for {subdivision!r}:")
+        print(f"[maps] failed to render fallback state map for {subdivision!r}:")
         traceback.print_exc()
         return None
     if png_bytes is None:
         return None
     return discord.File(io.BytesIO(png_bytes), filename=f"map_{subdivision}.png")
-
-
-def get_county_map_file(cr: dict) -> Optional[discord.File]:
-    """Small low-res map zoomed into the state, highlighting every county
-    that area code touches (used by the county track). Falls back to the
-    plain state map if no county-specific data exists. Rendered live from
-    the one in-memory map for that state, not read from disk."""
-    try:
-        all_counties = data.all_counties_for_area_code(cr["area_code"])
-        png_bytes = maps_live.render_county_png(cr.get("subdivision"), all_counties)
-    except Exception:
-        print(f"[maps] failed to render county map for area code {cr.get('area_code')!r}:")
-        traceback.print_exc()
-        png_bytes = None
-    if png_bytes is not None:
-        return discord.File(io.BytesIO(png_bytes), filename=f"map_{cr['area_code']}_county.png")
-    subdivision = cr.get("subdivision")
-    if subdivision:
-        return get_state_map_file(cr)
-    return None
 
 
 # ---------------------------------------------------------------------------
@@ -565,7 +586,7 @@ async def trivia(interaction: discord.Interaction):
     record = data.pick_random_record()
     if interaction.guild_id:
         storage.add_trivia_history(interaction.guild_id, "areacode", record)
-    map_file = get_state_map_file(record)
+    map_file = get_areacode_map_file(record)
     if map_file:
         await interaction.followup.send(build_areacode_fact_message(record), file=map_file)
     else:
@@ -603,7 +624,7 @@ async def quiz(
         record_key_fn=lambda r: r["area_code"],
         question_builder=build_areacode_question,
         grader=grade_areacode_answer,
-        map_file_fn=get_state_map_file,
+        map_file_fn=get_areacode_map_file,
         get_distractor_pool=lambda: data.filter_records(country=country, subdivisions=sub_list),
         get_broadened_pool=lambda: data.filter_records(country=country),
         broaden_label=f"all of {country_name}",
@@ -640,7 +661,7 @@ async def quizhistory(
         record_key_fn=lambda r: r["area_code"],
         question_builder=build_areacode_question,
         grader=grade_areacode_answer,
-        map_file_fn=get_state_map_file,
+        map_file_fn=get_areacode_map_file,
         get_distractor_pool=lambda: history_records,
         get_broadened_pool=lambda: data.filter_records(),
         broaden_label="the full area code dataset",
@@ -685,11 +706,19 @@ async def recenttrivia(
 # ---------------------------------------------------------------------------
 
 @bot.tree.command(name="countytrivia", description="Post a random COUNTY trivia message right now.")
-async def countytrivia(interaction: discord.Interaction):
+@app_commands.describe(state="Optional: comma-separated states to pick from, e.g. NY, CA, TX (you can list as many as you want)")
+@app_commands.autocomplete(state=subdivisions_autocomplete)
+async def countytrivia(interaction: discord.Interaction, state: Optional[str] = None):
     await interaction.response.defer()
-    cr = data.pick_random_county_record()
+    sub_list = [data.clean_token(s) for s in state.split(",")] if state else None
+    cr = data.pick_random_county_record(subdivisions=sub_list)
     if cr is None:
-        await interaction.followup.send("No county data available yet.", ephemeral=True)
+        message = (
+            "No county data matches that filter. Try different states, or leave it blank for all of the US."
+            if sub_list else
+            "No county data available yet."
+        )
+        await interaction.followup.send(message, ephemeral=True)
         return
     if interaction.guild_id:
         storage.add_trivia_history(interaction.guild_id, "county", cr)
@@ -703,20 +732,20 @@ async def countytrivia(interaction: discord.Interaction):
 @bot.tree.command(name="countyquiz", description="Quiz yourself on US counties and which area code covers them.")
 @app_commands.describe(
     mode="What the bot shows vs. what you have to guess",
-    subdivisions="Optional: comma-separated states to include, e.g. NY, CA, TX (you can list as many as you want)",
+    state="Optional: comma-separated states to include, e.g. NY, CA, TX (you can list as many as you want)",
     answer_mode="How you answer the question",
     num_options="Number of choices to show (buttons mode only, default 4)",
 )
 @app_commands.choices(mode=MODE_CHOICES_COUNTY, answer_mode=ANSWER_MODE_CHOICES)
-@app_commands.autocomplete(subdivisions=subdivisions_autocomplete)
+@app_commands.autocomplete(state=subdivisions_autocomplete)
 async def countyquiz(
     interaction: discord.Interaction,
     mode: app_commands.Choice[str],
     answer_mode: app_commands.Choice[str],
-    subdivisions: Optional[str] = None,
+    state: Optional[str] = None,
     num_options: Optional[app_commands.Range[int, 2, 8]] = 4,
 ):
-    sub_list = [data.clean_token(s) for s in subdivisions.split(",")] if subdivisions else None
+    sub_list = [data.clean_token(s) for s in state.split(",")] if state else None
 
     await run_quiz_session(
         interaction,
@@ -828,13 +857,13 @@ async def trivia_tick(now: datetime) -> None:
                     if kind == "areacode":
                         record = data.pick_random_record()
                         text = build_areacode_fact_message(record)
-                        map_file = get_state_map_file(record)
+                        map_file = get_areacode_map_file(record)
                     else:
                         record = data.pick_random_county_record()
                         if record is None:
                             kind, record = "areacode", data.pick_random_record()
                             text = build_areacode_fact_message(record)
-                            map_file = get_state_map_file(record)
+                            map_file = get_areacode_map_file(record)
                         else:
                             text = build_county_fact_message(record)
                             map_file = get_county_map_file(record)
