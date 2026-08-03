@@ -330,28 +330,24 @@ def grade_areacode_answer(mode_value: str, record: dict, answer_text: str) -> bo
 
 def build_county_question(mode_value: str, cr: dict, context_note: str = ""):
     suffix = f" {context_note}" if context_note else ""
-    if mode_value == "code_to_county":
-        question_text = f"🗺️ Which county does area code **{cr['area_code']}** cover?{suffix}"
-        correct_label = data.county_label(cr)
-        value_fn = data.county_label
-    else:
-        question_text = f"📞 What area code covers **{data.county_label(cr)}**?{suffix}"
-        correct_label = cr["area_code"]
-        value_fn = lambda r: r["area_code"]
+    # Only mode this track uses: bot shows the map with ONE county
+    # highlighted (see get_county_map_file) and NOTHING else \u2014 no area
+    # code, no name \u2014 you have to type which county it is.
+    question_text = f"🗺️ Which county is highlighted on the map?{suffix}"
+    correct_label = data.county_label(cr)
+    value_fn = data.county_label
     return question_text, correct_label, value_fn
 
 
 def grade_county_answer(mode_value: str, cr: dict, answer_text: str) -> bool:
     answer = answer_text.strip().lower()
-    if mode_value == "code_to_county":
-        acceptable = {
-            cr["county"].lower(),
-            f"{cr['county']} county".lower(),
-            cr["subdivision"].lower(),
-            cr["subdivision_name"].lower(),
-        }
-        return any(a in answer or answer in a for a in acceptable if a)
-    return answer.replace(" ", "") == cr["area_code"].replace(" ", "")
+    acceptable = {
+        cr["county"].lower(),
+        f"{cr['county']} county".lower(),
+        cr["subdivision"].lower(),
+        cr["subdivision_name"].lower(),
+    }
+    return any(a in answer or answer in a for a in acceptable if a)
 
 
 # ---------------------------------------------------------------------------
