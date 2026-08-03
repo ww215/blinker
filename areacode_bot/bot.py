@@ -548,7 +548,21 @@ async def on_ready():
               "(`pip install -r requirements.txt`). Full error:")
         traceback.print_exc()
 
-    await bot.tree.sync()
+    dev_guild_id = os.environ.get("DEV_GUILD_ID")
+    if dev_guild_id:
+        # Global command syncs can take up to ~1 hour to show up for users.
+        # Syncing to a specific guild instead is instant \u2014 use this while
+        # testing changes. Copies the current (global) command set into that
+        # guild's scope, then syncs just that guild.
+        guild = discord.Object(id=int(dev_guild_id))
+        bot.tree.copy_global_to(guild=guild)
+        await bot.tree.sync(guild=guild)
+        print(f"[commands] synced INSTANTLY to dev guild {dev_guild_id} (set via DEV_GUILD_ID)")
+    else:
+        await bot.tree.sync()
+        print("[commands] synced globally \u2014 note: Discord can take up to ~1 hour to show "
+              "updated commands everywhere. Set DEV_GUILD_ID in your .env to your server's ID "
+              "for instant updates while testing.")
     if not trivia_loop.is_running():
         trivia_loop.start()
     print(f"Logged in as {bot.user} ({bot.user.id})")
