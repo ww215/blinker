@@ -123,7 +123,11 @@
     "counties": [
       "Merced",
       "San Joaquin",
-      "Stanislaus"
+      "Stanislaus",
+      "Calaveras",
+      "Tuolumne",
+      "Mariposa",
+      "Amador"
     ],
     "is_overlay": false,
     "timezone": "-8",
@@ -1480,8 +1484,7 @@
     "counties": [
       "Marin",
       "San Francisco",
-      "San Mateo",
-      "Sonoma"
+      "San Mateo"
     ],
     "is_overlay": false,
     "timezone": "-8",
@@ -2034,10 +2037,22 @@
     "city": "Eldorado County area",
     "counties": [
       "Butte",
+      "Colusa",
       "El Dorado",
+      "Glenn",
+      "Lassen",
+      "Modoc",
+      "Nevada",
+      "Placer",
+      "Plumas",
       "Shasta",
+      "Sierra",
+      "Siskiyou",
       "Sutter",
-      "Yolo"
+      "Tehama",
+      "Trinity",
+      "Yolo",
+      "Yuba"
     ],
     "is_overlay": false,
     "timezone": "-8",
@@ -2904,7 +2919,11 @@
     "counties": [
       "Napa",
       "Solano",
-      "Sonoma"
+      "Sonoma",
+      "Del Norte",
+      "Humboldt",
+      "Lake",
+      "Mendocino"
     ],
     "is_overlay": false,
     "timezone": "-8",
@@ -3184,7 +3203,9 @@
       "Kern",
       "Riverside",
       "San Bernardino",
-      "San Diego"
+      "San Diego",
+      "Inyo",
+      "Mono"
     ],
     "is_overlay": false,
     "timezone": "-8",
@@ -4101,7 +4122,6 @@
     "counties": [
       "Placer",
       "Sacramento",
-      "San Mateo",
       "Yolo"
     ],
     "is_overlay": false,
@@ -4482,5 +4502,20 @@
     "is_overlay": false,
     "timezone": "-5",
     "raw_description": "Upper central Michigan: Mt Pleasant, Saginaw (split from 517; perm 4/7/01)"
+  },
+  {
+    "area_code": "559",
+    "city": "Fresno",
+    "country": "US",
+    "country_name": "United States",
+    "subdivision": "CA",
+    "subdivision_name": "California",
+    "is_overlay": false,
+    "counties": [
+      "Fresno",
+      "Kings",
+      "Madera",
+      "Tulare"
+    ]
   }
 ]

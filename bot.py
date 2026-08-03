@@ -130,7 +130,12 @@ def get_county_map_file(cr: dict) -> Optional[discord.File]:
         traceback.print_exc()
         png_bytes = None
     if png_bytes is not None:
-        return discord.File(io.BytesIO(png_bytes), filename=f"map_{cr['area_code']}_{cr['county']}.png")
+        # cr may not have an area_code (the /countyquiz pool is sourced
+        # straight from county geometry, independent of any area code) \u2014
+        # this is only ever used as a filename, so fall back to something
+        # filesystem-safe rather than assuming the key exists.
+        code_part = cr.get("area_code") or "county"
+        return discord.File(io.BytesIO(png_bytes), filename=f"map_{code_part}_{cr['county']}.png")
     if not subdivision:
         return None
     try:
@@ -763,7 +768,7 @@ async def countytrivia(interaction: discord.Interaction, state: Optional[str] = 
         await interaction.followup.send(build_county_fact_message(cr))
 
 
-@bot.tree.command(name="countyquiz", description="Quiz yourself on US counties: bot shows an area code + map, you type the county.")
+@bot.tree.command(name="countyquiz", description="Quiz yourself on US counties: bot shows a map, you type the county.")
 @app_commands.describe(
     state="Optional: comma-separated states to include, e.g. NY, CA, TX (you can list as many as you want)",
     answer_mode="How you answer the question",
@@ -779,19 +784,23 @@ async def countyquiz(
 ):
     sub_list = [data.clean_token(s) for s in state.split(",")] if state else None
 
+    # This pool is the full, real list of US counties from the map
+    # geometry itself \u2014 deliberately NOT the area-code dataset, so every
+    # county has an identical chance of coming up regardless of how many
+    # (or how few) area codes happen to be associated with it.
     await run_quiz_session(
         interaction,
         mode_value="code_to_county",
         answer_mode_value=answer_mode.value,
         num_options=num_options,
-        get_record=lambda seen: data.pick_random_county_record(subdivisions=sub_list, exclude_keys=seen),
+        get_record=lambda seen: data.pick_random_us_county(subdivisions=sub_list, exclude_keys=seen),
         record_key_fn=lambda r: (r["county"], r["subdivision"]),
         question_builder=build_county_question,
         grader=grade_county_answer,
         map_file_fn=get_county_map_file,
-        get_distractor_pool=lambda: data.get_county_records(subdivisions=sub_list),
-        get_broadened_pool=lambda: data.get_county_records(),
-        broaden_label="all covered counties",
+        get_distractor_pool=lambda: data.get_all_us_counties(subdivisions=sub_list),
+        get_broadened_pool=lambda: data.get_all_us_counties(),
+        broaden_label="all US counties",
         empty_message="No county data matches that filter. Try different states, or leave it blank for all of the US.",
         context_note_fn=lambda r: "",
     )

@@ -8,6 +8,7 @@ import random
 from pathlib import Path
 from typing import Optional
 
+import us_geo
 from area_codes_data import AREA_CODES_B64
 
 DATA_PATH = Path(__file__).parent / "data" / "area_codes.json"
@@ -206,3 +207,64 @@ def pick_random_county_record(
 
     chosen_key = random.choice(group_keys)
     return random.choice(groups[chosen_key])
+
+
+# ---------------------------------------------------------------------------
+# Full US county pool \u2014 used ONLY by the "guess the county from the map"
+# quiz (/countyquiz). Deliberately has NOTHING to do with the area-code
+# dataset above: it's built straight from the counties GeoJSON (the same
+# geometry the map is rendered from), so every real US county is in the
+# pool exactly once and has an identical chance of coming up, regardless
+# of how many (or how few, or zero) area codes our area-code dataset
+# happens to associate with it.
+# ---------------------------------------------------------------------------
+
+_ALL_US_COUNTIES: Optional[list[dict]] = None
+
+
+def _load_all_us_counties() -> list[dict]:
+    global _ALL_US_COUNTIES
+    if _ALL_US_COUNTIES is None:
+        by_state = us_geo.load_county_names_by_state()
+        out = []
+        for abbr, names in by_state.items():
+            state_name = us_geo.US_STATES.get(abbr, abbr)
+            for county in sorted(names):
+                out.append({
+                    "county": county,
+                    "subdivision": abbr,
+                    "subdivision_name": state_name,
+                    "country": "US",
+                    "country_name": "United States",
+                })
+        _ALL_US_COUNTIES = out
+    return _ALL_US_COUNTIES
+
+
+def get_all_us_counties(subdivisions: Optional[list[str]] = None) -> list[dict]:
+    pool = _load_all_us_counties()
+    if subdivisions:
+        subs = {clean_token(s).upper() for s in subdivisions if clean_token(s)}
+        pool = [r for r in pool if r["subdivision"] in subs]
+    return pool
+
+
+def pick_random_us_county(
+    subdivisions: Optional[list[str]] = None,
+    exclude_keys: Optional[set] = None,
+) -> Optional[dict]:
+    """Picks a random real US county, with NO connection to area codes at
+    all \u2014 every county in the (filtered) pool has an identical chance.
+
+    `exclude_keys` is a set of (county, subdivision) tuples already seen
+    this quiz session; if excluding all of them would empty the pool, the
+    exclusion is dropped for this pick so a session starts a fresh lap
+    instead of stalling once every county's been shown once."""
+    pool = get_all_us_counties(subdivisions)
+    if not pool:
+        return None
+    if exclude_keys and len(pool) > 1:
+        narrowed = [r for r in pool if (r["county"], r["subdivision"]) not in exclude_keys]
+        if narrowed:
+            pool = narrowed
+    return random.choice(pool)
