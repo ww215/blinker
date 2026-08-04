@@ -135,7 +135,7 @@ def get_county_map_file(cr: dict) -> Optional[discord.File]:
         # this is only ever used as a filename, so fall back to something
         # filesystem-safe rather than assuming the key exists.
         code_part = cr.get("area_code") or "county"
-        return discord.File(io.BytesIO(png_bytes), filename=f"map_{code_part}_{cr['county']}.png")
+        return discord.File(io.BytesIO(png_bytes), filename=f"map_blinker.png")
     if not subdivision:
         return None
     try:
